@@ -1,0 +1,72 @@
+/**
+ * The Inter typeface family
+ * Version: 3.15
+ *
+ * Inter is a typeface carefully crafted & designed for computer screens.
+ * @link https://rsms.me/inter/
+ *
+ */
+
+ @font-face {
+  font-family: "Circular";
+  src: url(/fonts/Circular/Circular-BoldItalic.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-BoldItalic.woff) format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Circular Book";
+  src: url(/fonts/Circular/Circular-Book.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-Book.woff) format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Circular";
+  src: url(/fonts/Circular/Circular-Black.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-Black.woff) format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Circular Book";
+  src: url(/fonts/Circular/Circular-BookItalic.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-BookItalic.woff) format("woff");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Circular";
+  src: url(/fonts/Circular/Circular-Medium.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-Medium.woff) format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Circular";
+  src: url(/fonts/Circular/Circular-MediumItalic.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-MediumItalic.woff) format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Circular";
+  src: url(/fonts/Circular/Circular-Bold.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-Bold.woff) format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Circular";
+  src: url(/fonts/Circular/Circular-BlackItalic.woff2) format("woff2"),
+    url(/fonts/Circular/Circular-BlackItalic.woff) format("woff");
+  font-weight: 900;
+  font-style: italic;
+}
