@@ -20,11 +20,11 @@
         <div class="pt-16 pb-12 md:pt-28 md:pb-20">
           <div class="pb-12 text-center md:pb-16">
 
-            <h1 class="max-w-4xl dark:text-white mx-auto mb-4 text-4xl font-extrabold tracking-tighter md:text-5xl lg:text-6xl leading-tighter " data-aos="zoom-y-out" data-aos-delay="50" @mouseover="hoveringOnTitle = true" @mouseleave="hoveringOnTitle = false">
+            <h1 class="max-w-4xl mx-auto mb-4 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter " data-aos="zoom-y-out" data-aos-delay="50" @mouseover="hoveringOnTitle = true" @mouseleave="hoveringOnTitle = false">
               <span class>Get </span>
               <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-400">more investors</span>
               <span> to </span>
-              <span v-tooltip="{ content: 'APE', show: hoveringOnTitle, placement: 'top' }" class="emoji-ape">🦍</span><span class="inline-block ml-2 md:hidden">ape </span>
+              <span v-tooltip="{ content: 'APE', show: hoveringOnTitle, placement: 'top' }"><span class="emoji-ape">🦍</span></span><span class="inline-block ml-2 md:hidden">ape </span>
               <span> in on your </span>
               <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">blockchain project</span>
             </h1>
@@ -65,7 +65,7 @@
     </section>
 
     <section class="relative">
-      <div class="absolute inset-0 mb-16 bg-gray-100 dark:bg-gray-900 pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute inset-0 mb-16 bg-gray-100 pointer-events-none dark:bg-gray-900" aria-hidden="true"></div>
       <div class="absolute left-0 right-0 w-px h-20 p-px m-auto transform -translate-y-1/2 bg-gray-200"></div>
       <div class="relative max-w-6xl px-4 mx-auto sm:px-6">
         <div class="pt-12 md:pt-20">
@@ -126,7 +126,7 @@
     </section>
 
     <section class="relative">
-      <div class="absolute inset-0 bg-gray-100 dark:bg-gray-900 pointer-events-none top-1/2 md:mt-24 lg:mt-0" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gray-100 pointer-events-none dark:bg-gray-900 top-1/2 md:mt-24 lg:mt-0" aria-hidden="true"></div>
       <div class="absolute bottom-0 left-0 right-0 w-px h-20 p-px m-auto transform translate-y-1/2 bg-gray-200"></div>
       <div class="relative max-w-6xl px-4 mx-auto sm:px-6">
         <div class="py-12 md:py-20">
@@ -222,4 +222,34 @@ export default {
 </script>
 
 <style lang="scss">
+[data-aos='zoom-y-out'] {
+  transform: scaleX(1.03);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+.emoji-ape {
+  -webkit-animation: moversmall 1.25s infinite alternate !important;
+  animation: moverSmall 1.25s infinite alternate !important;
+}
+
+@-webkit-keyframes moverSmall {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes moverSmall {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-6px);
+  }
+}
 </style>
