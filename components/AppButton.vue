@@ -41,6 +41,10 @@ export default {
       type: String,
       default: ''
     },
+    href: {
+      type: String,
+      default: ''
+    },
     type: {
       type: String,
       default: ''
@@ -69,7 +73,8 @@ export default {
         'rounded-full': this.rounded === 'large',
 
         'px-6 py-3': this.size === 'normal',
-        'px-4 py-2': this.size === 'small'
+        'px-4 py-2': this.size === 'small',
+        'px-2 py-1 text-xs': this.size === 'tiny'
       }
     },
 

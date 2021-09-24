@@ -41,7 +41,7 @@
             </div>
           </div>
           <div>
-            <div class="relative flex justify-center mb-8 " data-aos="zoom-y-out" data-aos-delay="450">
+            <div class="relative flex justify-center mb-8 " data-aos="zoom-y-out" data-aos-delay="20">
               <div class="flex flex-col justify-center">
                 <img class="mx-auto dark:border dark:border-gray-500" src="~assets/images/placeholder-hawtoo-hero-image.png" width="768" height="432" alt="Hero">
               </div>

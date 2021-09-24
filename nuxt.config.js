@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+
 // import getLocalIdent from './getLocalIdent'
 require('dotenv').config()
 
@@ -9,6 +10,9 @@ require('dotenv').config({ path: path.resolve(process.cwd(), `.env.${process.env
 console.log("Path to ENV: " + path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`));
 
 const isDev = process.env.NODE_ENV !== "production";
+
+const SITE_TITLE = 'HawToo'
+const SITE_DESCRIPTION = '# Helping Humans Safely Enter The Digital World of Crypto';
 
 export default {
 
@@ -99,13 +103,22 @@ export default {
     // Doc: https://github.com/nuxt-community/color-mode-module
     "@nuxtjs/color-mode",
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    ['@nuxtjs/pwa'],
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     'cookie-universal-nuxt',
   ],
 
   auth: {
+    cookie: {
+      prefix: 'auth_'
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: false,
+      home: '/'
+    },
     strategies: {
       supabase: { scheme: '~/schemes/supabaseScheme' },
     }
@@ -113,9 +126,35 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: {
+      source: './static/maskable_icon.png',
+      plugin: false,
+    },
+    meta: {
+      name: SITE_TITLE,
+      description: SITE_DESCRIPTION,
+      theme_color: '#ffffff',
+    },
     manifest: {
-      lang: 'en'
-    }
+      name: SITE_TITLE,
+      short_name: SITE_TITLE,
+      description: SITE_DESCRIPTION,
+      lang: 'en',
+      display: 'Standalone',
+      theme_color: '#ffffff',
+      background_color: '#151515',
+    },
+    workbox: {
+      swURL: '/service-worker.js',
+      enabled: false,
+      autoRegister: false,
+      runtimeCaching: [
+        {
+          urlPattern: '.*',
+          handler: 'NetworkFirst',
+        },
+      ],
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -123,6 +162,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    devMiddleware: {
+      headers: {
+        'Cache-Control': 'no-store',
+        Vary: '*'
+      }
+    },
     extractCSS: !isDev,
     // extend(config) {
     //   const cssLoader = config.module.rules.find((rule) => {

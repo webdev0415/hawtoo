@@ -6,20 +6,22 @@
         <Logo class="h-auto mx-auto" />
       </NuxtLink>
       <h2 class="mt-6 text-3xl font-extrabold text-center dark:text-white">
-        Sign in to your account
+        Sign up for an account
       </h2>
       <p class="mt-2 text-center dark:text-white text-md">
-        <span> New here? Start promoting your blockchain project. </span>
-        <NuxtLink to="/signup" class="font-medium text-indigo-400 hover:text-indigo-500">
-          Sign up for free
-        </NuxtLink>
+        <span>Start promoting your blockchain project. It's free!</span>
       </p>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-        <FormulateForm v-slot="{ isLoading }" class="submit-profile" @submit="submitHandler">
-          <FormulateInput v-model="email" type="email" label="Email" placeholder="Your email" validation="required|email" />
+        <FormulateForm v-slot="{ isLoading }" v-model="form" class="submit-profile" @submit="submitHandler">
+          <FormulateInput name="display_name" type="text" label="Display name" placeholder="DegenerateApe" help="This will be publicly available. Pick something cool!" />
+          <div class="flex justify-end hawt">
+            <!-- <button class="button button-outline button-xs" @click="generateUsername">Generate username</button> -->
+            <AppButton variant="secondary" size="tiny" @click.prevent="generateUsername">Generate username</AppButton>
+          </div>
+          <FormulateInput name="email" type="email" label="Email" placeholder="Your email" error-behavior="submit" validation="bail|required|email" />
           <FormulateInput type="submit" :input-class="(context, classes) => ['w-full'].concat(classes)" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Send me a magic link'" />
         </FormulateForm>
 
@@ -77,25 +79,26 @@
 </template>
 <script>
 // import { mapActions } from 'vuex'
+import generateName from '@/utils/unique-username'
 
 export default {
-  name: 'Login',
   layout: 'empty',
+  // middleware: 'user-auth',
+  auth: 'guest',
   data() {
     return {
       email: '',
+      form: {
+        display_name: generateName()
+      },
       loginProviders: false
     }
   },
   methods: {
     // ...mapActions(['signIn']),
-    submitHandler() {
-      // const payload = {
-      //   email: this.email
-      // }
-      this.userLogin(this.email)
-
-      // this.$store.dispatch('signIn', payload)
+    submitHandler(data) {
+      this.userLogin(data.email)
+      // this.$store.dispatch('signIn', {data.email})
     },
     async userLogin(email) {
       try {
@@ -104,12 +107,8 @@ export default {
         console.log(err)
       }
     },
-    async logout() {
-      try {
-        await this.$auth.logout()
-      } catch (err) {
-        console.log(err)
-      }
+    generateUsername() {
+      this.form.display_name = generateName()
     }
   }
 }
