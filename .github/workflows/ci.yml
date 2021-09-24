@@ -128,13 +128,14 @@ jobs:
       #     path: .layer0/
       #     key: layer0-build-${{ hashFiles('source/content/', 'layouts/', 'store/', 'pages/', 'middleware/', 'components/', 'nuxt.config.js', 'yarn.lock') }}
 
-      - name: Configure Google Storage 🛠
-        run: echo -n ${{ secrets.GCP_SA_KEY }} | base64 --decode > gcloud-key.json
+      # - name: Configure Google Storage 🛠
+      #   run: echo -n ${{ secrets.GCP_SA_KEY }} | base64 --decode > gcloud-key.json
 
       - name: Deploy to layer0 🚀
         run: yarn run layer0:deploy --skip-build ${{'--branch=$BRANCH_NAME' || ''}} --token=$LAYER0_DEPLOY_TOKEN ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
         env:
           LAYER0_DEPLOY_TOKEN: ${{secrets.LAYER0_DEPLOY_TOKEN}}
+          TITLE: ${{BRANCH_NAME}}
           BASE_URL: https://soulection.com
           SUPABASE_URL: ${{secrets.SUPABASE_URL}}
           SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
