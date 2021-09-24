@@ -53,37 +53,35 @@ jobs:
             ./*
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-app-${{ github.sha }}
 
-  lint:
-    name: Lint 🚨
-    needs: setup
-    runs-on: ubuntu-20.04
-    env:
-      NUXT_TELEMETRY_DISABLED: 1
-      CI: 1
-    steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@master
+  # lint:
+  #   name: Lint 🚨
+  #   needs: setup
+  #   runs-on: ubuntu-20.04
+  #   env:
+  #     NUXT_TELEMETRY_DISABLED: 1
+  #     CI: 1
+  #   steps:
+  #     - name: Checkout 🛎
+  #       uses: actions/checkout@master
 
-      - name: Setup node env 🏗
-        uses: actions/setup-node@v2.1.5
-        with:
-          node-version: 14
+  #     - name: Setup node env 🏗
+  #       uses: actions/setup-node@v2.1.5
+  #       with:
+  #         node-version: 14
 
-      - name: Cache workspace 📦
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            .cache/Cypress
-            ./*
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-app-${{ github.sha }}
+  #     - name: Cache workspace 📦
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           node_modules
+  #           .cache/Cypress
+  #           ./*
+  #         key: ${{ matrix.os }}-node-v${{ matrix.node }}-app-${{ github.sha }}
 
-      - name: Run linter 👀
-        run: yarn lint
+  #     - name: Run linter 👀
+  #       run: yarn lint
 
   deploy:
-    needs:
-      - lint
     env:
       NUXT_TELEMETRY_DISABLED: 1
       CI: 1
@@ -135,7 +133,6 @@ jobs:
         run: yarn run layer0:deploy --skip-build ${{'--branch=$BRANCH_NAME' || ''}} --token=$LAYER0_DEPLOY_TOKEN ${{github.event_name == 'push' && env.BRANCH_NAME == 'main' && '--environment=staging' || ''}} ${{github.event_name == 'release' && '--environment=production' || ''}}
         env:
           LAYER0_DEPLOY_TOKEN: ${{secrets.LAYER0_DEPLOY_TOKEN}}
-          TITLE: ${{BRANCH_NAME}}
           BASE_URL: https://soulection.com
           SUPABASE_URL: ${{secrets.SUPABASE_URL}}
           SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
