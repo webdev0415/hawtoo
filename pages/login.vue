@@ -1,115 +1,134 @@
 <template>
-
   <div class="flex flex-col justify-center min-h-screen p-8 bg-gray-50 dark:bg-gray-900 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <NuxtLink to="/">
-        <Logo class="h-auto mx-auto" />
-      </NuxtLink>
+    <NuxtLink to="/">
+      <Logo class="h-auto mx-auto animation-mover" />
+    </NuxtLink>
+
+    <div v-if="!submitted" class="sm:mx-auto sm:w-full sm:max-w-md">
+      <Alert v-if="error" class="mt-6">{{ error }}</Alert>
+
       <h2 class="mt-6 text-3xl font-extrabold text-center dark:text-white">
         Sign in to your account
       </h2>
       <p class="mt-2 text-center dark:text-white text-md">
-        <span> New here? Start promoting your blockchain project. </span>
-        <NuxtLink to="/signup" class="font-medium text-indigo-400 hover:text-indigo-500">
-          Sign up for free
-        </NuxtLink>
+        <span> Sign in with your existing account, or enter your email to create a new account. </span>
       </p>
-    </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
-        <FormulateForm v-slot="{ isLoading }" class="submit-profile" @submit="submitHandler">
-          <FormulateInput v-model="email" type="email" label="Email" placeholder="Your email" validation="required|email" />
+      <div class="px-4 py-8 mt-8 bg-white shadow sm:rounded-lg sm:px-10">
+        <FormulateForm v-slot="{ isLoading }" class="submit-profile" @submit="handleEmailLogin">
+          <FormulateInput v-model="email" type="text" label="Email" placeholder="Your email" errior-behavior="submit" />
           <FormulateInput type="submit" :input-class="(context, classes) => ['w-full'].concat(classes)" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Send me a magic link'" />
         </FormulateForm>
 
-        <div v-if="loginProviders" class="mt-6">
+        <div class="mt-6">
           <div class="relative">
             <div class="absolute inset-0 flex items-center">
               <div class="w-full border-t border-gray-300"></div>
             </div>
             <div class="relative flex justify-center text-sm">
               <span class="px-2 text-gray-500 bg-white">
-                Or continue with
+                Or
               </span>
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-3 mt-6">
-            <div>
-              <a href="#" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
-                <span class="sr-only">Sign in with Facebook</span>
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </div>
+          <div class="mt-6">
 
-            <div>
-              <a href="#" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
-                <span class="sr-only">Sign in with Twitter</span>
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                  <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                </svg>
-              </a>
-            </div>
+            <!-- Discord -->
+            <button class="inline-flex items-center justify-center w-full h-10 text-white border rounded-sm shadow-md" :class="{ 'opacity-80': isProcessing }" :disabled="isProcessing" style="background-color:#5865F2" @click="handleLoginWithProvider('discord')">
+              <DiscordIcon v-if="!isProcessing" color="#fff" size="16px" class="w-4 mr-3" />
+              <ProcessingIcon v-if="isProcessing" />
+              <div class="text-sm font-semibold">
+                <span v-if="!isProcessing">
+                  Continue with Discord
+                </span>
+                <span v-else>
+                  Giving Discord a call...
+                </span>
+              </div>
+            </button>
 
-            <div>
-              <a href="#" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
-                <span class="sr-only">Sign in with GitHub</span>
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
       </div>
-      <p class="mt-2 text-center dark:text-gray-200 text-md">
-        <span>New here?</span>
-        <NuxtLink to="/signup" class="font-medium text-indigo-400 hover:text-indigo-500">
-          Sign up for free
-        </NuxtLink>
+    </div>
+
+    <div v-if="submitted" class="sm:mx-auto sm:w-full sm:max-w-md">
+      <h2 class="mt-6 text-3xl font-extrabold text-center dark:text-white">
+        Thank you! Now check your email... 🕵️‍♀️
+      </h2>
+      <p class="mt-2 text-center dark:text-white text-md">
+        You should get a magic link on {{ email }} soon, open it up and <strong class="hawt-font-semibold hawt-text-white">click the “Sign in to HawToo” link</strong>.
       </p>
+
+      <footer class="relative z-10 flex items-start justify-center flex-none px-4 pb-6 mt-8 text-gray-400 sm:px-6 lg:px-8">
+        <svg width="32" height="32" fill="none" class="flex-none">
+          <path d="M8.75 3.5H22V2H8.75v1.5zM3.5 23.25V8.75H2v14.5h1.5zM23 28.5h-2V30h2v-1.5zm-12 0H8.75V30H11v-1.5zm10 0h-5V30h5v-1.5zm-5 0h-5V30h5v-1.5zM2 23.25A6.75 6.75 0 008.75 30v-1.5a5.25 5.25 0 01-5.25-5.25H2zM23 30a5 5 0 005-5h-1.5a3.5 3.5 0 01-3.5 3.5V30zM22 3.5A4.5 4.5 0 0126.5 8H28a6 6 0 00-6-6v1.5zM8.75 2A6.75 6.75 0 002 8.75h1.5c0-2.9 2.35-5.25 5.25-5.25V2z" fill="#4B5563"></path>
+          <path d="M14.75 12.75a2 2 0 012-2h10.5a2 2 0 012 2v7.5a2 2 0 01-2 2h-10.5a2 2 0 01-2-2v-7.5z" stroke="#9CA3AF" stroke-width="1.5"></path>
+          <path d="M15.5 11.5l4.512 3.992a3 3 0 003.976 0L28.5 11.5" stroke="#9CA3AF" stroke-width="1.5"></path>
+          <path d="M9 11v4M9 19v.01" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <p class="flex-auto max-w-lg ml-3 text-sm text-gray-500 dark:text-gray-400"><strong class="font-semibol">Don’t see it yet?</strong> It might be in your spam folder (ugh). Still nothing? <NuxtLink to="/login" class="font-medium underline text-neutral">Try to re-enter your address.</NuxtLink>.</p>
+      </footer>
     </div>
   </div>
 
 </template>
 <script>
-// import { mapActions } from 'vuex'
+import DiscordIcon from '@/components/Login/DiscordIcon.vue'
+import ProcessingIcon from '@/components/Login/ProcessingIcon.vue'
 
 export default {
   name: 'Login',
+  components: {
+    DiscordIcon,
+    ProcessingIcon
+  },
   layout: 'empty',
+
   data() {
     return {
       email: '',
-      loginProviders: false
+      error: '',
+      submitted: false,
+      isProcessing: false
     }
   },
-  methods: {
-    // ...mapActions(['signIn']),
-    submitHandler() {
-      // const payload = {
-      //   email: this.email
-      // }
-      this.userLogin(this.email)
 
-      // this.$store.dispatch('signIn', payload)
+  methods: {
+    async handleEmailLogin() {
+      const email = this.email
+      await this.$auth
+        .login({ email })
+        .then(() => {
+          this.submitted = true
+        })
+        .catch((err) => {
+          if (this.error.statusCode === 429) {
+            this.error = 'You already requested a sign-in link'
+          } else if (this.error.statusCode === 422) {
+            this.error = 'This does not look like a valid emailaddress'
+          } else {
+            this.error = err.message
+          }
+        })
     },
-    async userLogin(email) {
-      try {
-        await this.$auth.login({ email })
-      } catch (err) {
-        console.log(err)
-      }
-    },
-    async logout() {
-      try {
-        await this.$auth.logout()
-      } catch (err) {
-        console.log(err)
-      }
+
+    async handleLoginWithProvider(type) {
+      await this.$auth
+        .login({ provider: type })
+        .then(() => {
+          this.isProcessing = true
+        })
+        .catch((err) => {
+          if (this.error.statusCode === 429) {
+            this.error = 'You already requested a sign-in link'
+          } else if (this.error.statusCode === 422) {
+            this.error = 'This does not look like a valid emailaddress'
+          } else {
+            this.error = err.message
+          }
+        })
     }
   }
 }

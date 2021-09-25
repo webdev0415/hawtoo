@@ -16,6 +16,9 @@ export default ({ app, store }) => {
                     return true;
                 }
             },
+            usernameExists: (value) => {
+                return true;
+            },
             noSameMarketPlace: debounce((context) => {
                 const formValues = context.getFormValues()
                 const dups = []

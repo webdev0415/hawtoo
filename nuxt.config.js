@@ -69,8 +69,12 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/supabase.js',
-    { ssr: false, src: '~/plugins/aos.js' },
+    { src: '~/plugins/filters.js' },
     { src: '~/plugins/tooltips.js' },
+    { src: '~/plugins/clipboard.js' },
+    { src: '~/plugins/vue-toast-notification.js' },
+    { src: '~/plugins/font-awesome.js' },
+    { src: '~/plugins/vue-skeleton-loader.js' },
     { src: '~/plugins/vue-formulate.js' },
     { src: '~/plugins/vue-placeholders.js' },
     { src: '~/plugins/vue-observe-visibility.client.js' },
@@ -86,7 +90,6 @@ export default {
     '@nuxtjs/eslint-module',
     // Doc: https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    ['@layer0/nuxt/module', { layer0SourceMaps: true }]
   ],
 
   tailwindcss: {
@@ -102,11 +105,12 @@ export default {
   modules: [
     // Doc: https://github.com/nuxt-community/color-mode-module
     "@nuxtjs/color-mode",
+    // Doc: https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal-nuxt#readme
+    'cookie-universal-nuxt',
     // https://go.nuxtjs.dev/pwa
     ['@nuxtjs/pwa'],
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    'cookie-universal-nuxt',
   ],
 
   auth: {
@@ -121,6 +125,16 @@ export default {
     },
     strategies: {
       supabase: { scheme: '~/schemes/supabaseScheme' },
+    }
+  },
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'Project',
+        path: '/@:id',
+        component: resolve(__dirname, 'pages/project.vue')
+      })
     }
   },
 

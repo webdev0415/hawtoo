@@ -1,0 +1,10 @@
+.v-toast__text {
+    font-weight: bold;
+}
+
+.v-toast__item--success {
+    background-color: rgb(8, 8, 8) !important;
+    .v-toast__text {
+        color: white !important;
+    }
+}

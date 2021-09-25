@@ -8,16 +8,16 @@ export default class SupabaseScheme extends LocalScheme {
         const supabase = await this.$auth.ctx.$supabase.auth
 
         if (!supabase.user()) {
-            if (isDev) {
-                console.log('User logged out 🛑');
-            }
+            // if (isDev) {
+            //     console.log('User logged out 🛑');
+            // }
 
             return
         }
 
-        if (isDev) {
-            console.log('User logged in 🙌');
-        }
+        // if (isDev) {
+        //     console.log('User logged in 🙌');
+        // }
 
         this.$auth.setUser(supabase.user())
     }

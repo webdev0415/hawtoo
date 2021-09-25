@@ -20,7 +20,7 @@
         <div class="pt-16 pb-12 md:pt-28 md:pb-20">
           <div class="pb-12 text-center md:pb-16">
 
-            <h1 class="max-w-4xl mx-auto mb-4 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter " data-aos="zoom-y-out" data-aos-delay="50" @mouseover="hoveringOnTitle = true" @mouseleave="hoveringOnTitle = false">
+            <h1 class="max-w-4xl mx-auto mb-4 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter " @mouseover="hoveringOnTitle = true" @mouseleave="hoveringOnTitle = false">
               <span class>Get </span>
               <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-400">more investors</span>
               <span> to </span>
@@ -30,10 +30,10 @@
             </h1>
 
             <div class="max-w-3xl mx-auto">
-              <p class="mb-8 text-xl text-gray-600 dark:text-gray-100 md:text-2xl" data-aos="zoom-y-out" data-aos-delay="150">
+              <p class="mb-8 text-xl text-gray-600 dark:text-gray-100 md:text-2xl">
                 Use our FREE forever tools and help your investors easily find important links, step-by-step buying instructions and more.
               </p>
-              <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center " data-aos="zoom-y-out" data-aos-delay="50">
+              <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
                 <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/account/submit-project">Submit your project</AppButton>
                 <AppButton variant="secondary" variant-type="outline" class="w-full sm:w-auto sm:ml-4" to="/popular">See examples</AppButton>
 
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div>
-            <div class="relative flex justify-center mb-8 " data-aos="zoom-y-out" data-aos-delay="20">
+            <div class="relative flex justify-center mb-8">
               <div class="flex flex-col justify-center">
                 <img class="mx-auto dark:border dark:border-gray-500" src="~assets/images/placeholder-hawtoo-hero-image.png" width="768" height="432" alt="Hero">
               </div>
@@ -64,6 +64,8 @@
       </div>
     </section>
 
+    <HomeTopProjects :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
+
     <section class="relative">
       <div class="absolute inset-0 mb-16 bg-gray-100 pointer-events-none dark:bg-gray-900" aria-hidden="true"></div>
       <div class="absolute left-0 right-0 w-px h-20 p-px m-auto transform -translate-y-1/2 bg-gray-200"></div>
@@ -75,7 +77,7 @@
             <p class="text-xl dark:text-white">What if we told you there is a way to offload these common questions...</p>
           </div>
           <div class="md:grid md:grid-cols-12 md:gap-6">
-            <div class="max-w-xl mx-auto md:max-w-none md:w-full md:col-span-7 lg:col-span-6 md:mt-6 " data-aos="fade-right">
+            <div class="max-w-xl mx-auto md:max-w-none md:w-full md:col-span-7 lg:col-span-6 md:mt-6 ">
               <div class="mb-8 md:pr-4 lg:pr-12 xl:pr-16">
                 <h3 class="mb-3 dark:text-white">Explore HawToo products</h3>
                 <p class="text-xl dark:text-gray-100">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
@@ -106,7 +108,7 @@
                     </svg></div>
                 </a></div>
             </div>
-            <div class="max-w-xl mx-auto mb-8 md:max-w-none md:w-full md:col-span-5 lg:col-span-6 md:mb-0 md:order-1 " data-aos="zoom-y-out">
+            <div class="max-w-xl mx-auto mb-8 md:max-w-none md:w-full md:col-span-5 lg:col-span-6 md:mb-0 md:order-1 ">
               <div class="relative flex flex-col text-center lg:text-right">
                 <div class="w-full" style="">
                   <div class="relative inline-flex flex-col"><img class="mx-auto rounded md:max-w-none" src="~assets/images/placeholder-hawtoo-product-image.png" width="500" height="462" alt="Features bg"></div>
@@ -125,25 +127,7 @@
       </div>
     </section>
 
-    <section class="relative">
-      <div class="absolute inset-0 bg-gray-100 pointer-events-none dark:bg-gray-900 top-1/2 md:mt-24 lg:mt-0" aria-hidden="true"></div>
-      <div class="absolute bottom-0 left-0 right-0 w-px h-20 p-px m-auto transform translate-y-1/2 bg-gray-200"></div>
-      <div class="relative max-w-6xl px-4 mx-auto sm:px-6">
-        <div class="py-12 md:py-20">
-          <div class="max-w-3xl pb-12 mx-auto text-center md:pb-20">
-            <h2 class="mb-4 dark:text-white">Popular projects</h2>
-            <p class="text-xl dark:text-gray-100">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat.</p>
-          </div>
-          <!-- <div v-observe-visibility="{ callback: getProjects, once: true }" class="grid items-start max-w-sm gap-6 mx-auto md:grid-cols-2 lg:grid-cols-3 md:max-w-2xl lg:max-w-none"> -->
-
-          <!-- <div v-for="project in allProjects" :key="project.id">
-                <ProjectCard :project="project" :has-loaded="hasLoaded" />
-              </div> -->
-
-          <!-- </div> -->
-        </div>
-      </div>
-    </section>
+    <HomePopular :has-loaded="notEmptyObject(popularProjects)" :projects="popularProjects" />
 
     <section class="relative">
       <div class="absolute bottom-0 -mb-32 transform -translate-x-1/2 pointer-events-none left-1/2 dark:hidden" aria-hidden="true"><svg width="1760" height="518" viewBox="0 0 1760 518" xmlns="http://www.w3.org/2000/svg">
@@ -162,11 +146,11 @@
       <div class="max-w-6xl px-4 mx-auto sm:px-6">
         <div class="py-12 md:py-20">
           <div class="max-w-3xl pb-12 mx-auto text-center md:pb-16">
-            <div class="max-w-xs mx-auto mb-12 md:max-w-md" data-aos="zoom-y-out">
+            <div class="max-w-xs mx-auto mb-12 md:max-w-md">
               <img src="~assets/images/team_work.svg" class="w-full" />
             </div>
             <h2 class="mb-4 dark:text-white">Trusted by hundreds of blockchain endeavours all over the world 🌍</h2>
-            <p class="text-xl dark:text-gray-100" data-aos="zoom-y-out">Arcu cursus vitae congue mauris rhoncus viverra nibh cras pulvinar mattis blandit libero cursus mattis.</p>
+            <p class="text-xl dark:text-gray-100">Arcu cursus vitae congue mauris rhoncus viverra nibh cras pulvinar mattis blandit libero cursus mattis.</p>
           </div>
 
           <div class="grid max-w-sm grid-cols-4 gap-2 mx-auto md:max-w-4xl md:grid-cols-5">
@@ -187,7 +171,7 @@
             </div>
           </div>
 
-          <testimonial full-name="Lydia Lane" :avatar-url="require('~/assets/images/avatar-cumrocket-lydia.png')" name-title="CEO" company-name="CumRocket" company-url="/@cumrocket" :external-url="false" class="max-w-3xl mx-auto mt-20 " data-aos="zoom-y-out">
+          <testimonial full-name="Lydia Lane" :avatar-url="require('~/assets/images/avatar-cumrocket-lydia.png')" name-title="CEO" company-name="CumRocket" company-url="/@cumrocket" :external-url="false" class="max-w-3xl mx-auto mt-20 ">
             " HawToo's link in bio and buying guide has helped us a great deal. Especially when you pair it up with a Discord or Telegram bot it can really help to onboard new investors. "
           </testimonial>
         </div>
@@ -197,12 +181,37 @@
 </template>
 
 <script>
+import global from '@/mixins/global'
+
 export default {
   name: 'Home',
-  props: {
-    logoutSuccess: {
-      type: Boolean,
-      default: false
+  mixins: [global],
+  async asyncData({ $supabase, $config, error, $content }) {
+    const popularResp = await $supabase
+      .from('projects')
+      .select('*')
+      .eq('verified', true)
+      .limit(6)
+
+    const topProjectsResp = await $supabase
+      .from('projects')
+      .select(
+        `id,
+        name,
+        slug,
+        chain,
+        type,
+        verified,
+        avatar_color,
+        view_count,
+        published_at`
+      )
+      .order('view_count', { ascending: false })
+      .limit(12)
+
+    return {
+      popularProjects: popularResp.data,
+      topProjects: topProjectsResp.data
     }
   },
 
@@ -216,18 +225,13 @@ export default {
 
   mounted() {
     // eslint-disable-next-line no-console
+    console.log(this.$auth.user)
     console.log(`✨ Thanks for visiting ${process.env.TITLE}`)
   }
 }
 </script>
 
 <style lang="scss">
-[data-aos='zoom-y-out'] {
-  transform: scaleX(1.03);
-  opacity: 0;
-  transition-property: transform, opacity;
-}
-
 .emoji-ape {
   -webkit-animation: moversmall 1.25s infinite alternate !important;
   animation: moverSmall 1.25s infinite alternate !important;

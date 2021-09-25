@@ -4,7 +4,16 @@
 
 @layer components {
     .btn {
-        @apply inline-flex align-middle items-center justify-center font-medium focus:outline-none border-2 rounded-lg;
+        @apply inline-flex items-center justify-center font-medium align-middle border-2 rounded-lg focus:outline-none;
+    }
+    .avatar {
+        @apply relative inline-flex;
+    }
+    .avatar > div {
+        @apply block overflow-hidden;
+    }
+    .avatar img {
+        @apply object-cover w-full h-full;
     }
 }
 

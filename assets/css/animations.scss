@@ -1,0 +1,24 @@
+.animation-mover {
+    -webkit-animation: moversmall 1.25s infinite alternate !important;
+    animation: moverSmall 1.25s infinite alternate !important;
+}
+
+@-webkit-keyframes moverSmall {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes moverSmall {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(-6px);
+    }
+  }

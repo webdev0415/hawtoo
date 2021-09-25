@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-white border-t border-gray-200">
+  <footer class="bg-white border-t border-gray-200 dark:bg-black dark:border-gray-800">
     <div class="container px-4 py-12 mx-auto overflow-hidden sm:px-6 lg:px-8">
       <nav class="flex flex-wrap justify-center -mx-5 -my-2" aria-label="Footer">
         <div v-for="route in navigation" :key="route.path" class="px-5 py-2">
@@ -8,7 +8,6 @@
           </NuxtLink>
         </div>
       </nav>
-
       <p class="mt-8 text-base text-center text-gray-400">
         &copy; {{ currentYear }} HawToo, Inc. All rights reserved.
       </p>
