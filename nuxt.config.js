@@ -97,8 +97,6 @@ export default {
   modules: [
     // Doc: https://github.com/nuxt-community/color-mode-module
     ["@nuxtjs/color-mode"],
-    // Doc: https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal-nuxt#readme
-    ['cookie-universal-nuxt'],
     // https://go.nuxtjs.dev/pwa
     ['@nuxtjs/pwa'],
     ['vue-sweetalert2/nuxt/no-css'],
