@@ -1,16 +1,16 @@
-import express from 'express'
-import consola from "consola";
-import axios from 'axios';
-
+const axios = require('axios')
+const express = require('express')
 const apiKey = process.env.CONVERTKIT_API_KEY;
 const apiSecret = process.env.CONVERTKIT_API_SECRET;
 const baseApiUrl = 'https://api.convertkit.com/v3';
 const formId = '2634622';
 
 const app = express()
+
 app.use(express.json())
 
-app.post('/subscribe', async (req, res) => {
+// It is important that the full path is specified here
+app.post('/api/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
 
@@ -22,12 +22,8 @@ app.post('/subscribe', async (req, res) => {
 
     let disposableEmail = false;
 
-    consola.info(`Email is ${emailAddress}`);
-
     await axios.get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
         disposableEmail = result.data.disposable;
-
-        consola.info(`Is it a disposable email?: ${disposableEmail}`);
 
         if (result.data.disposable) {
             res.status(result.status).send({
@@ -52,8 +48,7 @@ app.post('/subscribe', async (req, res) => {
             }).end()
 
         }).catch((err) => {
-            consola.error(err)
-            res.status('500').send({
+            res.status(err.status).send({
                 message: {
                     type: 'error',
                     message: 'Oops. Something went wrong!'
@@ -64,7 +59,4 @@ app.post('/subscribe', async (req, res) => {
 
 })
 
-export default {
-    path: '/api',
-    handler: app
-}
+module.exports = app
