@@ -7,12 +7,13 @@ const apiKey = process.env.CONVERTKIT_API_KEY;
 const apiSecret = process.env.CONVERTKIT_API_SECRET;
 const baseApiUrl = 'https://api.convertkit.com/v3';
 const formId = '2634622';
+const express = require('express')
 
-const app = require('express')();
+const app = express()
 
 app.use(express.json())
 
-app.post('/subscribe', async (req, res) => {
+app.post('/api/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
 
@@ -61,7 +62,4 @@ app.post('/subscribe', async (req, res) => {
 
 })
 
-export default {
-    path: '/api',
-    handler: app
-}
+module.exports = app

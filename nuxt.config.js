@@ -9,6 +9,7 @@ require('dotenv').config({ path: path.resolve(process.cwd(), `.env.${process.env
 // console.log("Path to ENV: " + path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`));
 
 const isDev = process.env.NODE_ENV !== "production";
+const isServerlessEnvironment = !!process.env.NOW_REGION
 
 const SITE_TITLE = 'HawToo'
 const SITE_DESCRIPTION = '# Helping Humans Safely Enter The Digital World of Crypto';
@@ -129,10 +130,7 @@ export default {
     }
   },
 
-  serverMiddleware: [
-    // Will register file from project api directory to handle /api/* requires
-    { path: "/api", handler: "~/api/index.js" },
-  ],
+  serverMiddleware: isServerlessEnvironment ? [] : ['~/api/index.js'],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
