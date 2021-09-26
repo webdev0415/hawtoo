@@ -21,6 +21,7 @@ const initialState = {
 }
 // export const plugins = [createPersistedState]
 
+
 export default function (/* { ssrContext } */) {
     return new Vuex.Store({
         modules: {
