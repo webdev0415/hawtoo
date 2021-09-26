@@ -14,7 +14,8 @@
             "config": {
                 "serverFiles": [
                     "api/**",
-                    "package.json"
+                    "package.json",
+                    "schemes/**"
                 ]
             }
         }
