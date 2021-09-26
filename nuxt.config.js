@@ -60,6 +60,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/supabase.js',
+    { src: '~/plugins/vuex-persistedstate.js', ssr: true },
     { src: '~/plugins/filters.js' },
     { src: '~/plugins/tooltips.js' },
     { src: '~/plugins/clipboard.js' },

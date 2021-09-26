@@ -91,7 +91,7 @@
                   <pattern id="prefix__pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
                     <use xlink:href="#prefix__image0" transform="scale(.003125)"></use>
                   </pattern>
-                  <image id="prefix__image0" width="320" height="320" xlink:href="/images/proof-girl.jpg"></image>
+                  <image id="prefix__image0" width="320" height="320" xlink:href="https://www.proofserve.com/images/proof-girl.jpg"></image>
                 </defs>
               </svg></div>
           </div>

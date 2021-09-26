@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
 
 import user from './modules/store-user';
 
@@ -19,7 +19,7 @@ Vue.use(Vuex)
 const initialState = {
     user: user.state,
 }
-export const plugins = [createPersistedState]
+// export const plugins = [createPersistedState]
 
 export default function (/* { ssrContext } */) {
     return new Vuex.Store({
