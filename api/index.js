@@ -2,11 +2,10 @@ import express from 'express'
 import consola from "consola";
 import axios from 'axios';
 
-const apiKey = 'yRGlZY5m5XORissTgeZd-g';
-const apiSecret = 'g59PykVS5Jk2QQSynebmIFx3KJtmfYX7YoQbabGGhNo';
+const apiKey = process.env.CONVERTKIT_API_KEY;
+const apiSecret = process.env.CONVERTKIT_API_SECRET;
 const baseApiUrl = 'https://api.convertkit.com/v3';
 const formId = '2634622';
-// const convertkit = new Convertkit({ apiKey, apiSecret, baseApiUrl })
 
 const app = express()
 app.use(express.json())
