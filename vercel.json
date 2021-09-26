@@ -30,6 +30,10 @@
             "dest": "/api/index.js"
         },
         {
+            "src": "/api/increment_page_view",
+            "dest": "/api/index.js"
+        },
+        {
             "src": "/sw.js",
             "continue": true,
             "headers": {

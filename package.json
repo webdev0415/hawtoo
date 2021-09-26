@@ -20,6 +20,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/vercel-builder": "^0.22.0",
     "dotenv": "^10.0.0",
+    "@supabase/supabase-js": "^1.23.0",
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
@@ -32,7 +33,6 @@
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/svg": "^0.2.0",
     "@nuxtjs/tailwindcss": "^4.2.0",
-    "@supabase/supabase-js": "^1.23.0",
     "@tailwindcss/forms": "^0.3.3",
     "@vue/test-utils": "^1.2.1",
     "babel-core": "7.0.0-bridge.0",
