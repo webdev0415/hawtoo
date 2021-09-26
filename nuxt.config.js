@@ -8,8 +8,6 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`) });
 
 // console.log("Path to ENV: " + path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`));
-// Trigger vercel?
-
 
 const isDev = process.env.NODE_ENV !== "production";
 
