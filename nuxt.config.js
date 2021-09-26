@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-
 // import getLocalIdent from './getLocalIdent'
 require('dotenv').config()
 
