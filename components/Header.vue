@@ -11,6 +11,25 @@
             </NuxtLink>
           </div>
 
+          <p v-if="sponsor" class="hidden pl-6 ml-6 text-sm border-l border-gray-200 lg:block">
+            <a href="/#product-ecommerce" class="relative flex items-center hover:text-gray-900">
+              <svg aria-hidden="true" width="19" height="16" fill="none" class="mr-2">
+                <g opacity=".7" fill="#A5B4FC">
+                  <path d="M2 4.5h10l1 8H1l1-8z"></path>
+                  <path d="M2 4.5V4a.5.5 0 00-.496.438L2 4.5zm10 0l.496-.062A.5.5 0 0012 4v.5zm1 8v.5a.5.5 0 00.496-.562L13 12.5zm-12 0l-.496-.062A.5.5 0 001 13v-.5zm8.5-6a.5.5 0 001 0h-1zm-6 0a.5.5 0 001 0h-1zM2 5h10V4H2v1zm9.504-.438l1 8 .992-.124-1-8-.992.124zM13 12H1v1h12v-1zm-11.504.562l1-8-.992-.124-1 8 .992.124zM9.5 3.5v3h1v-3h-1zm-5 3v-3h-1v3h1zM7 1a2.5 2.5 0 012.5 2.5h1A3.5 3.5 0 007 0v1zm0-1a3.5 3.5 0 00-3.5 3.5h1A2.5 2.5 0 017 1V0z"></path>
+                </g>
+                <g style="mix-blend-mode:multiply" opacity=".7" fill="#38BDF8">
+                  <path d="M7 7.5h10l1 8H6l1-8z"></path>
+                  <path d="M7 7.5V7a.5.5 0 00-.496.438L7 7.5zm10 0l.496-.062A.5.5 0 0017 7v.5zm1 8v.5a.5.5 0 00.496-.562L18 15.5zm-12 0l-.496-.062A.5.5 0 006 16v-.5zm8.5-6a.5.5 0 001 0h-1zm-6 0a.5.5 0 001 0h-1zM7 8h10V7H7v1zm9.504-.438l1 8 .992-.124-1-8-.992.124zM18 15H6v1h12v-1zm-11.504.562l1-8-.992-.124-1 8 .992.124zM14.5 6.5v3h1v-3h-1zm-5 3v-3h-1v3h1zM12 4a2.5 2.5 0 012.5 2.5h1A3.5 3.5 0 0012 3v1zm0-1a3.5 3.5 0 00-3.5 3.5h1A2.5 2.5 0 0112 4V3z"></path>
+                </g>
+              </svg>
+              Tailwind UI Ecommerce is available now
+              <svg aria-hidden="true" width="11" height="11" fill="currentColor" class="ml-1.5">
+                <path d="M5.593 10.139L10.232 5.5 5.593.862l-.895.89 3.107 3.102H0v1.292h7.805L4.698 9.254l.895.885z"></path>
+              </svg>
+            </a>
+          </p>
+
           <div class="hidden lg:block">
             <div class="flex items-baseline ml-10 space-x-4">
               <NuxtLink v-for="route in navigation" :key="route.path" :to="route.path" class="px-3 py-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
@@ -136,7 +155,8 @@ export default {
       userMenuOpen: false,
       navigation,
       mobileNavigation,
-      userMenuNavigation
+      userMenuNavigation,
+      sponsor: false
     }
   },
   computed: {
