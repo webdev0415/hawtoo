@@ -36,7 +36,7 @@ app.post('/subscribe', async (req, res) => {
                     type: 'error',
                     message: 'That does not seem like a valid email'
                 }
-            })
+            }).end()
         }
     }).catch((err) => {
         res.status(err.status).send(err.detail)
@@ -50,7 +50,7 @@ app.post('/subscribe', async (req, res) => {
                     type: 'success',
                     message: `Please check your inbox ${result.data.subscription.subscriber.email_address}`
                 }
-            })
+            }).end()
 
         }).catch((err) => {
             consola.error(err)
@@ -59,7 +59,7 @@ app.post('/subscribe', async (req, res) => {
                     type: 'error',
                     message: 'Oops. Something went wrong!'
                 }
-            })
+            }).end()
         });
     }
 
