@@ -104,13 +104,14 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // Doc: https://github.com/nuxt-community/color-mode-module
-    "@nuxtjs/color-mode",
+    ["@nuxtjs/color-mode"],
     // Doc: https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal-nuxt#readme
-    'cookie-universal-nuxt',
+    ['cookie-universal-nuxt'],
     // https://go.nuxtjs.dev/pwa
     ['@nuxtjs/pwa'],
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
+    ['vue-sweetalert2/nuxt/no-css'],
+    ['@nuxtjs/axios'],
+    ['@nuxtjs/auth-next'],
   ],
 
   auth: {
@@ -137,6 +138,11 @@ export default {
       })
     }
   },
+
+  serverMiddleware: [
+    // Will register file from project api directory to handle /api/* requires
+    { path: "/api", handler: "~/api/index.js" },
+  ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

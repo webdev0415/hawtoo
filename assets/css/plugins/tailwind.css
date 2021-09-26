@@ -6,6 +6,9 @@
     .btn {
         @apply inline-flex items-center justify-center font-medium align-middle border-2 rounded-lg focus:outline-none;
     }
+    .btn-primary {
+        @apply bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700
+    }
     .avatar {
         @apply relative inline-flex;
     }

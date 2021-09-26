@@ -33,7 +33,6 @@
               <p class="mb-8 text-xl text-gray-600 dark:text-gray-100 md:text-2xl">
                 Use our FREE forever tools and help your investors easily find important links, step-by-step buying instructions and more.
               </p>
-              <EmailForm class="my-8" />
               <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
                 <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/account/submit-project">Submit your project</AppButton>
                 <AppButton variant="secondary" variant-type="outline" class="w-full sm:w-auto sm:ml-4" to="/popular">See examples</AppButton>
@@ -64,8 +63,6 @@
         </div>
       </div>
     </section>
-
-    <HomeTopProjects :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
 
     <section class="relative">
       <div class="absolute inset-0 mb-16 bg-gray-100 pointer-events-none dark:bg-gray-900" aria-hidden="true"></div>
@@ -128,6 +125,8 @@
       </div>
     </section>
 
+    <AdminPopular :has-loaded="notEmptyObject(popularProjects)" :projects="popularProjects" />
+
     <section class="relative">
       <div class="absolute bottom-0 -mb-32 transform -translate-x-1/2 pointer-events-none left-1/2 dark:hidden" aria-hidden="true"><svg width="1760" height="518" viewBox="0 0 1760 518" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -183,27 +182,17 @@
 import global from '@/mixins/global'
 
 export default {
-  name: 'Home',
+  name: 'Admins',
   mixins: [global],
   async asyncData({ $supabase, $config, error, $content }) {
-    const topProjectsResp = await $supabase
+    const popularResp = await $supabase
       .from('projects')
-      .select(
-        `id,
-        name,
-        slug,
-        chain,
-        type,
-        verified,
-        avatar_color,
-        view_count,
-        published_at`
-      )
-      .order('view_count', { ascending: false })
-      .limit(12)
+      .select('*')
+      .eq('verified', true)
+      .limit(6)
 
     return {
-      topProjects: topProjectsResp.data
+      popularProjects: popularResp.data
     }
   },
 

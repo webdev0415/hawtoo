@@ -55,7 +55,6 @@ export default {
   },
   computed: {
     chainAbbrevation() {
-      console.log(this.data)
       if (!this.data.chain) return null
       const chainAbbr = helper.createChainAbbrevation()
       return chainAbbr[this.data.chain]

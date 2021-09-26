@@ -333,10 +333,10 @@ export default {
      * Gets fired before `handleSubmit()`
      */
     async handleFileUpload(file, progress, formError, option) {
-      const bucketName = 'public'
+      const bucketName = 'avatars'
       const projectSlug = this.projectSlug
       const time = new Date().getTime()
-      const finalFileName = `avatars/${projectSlug}-${time}`
+      const finalFileName = `projects/${projectSlug}-${time}`
 
       const { data, error } = await this.$supabase.storage
         .from(bucketName)

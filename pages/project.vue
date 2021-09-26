@@ -136,10 +136,11 @@ export default {
         error({ statusCode: 500, projectError })
       }
     }
+    // https://lrtrmaovmdqddfvsukeh.supabase.in/storage/v1/object/sign/avatars/projects/dogepound-1632610656084?
 
     if (projectResp.data.avatar_name) {
       avatarUrlResp = await $supabase.storage
-        .from('public')
+        .from('avatars')
         .getPublicUrl(projectResp.data.avatar_name)
 
       avatarUrlResp = avatarUrlResp.data
@@ -182,9 +183,11 @@ export default {
       }
     },
     avatarUrl() {
-      if (this.avatar && 'publicUrl' in this.avatar)
+      if (this.avatar && this.avatar.publicURL) {
+        console.log(this.avatar.publicURL)
         return this.avatar.publicURL
-      else return ''
+      }
+      return ''
     },
     blockExplorer() {
       if (!this.data.chain || !this.data.contractAddress) return null
