@@ -1,13 +1,13 @@
 export const navigation = [
     {
         name: 'Home',
-        text: 'Home',
+        text: 'For Investors',
         path: '/'
     },
     {
-        name: 'Popular',
-        text: 'Popular',
-        path: '/popular'
+        name: 'Admins',
+        text: 'For Admins',
+        path: '/admins'
     }
 ]
 

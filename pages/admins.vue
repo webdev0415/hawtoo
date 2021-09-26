@@ -34,7 +34,7 @@
                 Use our FREE forever tools and help your investors easily find important links, step-by-step buying instructions and more.
               </p>
               <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-                <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/account/submit-project">Submit your project</AppButton>
+                <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/submit-project">Submit your project</AppButton>
                 <AppButton variant="secondary" variant-type="outline" class="w-full sm:w-auto sm:ml-4" to="/popular">See examples</AppButton>
 
               </div>
