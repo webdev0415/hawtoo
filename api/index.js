@@ -1,18 +1,15 @@
-
-// import express from 'express'
-// import consola from "consola";
-// import axios from 'axios';
 const axios = require('axios')
+const express = require('express')
 const apiKey = process.env.CONVERTKIT_API_KEY;
 const apiSecret = process.env.CONVERTKIT_API_SECRET;
 const baseApiUrl = 'https://api.convertkit.com/v3';
 const formId = '2634622';
-const express = require('express')
 
 const app = express()
 
 app.use(express.json())
 
+// It is important that the full path is specified here
 app.post('/api/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
@@ -51,7 +48,7 @@ app.post('/api/subscribe', async (req, res) => {
             }).end()
 
         }).catch((err) => {
-            res.status('500').send({
+            res.status(err.status).send({
                 message: {
                     type: 'error',
                     message: 'Oops. Something went wrong!'
