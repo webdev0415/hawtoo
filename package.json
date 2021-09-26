@@ -24,6 +24,7 @@
     "canvas-confetti": "^1.4.0",
     "convertkit-node": "^2.0.0",
     "cookie-universal-nuxt": "^2.1.5",
+    "js-cookie": "2.1.4",
     "skeleton-loader-vue": "^1.0.10",
     "v-clipboard": "^2.2.3",
     "vue-sweetalert2": "^5.0.2",

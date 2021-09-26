@@ -48,6 +48,20 @@
               </div>
             </button>
 
+            <!-- Twitter -->
+            <button class="inline-flex items-center justify-center w-full h-10 mt-2 text-white border rounded-sm shadow-md" :class="{ 'opacity-80': isProcessing }" :disabled="isProcessing" style="background-color:#1DA1F2" @click="handleLoginWithProvider('twitter')">
+              <TwitterIcon v-if="!isProcessing" color="#fff" size="16px" class="w-4 mr-3" />
+              <ProcessingIcon v-if="isProcessing" />
+              <div class="text-sm font-semibold">
+                <span v-if="!isProcessing">
+                  Continue with Twitter
+                </span>
+                <span v-else>
+                  Giving Twitter a call...
+                </span>
+              </div>
+            </button>
+
           </div>
         </div>
       </div>
@@ -76,12 +90,14 @@
 </template>
 <script>
 import DiscordIcon from '@/components/Login/DiscordIcon.vue'
+import TwitterIcon from '@/components/Login/TwitterIcon.vue'
 import ProcessingIcon from '@/components/Login/ProcessingIcon.vue'
 
 export default {
   name: 'Login',
   components: {
     DiscordIcon,
+    TwitterIcon,
     ProcessingIcon
   },
   layout: 'empty',
