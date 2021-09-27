@@ -48,6 +48,7 @@ export default {
       required: false
     }
   },
+
   data() {
     return {
       avatarUrl: ''
@@ -61,7 +62,7 @@ export default {
     }
   },
   created() {
-    if ('avatar_name' in this.data && this.data.avatar_name) {
+    if (this.data.avatar_name) {
       this.getAvatar(this.data.avatar_name)
     }
   },
