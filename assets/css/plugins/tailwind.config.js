@@ -16,6 +16,8 @@ module.exports = {
 
     theme: {
         container: {
+            center: true,
+            padding: '1.5rem',
             screens: {
                 sm: "100%",
                 md: "100%",
@@ -29,6 +31,7 @@ module.exports = {
         },
         extend: {
             colors: {
+                "tertiary": '#f7ece1',
                 "binance-yellow": "#F0B90B",
                 gray: {
                     100: '#FBFBFB',

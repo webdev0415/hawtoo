@@ -1,7 +1,7 @@
 <template>
   <section class="flex-1">
-    <nav class="flex justify-between w-full px-4 py-3 space-x-4 bg-white border-b border-gray-200 sm:px-6 lg:px-8 dark:bg-black dark:border-gray-800 " aria-label="Breadcrumb">
-      <ol role="list" class="flex w-full mx-auto dark:text-white">
+    <nav class="flex justify-between w-full px-4 py-3 space-x-4 bg-white border-b border-gray-200 sm:px-6 lg:px-8" aria-label="Breadcrumb">
+      <ol role="list" class="flex w-full mx-auto ">
         <li class="flex">
           <div class="flex items-center">
             <NuxtLink to="/" class=" hover:text-gray-500">
@@ -34,7 +34,7 @@
     </nav>
 
     <div class="container mx-auto">
-      <div class="max-w-4xl mx-auto my-12 bg-white rounded-lg dark:bg-gray-900">
+      <div class="max-w-4xl mx-auto my-12 bg-white rounded-lg">
         <div class="px-16 pt-8 pb-8 bg-white border-b border-gray-200 ">
           <div class="flex flex-row">
             <h1 class="text-2xl font-extrabold text-gray-900">Create a new project</h1>
@@ -191,8 +191,7 @@ export default {
   layout: 'empty',
   head: {
     bodyAttrs: {
-      class:
-        'tracking-semitight min-w-xs min-h-screen antialiased bg-gray-100 dark:bg-gray-800'
+      class: 'tracking-semitight min-w-xs min-h-screen antialiased bg-gray-100'
     }
   },
   // middleware: 'user-auth',
