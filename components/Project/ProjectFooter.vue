@@ -13,9 +13,6 @@
           </NuxtLink>
         </p>
 
-        <div class="mx-auto mt-4">
-          <DarkModeToggle />
-        </div>
       </div>
     </div>
   </footer>
