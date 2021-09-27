@@ -6,7 +6,7 @@ export const navigation = [
     },
     {
         name: 'Admins',
-        text: 'For Admins',
+        text: 'For Crypto Projects',
         path: '/admins'
     }
 ]

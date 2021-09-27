@@ -3,6 +3,9 @@
 @import 'tailwindcss/utilities';
 
 @layer components {
+    .ht-container {
+        @apply max-w-[1210px] mx-auto;
+    }
     .btn {
         @apply inline-flex items-center justify-center font-medium align-middle border-2 rounded-lg focus:outline-none;
     }

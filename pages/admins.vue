@@ -1,8 +1,9 @@
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
 
-    <section class="relative">
-      <div class="absolute bottom-0 transform -translate-x-1/2 pointer-events-none left-1/2 dark:hidden" aria-hidden="true"><svg width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
+    <section class="relative pt-16 pb-12 text-center bg-white dark:bg-black md:pt-28 md:pb-52">
+      <div class="absolute bottom-0 transform -translate-x-1/2 pointer-events-none left-1/2 dark:hidden" aria-hidden="true">
+        <svg width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="illustration-01" x1="50%" y1="0%" x2="50%" y2="100%">
               <stop stop-color="#FFF" offset="0%"></stop>
@@ -11,63 +12,44 @@
             </linearGradient>
           </defs>
           <g fill="url(#illustration-01)" fill-rule="evenodd">
-            <circle cx="1232" cy="128" r="128"></circle>
+            <circle cx="1232" cy="200" r="60"></circle>
             <circle cx="155" cy="443" r="64"></circle>
           </g>
         </svg>
       </div>
-      <div class="max-w-6xl px-4 mx-auto sm:px-6">
-        <div class="pt-16 pb-12 md:pt-28 md:pb-20">
-          <div class="pb-12 text-center md:pb-16">
 
-            <h1 class="max-w-4xl mx-auto mb-4 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter " @mouseover="hoveringOnTitle = true" @mouseleave="hoveringOnTitle = false">
-              <span class>Get </span>
-              <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-400">more investors</span>
-              <span> to </span>
-              <span v-tooltip="{ content: 'APE', show: hoveringOnTitle, placement: 'top' }"><span class="emoji-ape">🦍</span></span><span class="inline-block ml-2 md:hidden">ape </span>
-              <span> in on your </span>
-              <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">blockchain project</span>
-            </h1>
+      <div class="container">
+        <div class="">
 
-            <div class="max-w-3xl mx-auto">
-              <p class="mb-8 text-xl text-gray-600 dark:text-gray-100 md:text-2xl">
-                Use our FREE forever tools and help your investors easily find important links, step-by-step buying instructions and more.
-              </p>
-              <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-                <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/submit-project">Submit your project</AppButton>
-                <AppButton variant="secondary" variant-type="outline" class="w-full sm:w-auto sm:ml-4" to="/popular">See examples</AppButton>
+          <h1 class="max-w-4xl mx-auto mb-4 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter " @mouseover="hoveringOnTitle = true" @mouseleave="hoveringOnTitle = false">
+            <span class>Get </span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-400">more investors</span>
+            <span> to </span>
+            <span v-tooltip="{ content: 'APE', show: hoveringOnTitle, placement: 'top' }"><span class="emoji-ape">🦍</span></span><span class="inline-block ml-2 md:hidden">ape </span>
+            <span> in on your </span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">blockchain project</span>
+          </h1>
 
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="relative flex justify-center mb-8">
-              <div class="flex flex-col justify-center">
-                <img class="mx-auto dark:border dark:border-gray-500" src="~assets/images/placeholder-hawtoo-hero-image.png" width="768" height="432" alt="Hero">
-              </div>
-              <button class="absolute flex items-center p-4 font-medium transform -translate-y-1/2 bg-white rounded-full shadow-lg top-full group" aria-controls="modal" style="outline: none;">
-                <svg class="flex-shrink-0 w-6 h-6 text-gray-400 fill-current group-hover:text-blue-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0 2C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12z"></path>
-                  <path d="M10 17l6-5-6-5z"></path>
-                </svg>
-                <span class="ml-3">Watch how it works (1 min)</span></button>
+          <div class="max-w-3xl mx-auto">
+            <p class="mb-8 text-xl text-gray-600 dark:text-gray-100 md:text-2xl">
+              Use our FREE forever tools and help your investors easily find important links, step-by-step buying instructions and more.
+            </p>
+            <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
+              <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/submit-project">Submit your project</AppButton>
+              <AppButton variant="secondary" variant-type="outline" class="w-full sm:w-auto sm:ml-4" to="/popular">See examples</AppButton>
             </div>
 
-            <div class="fixed inset-0 z-50 transition-opacity bg-white bg-opacity-75 blur" aria-hidden="true" style="display: none;"></div>
-            <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center px-4 overflow-hidden transform sm:px-6" role="dialog" aria-modal="true" aria-labelledby="modal-headline" style="display: none;">
-              <div class="w-full max-w-6xl max-h-full overflow-auto bg-white">
-                <div class="relative pb-9/16"><iframe class="absolute w-full h-full" src="https://player.vimeo.com/video/174002812" title="Video" allowfullscreen=""></iframe></div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <AdminHero class="md:-mt-40" :has-loaded="notEmptyObject(featuredProject)" :project="featuredProject" />
+
     <section class="relative">
-      <div class="absolute inset-0 mb-16 bg-gray-100 pointer-events-none dark:bg-gray-900" aria-hidden="true"></div>
-      <div class="absolute left-0 right-0 w-px h-20 p-px m-auto transform -translate-y-1/2 bg-gray-200"></div>
-      <div class="relative max-w-6xl px-4 mx-auto sm:px-6">
+      <div class="absolute inset-0 mb-16 bg-gray-200 pointer-events-none dark:bg-gray-900" aria-hidden="true"></div>
+
+      <div class="relative px-4 mx-auto ht-container sm:px-6">
         <div class="pt-12 md:pt-20">
           <div class="max-w-3xl pb-12 mx-auto text-center md:pb-16">
             <h2 class="mb-4 dark:text-white">Here's how we can help you 👇</h2>
@@ -184,6 +166,7 @@ import global from '@/mixins/global'
 export default {
   name: 'Admins',
   mixins: [global],
+  colorMode: 'dark',
   async asyncData({ $supabase, $config, error, $content }) {
     const popularResp = await $supabase
       .from('projects')
@@ -191,8 +174,16 @@ export default {
       .eq('verified', true)
       .limit(6)
 
+    const featuredResp = await $supabase
+      .from('projects')
+      .select('*')
+      .eq('verified', true)
+      .limit(1)
+      .single()
+
     return {
-      popularProjects: popularResp.data
+      popularProjects: popularResp.data,
+      featuredProject: featuredResp.data
     }
   },
 
@@ -203,7 +194,11 @@ export default {
       hasLoaded: false
     }
   },
-
+  head: {
+    bodyAttrs: {
+      class: 'bg-gray-200 dark:bg-gray-900'
+    }
+  },
   mounted() {
     // eslint-disable-next-line no-console
     console.log(this.$auth.user)
