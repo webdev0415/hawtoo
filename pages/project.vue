@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import global from '@/mixins/global'
 import helper from '@/utils/projectsHelpers.js'
 
@@ -166,8 +167,8 @@ export default {
     //     page_slug: this.$route.params.id
     //   })
     // }
-    await this.$supabase.rpc('increment_page_view', {
-      page_slug: this.$route.params.id
+    await axios.post('/api/increment_page_view', {
+      slug: this.$route.params.id
     })
   },
 
