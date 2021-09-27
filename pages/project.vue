@@ -185,7 +185,6 @@ export default {
     },
     avatarUrl() {
       if (this.avatar && this.avatar.publicURL) {
-        console.log(this.avatar.publicURL)
         return this.avatar.publicURL
       }
       return ''

@@ -115,7 +115,7 @@ export default {
       home: '/'
     },
     strategies: {
-      supabase: { scheme: '~/schemes/supabaseScheme' },
+      hawtoo: { scheme: '~/schemes/supabaseScheme' },
     }
   },
 

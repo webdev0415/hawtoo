@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+const { createClient } = require('@supabase/supabase-js')
 const axios = require('axios')
 const express = require('express')
 const supabase = createClient(process.env.SUPABASE_PUBLIC_URL, process.env.SUPABASE_SERVICE_KEY);
