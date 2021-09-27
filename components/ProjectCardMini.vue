@@ -69,7 +69,7 @@ export default {
   methods: {
     async getAvatar() {
       const avatarUrlResp = await this.$supabase.storage
-        .from('public')
+        .from('avatars')
         .getPublicUrl(this.data.avatar_name)
 
       this.avatarUrl = avatarUrlResp.data.publicURL

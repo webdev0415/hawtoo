@@ -1,6 +1,7 @@
 const { createClient } = require('@supabase/supabase-js')
 const axios = require('axios')
 const express = require('express')
+
 const supabase = createClient(process.env.SUPABASE_PUBLIC_URL, process.env.SUPABASE_SERVICE_KEY);
 const app = express()
 
@@ -62,7 +63,6 @@ app.post('/api/increment_page_view', async (req, res) => {
     const { slug: pageSlug } = req.body
 
     await supabase.rpc('increment_page_view', { pageSlug }).then((result) => {
-        console.log(result);
         if (result.error) {
             res.status(result.status).send(result.error).end()
         }

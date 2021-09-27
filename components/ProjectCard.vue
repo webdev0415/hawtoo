@@ -56,14 +56,14 @@ export default {
     }
   },
   created() {
-    if ('avatar_name' in this.data && this.data.avatar_name) {
+    if (this.data.avatar_name) {
       this.getAvatar(this.data.avatar_name)
     }
   },
   methods: {
     async getAvatar() {
       const avatarUrlResp = await this.$supabase.storage
-        .from('public')
+        .from('avatars')
         .getPublicUrl(this.data.avatar_name)
 
       this.avatarUrl = avatarUrlResp.data.publicURL
