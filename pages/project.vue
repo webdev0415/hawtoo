@@ -37,7 +37,6 @@
 <script>
 import axios from 'axios'
 import global from '@/mixins/global'
-import helper from '@/utils/projectsHelpers.js'
 
 // import visitorService from '@/utils/visitorService'
 
@@ -48,7 +47,6 @@ export default {
   colorMode: 'light',
   async asyncData({ $supabase, params, error }) {
     const pageSlug = params.id
-    let avatarUrlResp
 
     const projectResp = await $supabase
       .from('projects')
@@ -66,23 +64,8 @@ export default {
     }
     // https://lrtrmaovmdqddfvsukeh.supabase.in/storage/v1/object/sign/avatars/projects/dogepound-1632610656084?
 
-    if (projectResp.data.avatar_name) {
-      avatarUrlResp = await $supabase.storage
-        .from('avatars')
-        .getPublicUrl(projectResp.data.avatar_name)
-
-      avatarUrlResp = avatarUrlResp.data
-    }
-
     return {
-      data: projectResp.data,
-      avatar: avatarUrlResp
-    }
-  },
-
-  data() {
-    return {
-      pageViewCounter: null
+      data: projectResp.data
     }
   },
 
@@ -109,34 +92,6 @@ export default {
       } else {
         return false
       }
-    },
-    avatarUrl() {
-      if (this.avatar && this.avatar.publicURL) {
-        return this.avatar.publicURL
-      }
-      return ''
-    },
-    blockExplorer() {
-      if (!this.data.chain || !this.data.contractAddress) return null
-      return helper.getBlockExplorerUrl(
-        this.data.chain,
-        this.data.contractAddress
-      )
-    },
-    chartLinks() {
-      if (!this.data.contractAddress) return []
-      const chart = helper.createChartLinks(this.data.contractAddress)
-      return chart[this.data.chain]
-    },
-    buyOnDexLinks() {
-      if (!this.data.contractAddress) return []
-      const buy = helper.createBuyLinks(this.data.contractAddress)
-      return buy[this.data.chain]
-    },
-    chainAbbrevation() {
-      if (!this.data.chain) return null
-      const chainAbbr = helper.createChainAbbrevation()
-      return chainAbbr[this.data.chain]
     }
   }
 }
