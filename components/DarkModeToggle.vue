@@ -35,11 +35,11 @@ export default {
   methods: {
     activateDarkMode() {
       this.$colorMode.preference = 'dark'
-      this.$toast.success('Dark mode is on 🌙')
+      // this.$toast.success('Dark mode is on 🌙')
     },
     activateLightMode() {
       this.$colorMode.preference = 'light'
-      this.$toast.success('Dark mode is off 🌞')
+      // this.$toast.success('Dark mode is off 🌞')
     }
   }
 }
