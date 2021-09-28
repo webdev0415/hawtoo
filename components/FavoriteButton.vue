@@ -125,7 +125,9 @@ export default {
 
     promptLogin() {
       // TODO: Import global sign up component with Quasar. With a prop that can trigger.
-      alert('You need to login')
+      this.$router.push({
+        path: '/login'
+      })
     }
   }
 }
@@ -137,10 +139,10 @@ export default {
 }
 
 .favorite-button.unadded {
-  @apply border-blue-400 dark:border-white dark:text-white text-blue-600 hover:text-blue-500;
+  @apply border-blue-400  text-blue-600 hover:text-blue-500;
 }
 
 .favorite-button.added {
-  @apply border-gray-300 dark:border-white dark:text-white text-gray-400 hover:border-blue-500 hover:text-blue-600;
+  @apply border-gray-300  text-gray-400 hover:border-blue-500 hover:text-blue-600;
 }
 </style>

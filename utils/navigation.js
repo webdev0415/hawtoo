@@ -46,8 +46,8 @@ export const mobileNavigation = [
 ]
 
 export const userMenuNavigation = [
-    { name: 'Your Profile', path: '/account' },
-    { name: 'Popular', path: '/popular' }
+    { name: 'Your Profile', path: '/account/watchlist' },
+    { name: 'Submit A Project', path: '/submit-project' }
 ]
 
 export const footerNavigation = [
