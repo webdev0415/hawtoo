@@ -1,5 +1,5 @@
 <template>
-  <button class="favorite-button" :class="[isOnWatchList ? 'added' : 'unadded']" @click="toggleWatchList">
+  <button class="favorite-button btn" :class="[isOnWatchList ? 'added' : 'unadded']" @click="toggleWatchList">
     <FontAwesome class="mr-1" :icon="['fal', 'bullhorn']" />
     <span v-if="isOnWatchList">
       Remove from Watchlist
@@ -133,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 .favorite-button {
-  @apply btn px-2 py-1 text-xs;
+  @apply px-2 py-1 text-xs;
 }
 
 .favorite-button.unadded {
