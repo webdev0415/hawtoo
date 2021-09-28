@@ -100,11 +100,6 @@ export default {
       default: null,
       required: false
     },
-    user: {
-      type: Object,
-      default: () => {},
-      required: false
-    },
     hasLoaded: {
       type: Boolean,
       default: false,
@@ -118,6 +113,10 @@ export default {
     }
   },
   computed: {
+    user() {
+      if (!this.$auth.user) return false
+      else return this.$auth.user
+    },
     blockExplorer() {
       if (!this.data.chain || !this.data.contractAddress) return null
       return helper.getBlockExplorerUrl(

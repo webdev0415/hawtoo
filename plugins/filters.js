@@ -37,7 +37,6 @@ const filters = {
     },
 
     capitalize(string) {
-        console.log(string);
         return string[0].toUpperCase() + string.slice(1);
     }
 };

@@ -24,7 +24,7 @@
       </section>
 
       <div class="max-w-[700px] mx-auto">
-        <ProjectLinkInBio :data="data" :user="user" :has-loaded="hasLoaded" />
+        <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
       </div>
 
       <ProjectFooter />
