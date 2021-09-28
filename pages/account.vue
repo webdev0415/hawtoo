@@ -8,7 +8,7 @@
         <div class="sm:flex sm:items-center sm:justify-between">
           <div class="sm:flex sm:space-x-5">
             <div class="flex-shrink-0 text-center md:text-left">
-              <Avatar v-if="user" :size="72" :fullname="user.user_metadata.full_name" :image="user.user_metadata.avatar_url" />
+              <Avatar v-if="user" :size="80" :fullname="user.user_metadata.full_name" :image="user.user_metadata.avatar_url" />
             </div>
             <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
               <p class="text-sm font-medium text-gray-600">Welcome back,</p>

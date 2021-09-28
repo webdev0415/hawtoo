@@ -1,15 +1,15 @@
 <template>
   <main>
-    <div v-if="filtered" class="p-3 mb-3 border border-gray-200 rounded-lg">
+    <section v-if="filtered" class="p-3 mb-3 border border-gray-200 rounded-lg">
       <div class="flex items-center">
         <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input v-model="search" class="w-full pl-2 text-gray-500 outline-none" type="text" placeholder="Поиск">
       </div>
-    </div>
-    <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-      <table class="min-w-full divide-y divide-gray-200">
+    </section>
+    <section class="overflow-auto border border-gray-200 rounded-lg">
+      <table class="w-full divide-y divide-gray-200">
         <thead :class="theadClass" class="bg-gray-100">
           <slot name="head" :data="columns">
             <AppTableRow>
@@ -42,16 +42,16 @@
           <tr v-if="computedRows.length === 0">
             <td colspan="100%">
               <div class="flex justify-center w-full px-6 py-4 text-gray-500 whitespace-nowrap">
-                We didn't find anything 😭
+                Data not found
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-    <div v-if="paginated" class="mt-3 overflow-auto">
+    </section>
+    <section v-if="paginated" class="mt-3 overflow-auto">
       <Pagination :current="$data._currentPage" :total="remote ? totalCount : filteredRows.length" :per-page="perPage" @page-changed="changePage($event)" />
-    </div>
+    </section>
   </main>
 </template>
 
