@@ -6,8 +6,14 @@ export const navigation = [
     },
     {
         name: 'Admins',
-        text: 'For Crypto Projects',
+        text: 'For Owners',
         path: '/admins'
+    },
+    {
+        name: 'Admins',
+        text: 'My Watchlist',
+        path: '/account/watchlist',
+        auth: true
     }
 ]
 
@@ -42,4 +48,10 @@ export const mobileNavigation = [
 export const userMenuNavigation = [
     { name: 'Your Profile', path: '/account' },
     { name: 'Popular', path: '/popular' }
+]
+
+export const footerNavigation = [
+    { name: 'For Investors', path: '/' },
+    { name: 'For Owners', path: '/popular' },
+    { name: 'Login', path: '/login' }
 ]

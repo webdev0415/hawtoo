@@ -16,8 +16,15 @@
 
         </div>
         <!-- description title -->
-        <p v-if="hasLoaded" class="mt-3 mb-3 text-xs font-bold text-blue-500 uppercase dark:text-gray-600">About {{ data.name }}</p>
-        <VueSkeletonLoader v-else class="mt-3 mb-3" :width="130" :height="14" />
+        <div v-if="hasLoaded" class="box-border p-0 mt-2 mb-2 text-sm leading-5 text-gray-600 border-0" style="outline: none;">
+          <div class="box-border inline-flex items-center justify-center h-4 px-1 text-xs leading-5 text-center uppercase transition duration-200 ease-in-out bg-blue-200 border border-transparent border-solid rounded-full dark:bg-gray-700 dark:text-white ">
+            {{ chainAbbrevation }}
+          </div>
+          <div class="box-border inline-flex items-center justify-center h-4 px-1 text-xs leading-5 text-center uppercase transition duration-200 ease-in-out bg-blue-200 border border-transparent border-solid rounded-full dark:bg-gray-700 dark:text-white ">
+            {{ data.type }}
+          </div>
+        </div>
+        <VueSkeletonLoader v-else class="mt-4 mb-4" :width="130" :height="14" />
 
         <!-- description -->
         <p v-if="hasLoaded" class="mb-10 text-gray-600 break-all dark:text-gray-200 min-h-8 max-h-4"> {{ data.description | strLimit(70) }} </p>
@@ -35,6 +42,8 @@
 </template>
 
 <script>
+import helper from '@/utils/projectsHelpers.js'
+
 export default {
   nmae: 'ProjectCard',
   props: {
@@ -53,6 +62,13 @@ export default {
     return {
       showRobot: false,
       avatarUrl: ''
+    }
+  },
+  computed: {
+    chainAbbrevation() {
+      if (!this.data.chain) return null
+      const chainAbbr = helper.createChainAbbrevation()
+      return chainAbbr[this.data.chain]
     }
   },
   created() {

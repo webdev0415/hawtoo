@@ -29,7 +29,7 @@
                     {{ data.name }}
                   </h1>
 
-                  <!-- <Favorite :favorited="hasFavoritedProject" class="ml-3" @favorite-change="onFavoriteChange" /> -->
+                  <FavoriteButton :id="data.id" :user-id="user.id" class="ml-3" />
                 </div>
 
                 <Alert v-if="!data.verified" rounded class="max-w-xl mx-auto mb-4 text-red-500 bg-red-100">
@@ -88,6 +88,7 @@ import helper from '@/utils/projectsHelpers.js'
 
 export default {
   name: 'ProjectLinkInBio',
+  mixins: [global],
   props: {
     data: {
       type: Object,
@@ -99,6 +100,11 @@ export default {
       default: null,
       required: false
     },
+    user: {
+      type: Object,
+      default: () => {},
+      required: false
+    },
     hasLoaded: {
       type: Boolean,
       default: false,
@@ -107,16 +113,11 @@ export default {
   },
   data() {
     return {
-      pageViewCounter: null
+      pageViewCounter: null,
+      avatarUrl: ''
     }
   },
   computed: {
-    avatarUrl() {
-      if (this.avatar && this.avatar.publicURL) {
-        return this.avatar.publicURL
-      }
-      return ''
-    },
     blockExplorer() {
       if (!this.data.chain || !this.data.contractAddress) return null
       return helper.getBlockExplorerUrl(
