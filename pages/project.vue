@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasLoaded">
+  <div>
 
     <main class="min-h-screen overflow-hidden bg-gray-100 profile-page">
       <section class="relative block -mb-64 h-80 md:h-96 bg-gray-50">
@@ -24,7 +24,7 @@
       </section>
 
       <div class="max-w-[700px] mx-auto">
-        <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
+        <ProjectLinkInBio :data="data" :user="user" :has-loaded="hasLoaded" />
       </div>
 
       <ProjectFooter />
@@ -62,7 +62,6 @@ export default {
         error({ statusCode: 500, projectError })
       }
     }
-    // https://lrtrmaovmdqddfvsukeh.supabase.in/storage/v1/object/sign/avatars/projects/dogepound-1632610656084?
 
     return {
       data: projectResp.data
@@ -86,12 +85,9 @@ export default {
     hasLoaded() {
       return this.notEmptyObject(this.data)
     },
-    hasFavoritedProject() {
-      if (this.$auth.user.id) {
-        return this.data.favorites.includes(this.$auth.user.id)
-      } else {
-        return false
-      }
+    user() {
+      if (!this.$auth.user) return false
+      else return this.$auth.user
     }
   }
 }

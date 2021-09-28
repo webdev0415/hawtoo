@@ -11,14 +11,15 @@ import {
     faChartBar,
     faCog,
     faFileContract,
-    faFile
+    faFile,
+    faBullhorn
 } from "@fortawesome/pro-light-svg-icons";
 
 // import { faBinanceIcon, faEthereumIcon } from "../assets/icons/fa";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 config.autoAddCss = false;
-library.add(faCopy, faExclamationTriangle, faArrowLeft, faArrowRight, faChartBar, faArrowDown, faCog, faFileContract, faFile);
+library.add(faCopy, faExclamationTriangle, faArrowLeft, faArrowRight, faChartBar, faArrowDown, faCog, faFileContract, faFile, faBullhorn);
 // library.add(faBinanceIcon, faEthereumIcon);
 
 Vue.component("FontAwesome", FontAwesomeIcon);

@@ -1,6 +1,6 @@
 <template>
   <nav class="bg-white border-b border-gray-200 dark:bg-black dark:border-gray-900">
-    <div class="container px-4 mx-auto sm:px-6 lg:px-8">
+    <div class="container">
       <div class="flex items-center justify-between h-20">
         <div class="flex items-center">
 
@@ -32,9 +32,14 @@
 
           <div class="hidden lg:block">
             <div class="flex items-baseline ml-10 space-x-4">
-              <NuxtLink v-for="route in navigation" :key="route.path" :to="route.path" class="px-3 py-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
-                {{ route.text }}
-              </NuxtLink>
+              <div v-for="route in navigation" :key="route.path">
+                <NuxtLink v-if="!route.auth" :to="route.path" class="px-3 py-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
+                  {{ route.text }}
+                </NuxtLink>
+                <NuxtLink v-if="route.auth && user" :to="route.path" class="px-3 py-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
+                  {{ route.text }}
+                </NuxtLink>
+              </div>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@
                     {{ data.name }}
                   </h1>
 
-                  <!-- <Favorite :favorited="hasFavoritedProject" class="ml-3" @favorite-change="onFavoriteChange" /> -->
+                  <FavoriteButton :id="data.id" :user-id="user.id" class="ml-3" />
                 </div>
 
                 <Alert v-if="!data.verified" rounded class="max-w-xl mx-auto mb-4 text-red-500 bg-red-100">
@@ -88,6 +88,7 @@ import helper from '@/utils/projectsHelpers.js'
 
 export default {
   name: 'ProjectLinkInBio',
+  mixins: [global],
   props: {
     data: {
       type: Object,
@@ -97,6 +98,11 @@ export default {
     index: {
       type: Number,
       default: null,
+      required: false
+    },
+    user: {
+      type: Object,
+      default: () => {},
       required: false
     },
     hasLoaded: {
