@@ -36,6 +36,7 @@ export default {
     name: { type: String, default: null, required: true },
     chain: { type: String, default: null, required: true },
     avatarColor: { type: String, default: null, required: true },
+    avatarName: { type: String, default: null, required: false },
     type: { type: String, default: null, required: true },
     slug: { type: String, default: null, required: true }
   },

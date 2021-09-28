@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <header class="py-8 bg-white border-b border-gray-200">
+    <header class="py-8 text-center bg-white border-b border-gray-200">
       <div class="container xl:flex xl:items-center xl:justify-between">
         <div class="flex-1 min-w-0">
           <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
@@ -13,34 +13,25 @@
     </header>
 
     <section class="bg-white">
-      <div class="container pt-12 pb-20">
+      <div class="container pt-12 max-w-[800px] pb-20 overflow-x-auto">
         <AppTable remote :columns="columns" :rows="rows" paginated :per-page="perPage" :total-count="totalCount" @page-changed="currentPage = $event">
           <template #row="props">
             <AppTableRow v-for="(row, index) in props.data" :key="index" :index="index" striped>
               <AppTableCell>
-                <div class="text-center">
-                  {{ index + 1 }}
-                </div>
-              </AppTableCell>
-
-              <AppTableCell>
-                <ProjectTitleAvatar :verified="row.verified" :name="row.name" :avatar-color="row.avatar_color" :type="row.type" :chain="row.chain" :slug="row.slug" />
-              </AppTableCell>
-
-              <AppTableCell>
-                {{ row.description | strLimit(80) }}
-              </AppTableCell>
-
-              <AppTableCell>
-                <FavoriteButton :id="row.id" :user-id="user.id" class="ml-3" />
+                <ProjectTitleAvatar :verified="row.verified" :name="row.name" :avatar-color="row.avatar_color" :avatar-nam="row.avatar_name" :type="row.type" :chain="row.chain" :slug="row.slug" />
               </AppTableCell>
 
               <AppTableCell>
                 <AppButton variant="secondary" variant-type="outline" size="tiny" :to="'/@' + row.slug">View</AppButton>
               </AppTableCell>
+
+              <AppTableCell>
+                <FavoriteButton :id="row.id" :user-id="user.id" class="ml-3" />
+              </AppTableCell>
             </AppTableRow>
           </template>
         </AppTable>
+
       </div>
     </section>
   </div>
@@ -63,24 +54,16 @@ export default {
     return {
       columns: [
         {
-          label: '',
-          field: 'count'
-        },
-        {
           label: 'Name',
           field: 'name'
         },
         {
-          label: 'Description',
-          field: 'description'
+          label: 'details',
+          field: 'details'
         },
         {
           label: 'Manage',
           field: 'manage'
-        },
-        {
-          label: 'details',
-          field: 'details'
         }
       ],
       rows: [],
