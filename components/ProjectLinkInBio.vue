@@ -107,16 +107,11 @@ export default {
   },
   data() {
     return {
-      pageViewCounter: null
+      pageViewCounter: null,
+      avatarUrl: ''
     }
   },
   computed: {
-    avatarUrl() {
-      if (this.avatar && this.avatar.publicURL) {
-        return this.avatar.publicURL
-      }
-      return ''
-    },
     blockExplorer() {
       if (!this.data.chain || !this.data.contractAddress) return null
       return helper.getBlockExplorerUrl(

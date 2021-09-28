@@ -62,6 +62,7 @@ export default {
     }
   },
   created() {
+    console.log(this.data)
     if (this.data.avatar_name) {
       this.getAvatar(this.data.avatar_name)
     }

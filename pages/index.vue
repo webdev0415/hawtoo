@@ -6,8 +6,8 @@
         <div class="pt-16 md:pt-28">
           <div class="pb-12 text-center md:pb-16">
 
-            <h1 class="max-w-4xl mx-auto mb-6 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter">
-              Keep important links from crypto projects in one place
+            <h1 class="max-w-5xl mx-auto mb-6 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter">
+              Your <span class="text-yellow-400">FREE</span> personalized dashboard to quickly access all the projects you're <span class="line-through ">aped</span> invested in.
             </h1>
 
             <div class="max-w-4xl mx-auto">
@@ -55,6 +55,7 @@ export default {
         slug,
         chain,
         type,
+        avatar_name,
         verified,
         avatar_color,
         view_count,
