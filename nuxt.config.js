@@ -96,7 +96,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // Doc: https://github.com/nuxt-community/color-mode-module
-    ["@nuxtjs/color-mode"],
+    // ["@nuxtjs/color-mode"],
     // https://go.nuxtjs.dev/pwa
     ['@nuxtjs/pwa'],
     ['vue-sweetalert2/nuxt/no-css'],

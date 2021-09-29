@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header />
+    <Header :fixed="true" />
     <nuxt />
     <Footer />
   </div>
@@ -9,10 +9,11 @@
 <script>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
+
 export default {
   components: {
-    Header,
-    Footer
+    Footer,
+    Header
   },
   data: () => ({
     authenticated: false,
@@ -21,7 +22,7 @@ export default {
   head: {
     bodyAttrs: {
       class:
-        'antialiased bg-body text-body font-body min-w-xs min-h-screen bg-white'
+        'antialiased bg-body text-body font-body min-w-xs min-h-screen  bg-white dark:bg-gray-900'
     }
   },
 

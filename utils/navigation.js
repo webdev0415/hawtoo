@@ -5,9 +5,14 @@ export const navigation = [
         path: '/'
     },
     {
-        name: 'Admins',
+        name: 'Owners',
         text: 'For Owners',
-        path: '/admins'
+        path: '/owners'
+    },
+    {
+        name: 'Newsletter',
+        text: 'Newsletter',
+        path: '/newsletter'
     },
     {
         name: 'Admins',
@@ -52,6 +57,6 @@ export const userMenuNavigation = [
 
 export const footerNavigation = [
     { name: 'For Investors', path: '/' },
-    { name: 'For Owners', path: '/popular' },
+    { name: 'For Owners', path: '/owners' },
     { name: 'Login', path: '/login' }
 ]

@@ -7,10 +7,10 @@
         @apply max-w-[1210px] mx-auto;
     }
     .btn {
-        @apply inline-flex items-center justify-center font-medium align-middle border-2 rounded-lg focus:outline-none;
+        @apply inline-flex items-center justify-center font-bold align-middle duration-200 border-2 rounded-full focus:outline-none;
     }
     .btn-primary {
-        @apply bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700
+        @apply bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
     }
     .avatar {
         @apply relative inline-flex;
@@ -119,5 +119,300 @@
     }
     h6 {
         @apply font-bold;
+    }
+}
+
+
+.stroke {
+    font-size: 30vw;
+    line-height: 1;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.15);
+    -webkit-text-fill-color: transparent;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+.stroke-light {
+    font-size: 30vw;
+    line-height: 1;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.1);
+    -webkit-text-fill-color: transparent;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+.h-39 {
+    height: 156px;
+}
+
+.w-39 {
+    width: 156px;
+}
+
+.clip-path-both {
+    clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+}
+
+.clip-path-left {
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.clip-path-right {
+    clip-path: polygon(0 0, 70% 0, 100% 100%, 0 100%);
+}
+
+.clip-path-right-top {
+    clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+}
+
+.clip-path-right-top-sm {
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+.clip-path-right-badge {
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+}
+
+.clip-path-right-wide {
+    clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
+}
+
+.clip-path-left-top {
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.clip-path-left-wide {
+    clip-path: polygon(45% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.clip-path-left-small {
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.clip-path-right-small {
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+.clip-path-triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.triangle-bottom {
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+
+@media (min-width: 640px) {
+    .sm\:clip-path-both {
+        clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .sm\:clip-path-left {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .sm\:clip-path-right {
+        clip-path: polygon(0 0, 70% 0, 100% 100%, 0 100%);
+    }
+
+    .sm\:clip-path-right-top {
+        clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .sm\:clip-path-right-top-sm {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .sm\:clip-path-right-badge {
+        clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+    }
+
+    .sm\:clip-path-right-wide {
+        clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
+    }
+
+    .sm\:clip-path-left-top {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .sm\:clip-path-left-wide {
+        clip-path: polygon(45% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .sm\:clip-path-left-small {
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .sm\:clip-path-right-small {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .sm\:clip-path-triangle {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .sm\:triangle-bottom {
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
+    }
+}
+
+@media (min-width: 768px) {
+    .md\:clip-path-both {
+        clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .md\:clip-path-left {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .md\:clip-path-right {
+        clip-path: polygon(0 0, 70% 0, 100% 100%, 0 100%);
+    }
+
+    .md\:clip-path-right-top {
+        clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .md\:clip-path-right-top-sm {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .md\:clip-path-right-badge {
+        clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+    }
+
+    .md\:clip-path-right-wide {
+        clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
+    }
+
+    .md\:clip-path-left-top {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .md\:clip-path-left-wide {
+        clip-path: polygon(45% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .md\:clip-path-left-small {
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .md\:clip-path-right-small {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .md\:clip-path-triangle {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .md\:triangle-bottom {
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\:clip-path-both {
+        clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .lg\:clip-path-left {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .lg\:clip-path-right {
+        clip-path: polygon(0 0, 70% 0, 100% 100%, 0 100%);
+    }
+
+    .lg\:clip-path-right-top {
+        clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .lg\:clip-path-right-top-sm {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .lg\:clip-path-right-badge {
+        clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+    }
+
+    .lg\:clip-path-right-wide {
+        clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
+    }
+
+    .lg\:clip-path-left-top {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .lg\:clip-path-left-wide {
+        clip-path: polygon(45% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .lg\:clip-path-left-small {
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .lg\:clip-path-right-small {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .lg\:clip-path-triangle {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .lg\:triangle-bottom {
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
+    }
+}
+
+@media (min-width: 1280px) {
+    .xl\:clip-path-both {
+        clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .xl\:clip-path-left {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .xl\:clip-path-right {
+        clip-path: polygon(0 0, 70% 0, 100% 100%, 0 100%);
+    }
+
+    .xl\:clip-path-right-top {
+        clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
+    }
+
+    .xl\:clip-path-right-top-sm {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .xl\:clip-path-right-badge {
+        clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+    }
+
+    .xl\:clip-path-right-wide {
+        clip-path: polygon(0 0, 100% 0, 55% 100%, 0% 100%);
+    }
+
+    .xl\:clip-path-left-top {
+        clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .xl\:clip-path-left-wide {
+        clip-path: polygon(45% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .xl\:clip-path-left-small {
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .xl\:clip-path-right-small {
+        clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+    }
+
+    .xl\:clip-path-triangle {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .xl\:triangle-bottom {
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
     }
 }
