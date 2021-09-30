@@ -8,6 +8,7 @@
         provident suscipit magnam facilis commodi, iure natus, ipsum
         exercitationem cupiditate quia laborum?
       </p>
+      <AppButton variant="primary" size="large" class="w-full mt-2 sm:w-auto sm:mb-0" to="/">Redirect to main page.</AppButton>
     </section>
   </main>
 </template>
@@ -17,7 +18,6 @@ export default {
   name: 'Onboarding',
   layout: 'empty',
   mounted() {
-    console.log('onboardin mount')
     this.$store.commit("setIsNewUser", false)
   }
 }
