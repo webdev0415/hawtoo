@@ -51,7 +51,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
-    "express": "^4.17.1",
+    "hash": "^4.17.1",
     "fibers": "^5.0.0",
     "incstr": "^1.2.3",
     "jest": "^27.0.5",
@@ -70,6 +70,9 @@
     "vue-jest": "^3.0.4",
     "vue-observe-visibility": "^1.0.0",
     "vue-sweetalert2": "^5.0.2",
-    "vue-toast-notification": "0.6.2"
+    "vue-toast-notification": "0.6.2",
+    "object-hash": "^2.1.1",
+    "puppeteer": "^9.1.1",
+    "cloudinary": "^1.25.1"
   }
 }
