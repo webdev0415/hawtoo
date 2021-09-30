@@ -28,7 +28,6 @@
         </div>
       </div>
     </section>
-    <button class="btn" @click="testClick">Test modal</button>
 
     <HomeTopProjects :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
   </main>
