@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'LoginProvidersButtons',
+  name: 'LoginProvidersButton',
   data() {
     return {
       providers: {
