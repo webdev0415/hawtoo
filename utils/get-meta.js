@@ -1,7 +1,8 @@
 export default function getMeta(options) {
     const { title, description } = options
     const baseUrl = process.env.BASE_URL;
-    const imageUrl = new URL(`${baseUrl}/api/open_graph`)
+    const imageUrl = new URL(`${baseUrl}/api/og`)
+
     Object.keys(options)
         .forEach((key) => {
             if (options[key]) {
