@@ -69,31 +69,32 @@ export default {
     }
   },
 
-  // fetchOnServer: false,
-  // async fetch() {
-  //   // if (!visitorService.hasVisited()) {
-  //   //   visitorService.saveVisited()
-  //   //   await this.$supabase.rpc('increment_page_view', {
-  //   //     page_slug: this.$route.params.id
-  //   //   })
-  //   // }
-  //   await axios.post('/api/increment_page_view', {
-  //     slug: this.$route.params.id
-  //   })
-  // },
+  async fetch() {
+    if (this.avatar_name) {
+      const { error, data } = await this.$supabase.storage
+        .from('avatars')
+        .getPublicUrl(this.data.avatar_name)
 
-  head: {
-    title: 'Test',
-    meta: getMeta({
-      slug: '@cyberkongz',
-      verified: true,
-      title: 'View CyberKongz Links, Stats And How To Buy',
-      authorName: 'CyberKongz',
-      authorNameBadge: 'NFT',
-      authorNameDesc: 'Lives on OpenSea',
-      authorImage:
-        'https://lh3.googleusercontent.com/LIpf9z6Ux8uxn69auBME9FCTXpXqSYFo8ZLO1GaM8T7S3hiKScHaClXe0ZdhTv5br6FE2g5i-J5SobhKFsYfe6CIMCv-UfnrlYFWOM4=s130'
-    })
+      if (!error) {
+        this.avatarUrl = data.publicURL
+      }
+    }
+  },
+
+  head() {
+    return {
+      title: `View ${this.data.name} Links, Stats And How To Buy`,
+      description: this.data.description,
+      meta: getMeta({
+        slug: `@${this.data.slug}`,
+        verified: this.data.verified,
+        title: `View ${this.data.name} Links, Stats And How To Buy`,
+        authorName: this.data.name,
+        authorNameBadge: this.data.type,
+        authorNameDesc: this.data.contractAddress,
+        authorImage: this.avatarUrl
+      })
+    }
   },
 
   computed: {

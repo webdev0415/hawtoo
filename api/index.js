@@ -1,9 +1,12 @@
+import chromium from "chrome-aws-lambda";
+import playwright from "playwright-core";
+import hash from 'object-hash'
+import { v2 as cloudinary } from 'cloudinary';
+import consola from 'consola'
 const { createClient } = require('@supabase/supabase-js')
 const axios = require('axios')
 const express = require('express')
-const hash = require('object-hash')
-const puppeteer = require('puppeteer')
-const cloudinary = require('cloudinary').v2
+
 // Express
 const app = express()
 
@@ -17,16 +20,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-
-function delay(time) {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(true), time)
-    })
-}
-
-
 // It is important that the full path is specified here
-app.post('/api/subscribe', async (req, res) => {
+app.post('/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
     const baseApiUrl = 'https://api.convertkit.com/v3';
@@ -77,7 +72,7 @@ app.post('/api/subscribe', async (req, res) => {
 
 })
 
-app.post('/api/increment_page_view', async (req, res) => {
+app.post('/increment_page_view', async (req, res) => {
     const { slug: pageSlug } = req.body
 
     await supabase.rpc('increment_page_view', { pageSlug }).then((result) => {
@@ -90,15 +85,24 @@ app.post('/api/increment_page_view', async (req, res) => {
 /**
  * Auto-generates an opengraph image.
  */
-app.post('/api/og', async (req, res) => {
+app.get('/og', async (req, res) => {
+
+    // eslint-disable-next-line no-unused-vars
+    function delay(time) {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(true), time)
+        })
+    }
+
+    // Extract the url from the query parameter `path`
     const params = {
-        slug: req.body.slug,
-        verified: req.body.verified,
-        title: req.body.title,
-        authorImage: req.body.authorImage,
-        authorName: req.body.authorName,
-        authorNameBadge: req.body.authorNameBadge,
-        authorNameDesc: req.body.authorNameDesc
+        slug: req.query.slug,
+        verified: req.query.verified,
+        title: req.query.title,
+        authorImage: req.query.authorImage,
+        authorName: req.query.authorName,
+        authorNameBadge: req.query.authorNameBadge,
+        authorNameDesc: req.query.authorNameDesc
     }
 
     // Get a unique id for our image based of its params
@@ -108,24 +112,40 @@ app.post('/api/og', async (req, res) => {
     // First check to see if its already uploaded to cloudinary
     try {
         const result = await cloudinary.api.resource(`${CLOUDINARY_FOLDER}/${imageId}`)
-        console.log('Got existing image')
+        // Got existing image
 
-        res.setHeader('Content-Type', 'text/x-uri');
-        // res.status('200').send(result.secure_url).end()
+        consola.success('Got existing image!')
+
+        res.setHeader(
+            "Cache-Control",
+            "s-maxage=31536000, max-age=31536000, stale-while-revalidate"
+        )
+        res.setHeader("Content-Type", "image/png")
+        // res.end(result.secure_url)
         res.redirect(301, result.secure_url)
 
-        return
+        return;
     } catch (e) {
         // No existing image
-        console.log('No existing image')
+
     }
 
-    // Spawn a new headless browser
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.setViewport({
-        width: 1600,
-        height: 800
+    // Start Playwright with the dynamic chrome-aws-lambda args
+    const browser = await playwright.chromium.launch({
+        args: chromium.args,
+        executablePath:
+            process.env.NODE_ENV !== "development"
+                ? await chromium.executablePath
+                : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+        headless: process.env.NODE_ENV !== "development" ? chromium.headless : true,
+    })
+
+    // Create a page with the recommended Open Graph image size
+    const page = await browser.newPage({
+        viewport: {
+            width: 1600,
+            height: 800
+        },
     })
 
     // Visit our preview page and generate the image
@@ -137,10 +157,7 @@ app.post('/api/og', async (req, res) => {
             }
         })
 
-    // console.log(url.toString())
-
     await page.goto(url.toString(), { waitUntil: 'domcontentloaded' })
-    await delay(1000)
     const imageBuffer = await page.screenshot()
     await browser.close()
 
@@ -153,10 +170,7 @@ app.post('/api/og', async (req, res) => {
         }
     )
 
-    // res.status('200').send(image.secure_url).end()
-    res.setHeader('Content-Type', 'text/x-uri');
-    // response.message(image.secure_url)
     res.redirect(301, image.secure_url);
 });
 
-module.exports = app
+module.exports = app;
