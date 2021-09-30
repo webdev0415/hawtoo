@@ -129,7 +129,10 @@ export default {
     }
   },
 
-  serverMiddleware: isServerlessEnvironment ? [] : ['~/api/index.js'],
+  serverMiddleware: isServerlessEnvironment ? [] : [
+    '~/api/index.js',
+    '~/api/opengraph.js'
+  ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
