@@ -110,6 +110,7 @@ app.post('/api/open_graph', async (req, res) => {
         const result = await cloudinary.api.resource(`${CLOUDINARY_FOLDER}/${imageId}`)
         console.log('Got existing image')
 
+        res.setHeader('Content-Type', 'text/x-uri');
         // res.status('200').send(result.secure_url).end()
         res.redirect(301, result.secure_url)
 
@@ -153,7 +154,7 @@ app.post('/api/open_graph', async (req, res) => {
     )
 
     // res.status('200').send(image.secure_url).end()
-
+    res.setHeader('Content-Type', 'text/x-uri');
     // response.message(image.secure_url)
     res.redirect(301, image.secure_url);
 });
