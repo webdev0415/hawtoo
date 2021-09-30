@@ -47,7 +47,7 @@ export default {
       $auth.user !== null &&
       $auth.user.last_sign_in_at.split('.')[0] ===
         $auth.user.email_confirmed_at.split('.')[0] &&
-      store.state.user.isNewUser
+      store.state.isNewUser === true
     ) {
       redirect('/onboarding')
     }
@@ -88,7 +88,6 @@ export default {
     return {
       allProjects: [],
       hasLoaded: false,
-      onboarding: false
     }
   },
 
