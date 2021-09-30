@@ -2,7 +2,6 @@ import chromium from "chrome-aws-lambda";
 import playwright from "playwright-core";
 import hash from 'object-hash'
 import { v2 as cloudinary } from 'cloudinary';
-import consola from 'consola'
 const { createClient } = require('@supabase/supabase-js')
 const axios = require('axios')
 const express = require('express')
