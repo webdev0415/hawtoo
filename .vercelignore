@@ -1,0 +1,11 @@
+# general
+!utils/**
+!package-lock.json
+!package.json
+
+# api
+!api/
+!api/**
+
+# packages
+!.nuxt
