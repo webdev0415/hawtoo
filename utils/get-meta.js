@@ -10,6 +10,7 @@ export default function getMeta(options) {
             }
         })
 
+    console.log('OpenGraph image: ' + imageUrl.toString());
     return [
         {
             hid: 'description',

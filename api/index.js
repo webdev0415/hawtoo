@@ -125,8 +125,7 @@ app.get('/og', async (req, res) => {
 
         return;
     } catch (e) {
-        // No existing image
-
+        console.log(e);
     }
 
     // Start Playwright with the dynamic chrome-aws-lambda args
@@ -157,6 +156,7 @@ app.get('/og', async (req, res) => {
         })
 
     await page.goto(url.toString(), { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(500)
     const imageBuffer = await page.screenshot()
     await browser.close()
 

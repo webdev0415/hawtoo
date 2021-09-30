@@ -48,6 +48,7 @@ export default {
   colorMode: 'light',
   async asyncData({ $supabase, params, error }) {
     const pageSlug = params.id
+    let avatarResp = ''
 
     const projectResp = await $supabase
       .from('projects')
@@ -64,20 +65,15 @@ export default {
       }
     }
 
-    return {
-      data: projectResp.data
-    }
-  },
-
-  async fetch() {
-    if (this.avatar_name) {
-      const { error, data } = await this.$supabase.storage
+    if (projectResp.data.avatar_name) {
+      avatarResp = await $supabase.storage
         .from('avatars')
-        .getPublicUrl(this.data.avatar_name)
+        .getPublicUrl(projectResp.data.avatar_name)
+    }
 
-      if (!error) {
-        this.avatarUrl = data.publicURL
-      }
+    return {
+      data: projectResp.data,
+      avatarUrl: avatarResp.data.publicURL
     }
   },
 
@@ -90,7 +86,7 @@ export default {
         verified: this.data.verified,
         title: `View ${this.data.name} Links, Stats And How To Buy`,
         authorName: this.data.name,
-        authorNameBadge: this.data.type,
+        authorNameBadge: this.data.type.toUpperCase(),
         authorNameDesc: this.data.contractAddress,
         authorImage: this.avatarUrl
       })
