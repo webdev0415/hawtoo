@@ -109,8 +109,8 @@ export default {
       prefix: 'auth_'
     },
     redirect: {
-      login: '/login',
-      logout: '/login',
+      login: '/connect',
+      logout: '/connect',
       callback: false,
       home: '/'
     },

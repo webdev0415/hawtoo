@@ -46,7 +46,7 @@ export const mobileNavigation = [
     {
         name: 'Login',
         text: 'Login',
-        path: '/login'
+        path: '/connect'
     }
 ]
 
@@ -58,5 +58,5 @@ export const userMenuNavigation = [
 export const footerNavigation = [
     { name: 'For Investors', path: '/' },
     { name: 'For Owners', path: '/owners' },
-    { name: 'Login', path: '/login' }
+    { name: 'Login', path: '/connect' }
 ]

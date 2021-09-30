@@ -12,8 +12,8 @@
               Aped 🦍 in on a lot of projects? Having trouble keeping track? We gotchu.
               Keep info about your investments in one single place. Best of all? it's free
             </p>
-            <AppButton variant="primary" size="large" class="w-full mb-2 sm:w-auto sm:mb-0" to="/login">Create account</AppButton>
-            <AppButton variant="outline" size="large" class="w-full mb-2 sm:w-auto sm:mb-0" to="/login">Explore projects</AppButton>
+            <AppButton variant="primary" size="large" class="w-full mb-2 sm:w-auto sm:mb-0" to="/connect">Create account</AppButton>
+            <AppButton variant="outline" size="large" class="w-full mb-2 sm:w-auto sm:mb-0" to="/connect">Explore projects</AppButton>
           </div>
         </div>
       </div>
@@ -28,6 +28,7 @@
         </div>
       </div>
     </section>
+    <button class="btn" @click="testClick">Test modal</button>
 
     <HomeTopProjects :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
   </main>

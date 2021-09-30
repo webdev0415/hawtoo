@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <nuxt />
+    <Nuxt />
+    <LoginModal :modal-data="$store.state.loginModal" />
   </div>
 </template>
 

@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <Header />
-    <nuxt />
+    <Nuxt />
+    <LoginModal :modal-data="$store.state.loginModal" />
     <Footer />
   </div>
 </template>

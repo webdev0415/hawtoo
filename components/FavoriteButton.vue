@@ -125,8 +125,10 @@ export default {
 
     promptLogin() {
       // TODO: Import global sign up component with Quasar. With a prop that can trigger.
-      this.$router.push({
-        path: '/login'
+      this.$store.dispatch('SET_LOGIN_MODAL', {
+        open: true,
+        title: 'Connect your account',
+        description: 'In order to watchlist you need to connect your account'
       })
     }
   }
