@@ -3,11 +3,18 @@ export const strict = false;
 
 export const state = () => ({
     fixedHeader: false,
+    isNewUser: true,
     setFeaturedProjects: [],
     loginModal: {
         open: false,
         title: '',
         description: ''
+    }
+});
+
+export const getters = () => ({
+    isNewUser: (state) => {
+        return state.isNewUser
     }
 });
 
@@ -21,6 +28,9 @@ export const mutations = {
     setFeaturedProjects(state, data) {
         state.featuredProjects = state.featuredProjects.concat(data);
     },
+    setIsNewUser(state, flag) {
+        state.isNewUser = flag
+    }
 };
 
 export const actions = {
