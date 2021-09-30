@@ -46,7 +46,7 @@ export default {
   },
 
   env: {
-    BASEURL: process.env.BASE_URL || 'http://localhost:3000',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
     TITLE: process.env.TITLE,
     SUPABASE_PUBLIC_KEY: process.env.SUPABASE_PUBLIC_KEY,
     SUPABASE_PUBLIC_URL: process.env.SUPABASE_PUBLIC_URL
