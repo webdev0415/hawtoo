@@ -100,7 +100,7 @@ export default {
   },
 
   async asyncData({ $supabase, $config, error, $content, $auth }) {
-    // await $auth.fetchUser()
+    await $auth.fetchUser()
     const popularResp = await $supabase
       .from('projects')
       .select('*')
