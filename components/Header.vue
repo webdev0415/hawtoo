@@ -1,6 +1,6 @@
 <template>
-  <nav class="bg-white border-b border-gray-200 dark:bg-black dark:border-gray-900">
-    <div class="container">
+  <nav :class="[navClass]" :style="fixed && !view.atTopOfPage ? 'background : white' : fixed ? 'background : transparent' : '' ">
+    <div class="container ">
       <div class="flex items-center justify-between h-20">
         <div class="flex items-center">
 
@@ -46,14 +46,14 @@
 
         <div class="hidden lg:block">
           <div class="flex items-center ml-4 md:ml-6">
-            <div class="relative ml-3">
+            <!-- <div class="relative ml-3">
               <MiscSettingsMenu />
-            </div>
+            </div> -->
 
             <!-- buttons -->
             <div v-if="!user" class="flex items-center">
-              <AppButton variant="secondary" variant-type="outline" size="small" class="ml-2 desktop-primary-button" to="/login">Login</AppButton>
-              <AppButton variant="primary" size="small" class="ml-4 desktop-primary-button" to="/account/submit-project">Submit project</AppButton>
+              <NuxtLink class="font-bold border-b border-gray-200" to="/submit-project">Submit a project</NuxtLink>
+              <AppButton variant="primary" size="small" class="ml-8 desktop-primary-button" to="/connect">Sign up free</AppButton>
             </div>
 
             <!-- Profile dropdown -->
@@ -138,9 +138,9 @@
         </div>
       </div>
 
-      <div class="container pt-4 pb-3 mx-auto border-t border-gray-200 dark:border-gray-700">
+      <!-- <div class="container pt-4 pb-3 mx-auto border-t border-gray-200 dark:border-gray-700">
         <DarkModeToggle class="px-5" />
-      </div>
+      </div> -->
     </div>
   </nav>
 </template>
@@ -154,6 +154,9 @@ import {
 
 export default {
   name: 'Header',
+  props: {
+    fixed: { type: Boolean, default: false }
+  },
   data() {
     return {
       mobileMenuOpen: false,
@@ -161,7 +164,11 @@ export default {
       navigation,
       mobileNavigation,
       userMenuNavigation,
-      sponsor: false
+      sponsor: false,
+      isOpen: false,
+      view: {
+        atTopOfPage: true
+      }
     }
   },
   computed: {
@@ -178,6 +185,12 @@ export default {
       if (!this.$auth.user.user_metadata.avatar_url) return ''
 
       return this.$auth.user.user_metadata.avatar_url
+    },
+    navClass() {
+      return {
+        'bg-white': true,
+        'fixed z-50 w-full': this.fixed === true
+      }
     }
   },
   watch: {
@@ -185,9 +198,31 @@ export default {
       this.mobileMenuOpen = false
     }
   },
+  beforeMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  mounted() {
+    console.log('navbar is ' + this.fixed)
+  },
   methods: {
     async logout() {
       await this.$auth.logout()
+    },
+    handleScroll() {
+      // when the user scrolls, check the pageYOffset
+      if (window.pageYOffset > 0) {
+        // user is scrolled
+        if (this.view.atTopOfPage) {
+          this.view.atTopOfPage = false
+        }
+      } else {
+        // user is at top of page
+        // eslint-disable-next-line no-lonely-if
+        if (!this.view.atTopOfPage) {
+          this.view.atTopOfPage = true
+        }
+      }
+      // console.log(this.view.atTopOfPage)
     }
   }
 }

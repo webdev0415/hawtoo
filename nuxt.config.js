@@ -46,7 +46,7 @@ export default {
   },
 
   env: {
-    BASEURL: process.env.BASE_URL || 'http://localhost:3000',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
     TITLE: process.env.TITLE,
     SUPABASE_PUBLIC_KEY: process.env.SUPABASE_PUBLIC_KEY,
     SUPABASE_PUBLIC_URL: process.env.SUPABASE_PUBLIC_URL
@@ -96,7 +96,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // Doc: https://github.com/nuxt-community/color-mode-module
-    ["@nuxtjs/color-mode"],
+    // ["@nuxtjs/color-mode"],
     // https://go.nuxtjs.dev/pwa
     ['@nuxtjs/pwa'],
     ['vue-sweetalert2/nuxt/no-css'],
@@ -109,10 +109,10 @@ export default {
       prefix: 'auth_'
     },
     redirect: {
-      login: '/login',
-      logout: '/login',
+      login: false,
+      logout: '/connect',
       callback: false,
-      home: '/'
+      home: false
     },
     strategies: {
       hawtoo: { scheme: '~/schemes/supabaseScheme' },

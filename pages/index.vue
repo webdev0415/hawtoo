@@ -1,28 +1,27 @@
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
 
-    <section class="relative">
-      <div class="max-w-6xl px-4 mx-auto sm:px-6">
-        <div class="pt-16 md:pt-28">
-          <div class="pb-12 text-center md:pb-16">
-
-            <h1 class="max-w-5xl mx-auto mb-6 text-4xl font-extrabold tracking-tighter dark:text-white md:text-5xl lg:text-6xl leading-tighter">
-              Your <span class="text-yellow-400">FREE</span> personalized dashboard to quickly access all the projects you're <span class="line-through ">aped</span> invested in.
-            </h1>
-
-            <div class="max-w-4xl mx-auto">
-              <p class="mb-8 text-2xl text-gray-600 dark:text-gray-100 md:text-2xl">
-                <span class="block">Aped 🦍 in on a lot of projects? Having trouble keeping track? We gotchu.</span>
-                <span class="block">Keep info about your investments in one single place. Best of all? it's free</span>
-              </p>
-              <div class="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-                <AppButton variant="primary" class="w-full mb-2 sm:w-auto sm:mb-0" to="/login">Create a free account</AppButton>
-              </div>
-            </div>
+    <section class="relative pt-32 overflow-hidden pb-36 bg-gray-50">
+      <div class="container">
+        <div class="max-w-5xl mx-auto text-center">
+          <h2 class="my-10 text-4xl text-gradient lg:text-6xl font-heading">
+            Save important information from projects you <span class="line-through">aped</span> invested in, in one simple dashboard.
+          </h2>
+          <div class="max-w-4xl mx-auto">
+            <p class="mb-12 text-2xl text-gray-200">
+              Aped 🦍 in on a lot of projects? Having trouble keeping track? We gotchu.
+              Keep info about your investments in one single place. Best of all? it's free
+            </p>
+            <AppButton variant="primary" size="large" class="w-full mb-2 sm:w-auto sm:mb-0" to="/connect">Create account</AppButton>
+            <AppButton variant="outline" size="large" class="w-full mb-2 sm:w-auto sm:mb-0" to="/connect">Explore projects</AppButton>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div v-if="notEmptyObject(popularProjects)" class="grid items-start max-w-sm gap-6 mx-auto mb-20 md:grid-cols-2 lg:grid-cols-3 md:max-w-2xl lg:max-w-none">
+    <section class="relative -mt-24">
+      <div class="container">
+        <div v-if="notEmptyObject(popularProjects)" class="grid items-start max-w-sm gap-6 mx-auto md:grid-cols-2 lg:grid-cols-3 md:max-w-2xl lg:max-w-none">
           <div v-for="project in popularProjects" :key="project.id">
             <ProjectCard :data="project" :has-loaded="true" />
           </div>
@@ -30,7 +29,7 @@
       </div>
     </section>
 
-    <HomeTopProjects class="bg-gray-100 dark:bg-gray-900" :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
+    <HomeTopProjects :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
   </main>
 </template>
 
@@ -40,6 +39,7 @@ import global from '@/mixins/global'
 export default {
   name: 'Home',
   mixins: [global],
+  layout: 'fixednavbar',
   async asyncData({ $supabase, $config, error, $content }) {
     const popularResp = await $supabase
       .from('projects')
@@ -78,6 +78,7 @@ export default {
   },
 
   mounted() {
+    this.$store.dispatch('SET_FIXED_HEADER', true)
     // eslint-disable-next-line no-console
     console.log(this.$auth.user)
     console.log(`✨ Thanks for visiting ${process.env.TITLE}`)
@@ -86,6 +87,16 @@ export default {
 </script>
 
 <style lang="scss">
+// .text-gradient {
+//   background: linear-gradient(
+//     94.23deg,
+//     #5374fa 12.41%,
+//     #fd9179 52.55%,
+//     #ff6969 89.95%
+//   );
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+// }
 .emoji-ape {
   -webkit-animation: moversmall 1.25s infinite alternate !important;
   animation: moverSmall 1.25s infinite alternate !important;

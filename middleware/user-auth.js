@@ -1,13 +1,15 @@
-export default async function ({ $auth, redirect }) {
-    const user = await $auth.loggedIn
-    console.log('Is user logged in?');
-    console.log(user);
-    // eslint-disable-next-line no-unused-vars
-    // const userCookie = await app.$cookies.get('auth._token.local')
-    if (user) {
-        // let the user see the page
-    } else {
-        // redirect to homepage
-        redirect('/')
+export default async function ({ $auth, route, redirect }) {
+    const isLoggedIn = await $auth.loggedIn
+
+    if (!isLoggedIn) {
+        /**
+         * If the user visited a page that requires authentication.
+         * This will pass a query string redirect URL that we can pick up
+         * on the login form which will be passed to Supabase.
+         */
+        if (route.path !== '/connect') {
+            const REDIRECT_URL = '/connect?redirect=' + route.path
+            redirect(REDIRECT_URL)
+        }
     }
 }

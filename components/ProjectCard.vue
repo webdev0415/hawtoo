@@ -3,7 +3,7 @@
     <div class="relative h-full ml-0 transform hover:scale-105 hover:-rotate-1" @mouseover="showRobot = true" @mouseleave="showRobot = false">
       <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-blue-500 rounded-lg" :style="{'background-color': data.avatar_color }"></span>
 
-      <div class="relative h-full p-5 transform bg-white border-2 border-blue-500 rounded-lg dark:bg-gray-900" :style="{'border-color': data.avatar_color }">
+      <div class="relative h-full p-5 transform bg-white border-2 border-blue-500 rounded-lg dark:bg-gray-800" :style="{'border-color': data.avatar_color }">
         <img v-if="showRobot && hasLoaded" src="~/assets/images/hawtoo-icon.svg" class="robot" />
         <div class="flex items-center -mt-1">
 

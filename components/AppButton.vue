@@ -37,10 +37,6 @@ export default {
       type: String,
       default: 'normal'
     },
-    rounded: {
-      type: String,
-      default: ''
-    },
     href: {
       type: String,
       default: ''
@@ -69,12 +65,10 @@ export default {
         'cursor-not-allowed': this.disableButton === true,
         'btn base-button': true,
 
-        'rounded-xl': this.rounded === 'medium',
-        'rounded-full': this.rounded === 'large',
-
-        'px-6 py-3': this.size === 'normal',
-        'px-4 py-2': this.size === 'small',
-        'px-2 py-1 text-xs': this.size === 'tiny'
+        'px-12 py-5': this.size === 'large',
+        'px-8 py-3': this.size === 'normal',
+        'px-6 py-2': this.size === 'small',
+        'px-4 py-1 text-xs': this.size === 'tiny'
       }
     },
 
@@ -91,10 +85,10 @@ export default {
                 default:
                   break
               }
-              return 'border-blue-600 bg-blue-600 hover:bg-blue-700 hover:border-blue-700 text-white'
+              return 'bg-blue-500 hover:bg-blue-600 text-white'
 
             case 'outline':
-              return 'border-gray-200 text-blue-500 hover:text-blue-700'
+              return 'border-gray-200 hover:border-gray-200 text-gray-500'
 
             default:
               break
