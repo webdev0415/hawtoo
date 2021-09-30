@@ -109,10 +109,10 @@ export default {
       prefix: 'auth_'
     },
     redirect: {
-      login: '/connect',
+      login: false,
       logout: '/connect',
       callback: false,
-      home: '/'
+      home: false
     },
     strategies: {
       hawtoo: { scheme: '~/schemes/supabaseScheme' },
