@@ -95,7 +95,6 @@ export default {
   middleware({ redirect, $auth, store }) {
     // check if user is new
     if ($auth.user !== null && $auth.user.last_sign_in_at.split('.')[0] === $auth.user.email_confirmed_at.split('.')[0] && store.state.user.isNewUser) {
-      console.log('onboarding')
       redirect('/onboarding')
     }
   },
