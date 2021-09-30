@@ -58,6 +58,7 @@
 export default {
   name: 'Login',
   layout: 'empty',
+  middleware: 'user-guest',
   data() {
     return {
       showModal: false,
