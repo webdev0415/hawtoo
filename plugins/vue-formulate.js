@@ -71,7 +71,7 @@ export default ({ app, store }) => {
 
                 switch (context.type) {
                     case "submit":
-                        return "btn bg-black text-white px-6 py-3";
+                        return "btn bg-blue-500 hover:bg-blue-600 border-blue-500 rounded-lg text-white px-8 py-3";
                     case "checkbox":
                         return "hawtoo-checkbox";
                     case "radio":

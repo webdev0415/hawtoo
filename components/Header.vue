@@ -53,7 +53,7 @@
             <!-- buttons -->
             <div v-if="!user" class="flex items-center">
               <NuxtLink class="font-bold border-b border-gray-200" to="/submit-project">Submit a project</NuxtLink>
-              <AppButton variant="primary" size="small" class="ml-8 desktop-primary-button" to="/login">Sign up free</AppButton>
+              <AppButton variant="primary" size="small" class="ml-8 desktop-primary-button" to="/connect">Sign up free</AppButton>
             </div>
 
             <!-- Profile dropdown -->

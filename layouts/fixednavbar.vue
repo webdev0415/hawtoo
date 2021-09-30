@@ -2,6 +2,7 @@
   <div id="app">
     <Header :fixed="true" />
     <nuxt />
+    <LoginModal :modal-data="$store.state.loginModal" />
     <Footer />
   </div>
 </template>
