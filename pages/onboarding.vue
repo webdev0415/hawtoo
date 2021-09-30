@@ -14,7 +14,11 @@
 
 <script>
 export default {
-  name: 'onboarding',
-  layout: 'empty'
+  name: 'Onboarding',
+  layout: 'empty',
+  mounted() {
+    console.log('onboardin mount')
+    this.$store.commit("setIsNewUser", false)
+  }
 }
 </script>

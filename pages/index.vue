@@ -92,14 +92,16 @@ export default {
   name: 'Home',
   mixins: [global],
 
-  middleware({ redirect, $auth }) {
+  middleware({ redirect, $auth, store }) {
     // check if user is new
-    if ($auth.user && !$auth.user.last_sign_in_at) {
+    if ($auth.user !== null && $auth.user.last_sign_in_at.split('.')[0] === $auth.user.email_confirmed_at.split('.')[0] && store.state.user.isNewUser) {
+      console.log('onboarding')
       redirect('/onboarding')
     }
   },
 
-  async asyncData({ $supabase, $config, error, $content }) {
+  async asyncData({ $supabase, $config, error, $content, $auth }) {
+    // await $auth.fetchUser()
     const popularResp = await $supabase
       .from('projects')
       .select('*')
@@ -133,12 +135,13 @@ export default {
     return {
       allProjects: [],
       hasLoaded: false,
+      onboarding: false
     }
   },
 
   mounted() {
     // eslint-disable-next-line no-console
-    console.log(this.$auth.user)
+    console.log("$auth.user--->", this.$auth.user)
     console.log(`✨ Thanks for visiting ${process.env.TITLE}`)
   },
 }
