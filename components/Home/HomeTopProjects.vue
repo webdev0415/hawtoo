@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <section class="">
     <div class="container">
-      <div class="py-12 md:py-20">
+      <div class="pt-12 pb-24">
         <div class="pb-8 text-center lg:text-left">
           <h2 class="dark:text-white h2">Hot projects 🔥</h2>
         </div>

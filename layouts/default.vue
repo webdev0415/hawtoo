@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <Header />
-    <nuxt />
+    <Nuxt />
+    <LoginModal :modal-data="$store.state.loginModal" />
     <Footer />
   </div>
 </template>
@@ -21,7 +22,7 @@ export default {
   head: {
     bodyAttrs: {
       class:
-        'tracking-semitight min-w-xs min-h-screen antialiased bg-white dark:bg-black'
+        'antialiased bg-body text-body font-body min-w-xs min-h-screen bg-white'
     }
   },
 
