@@ -40,7 +40,20 @@ export default {
   name: 'Home',
   mixins: [global],
   layout: 'fixednavbar',
-  async asyncData({ $supabase, $config, error, $content }) {
+  middleware({ redirect, $auth, store }) {
+    // check if user is new
+    if (
+      $auth.user !== null &&
+      $auth.user.last_sign_in_at.split('.')[0] ===
+        $auth.user.email_confirmed_at.split('.')[0] &&
+      store.state.user.isNewUser
+    ) {
+      redirect('/onboarding')
+    }
+  },
+
+  async asyncData({ $supabase, $config, error, $content, $auth }) {
+    await $auth.fetchUser()
     const popularResp = await $supabase
       .from('projects')
       .select('*')
@@ -73,7 +86,8 @@ export default {
   data() {
     return {
       allProjects: [],
-      hasLoaded: false
+      hasLoaded: false,
+      onboarding: false
     }
   },
 
