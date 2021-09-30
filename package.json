@@ -10,7 +10,7 @@
     "clean-modules": "rm -rf node_modules && rm -rf package-lock.json"
   },
   "name": "hawtoo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
