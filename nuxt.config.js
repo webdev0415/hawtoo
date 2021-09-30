@@ -46,7 +46,7 @@ export default {
   },
 
   env: {
-    BASEURL: process.env.BASE_URL || 'http://localhost:3000',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
     TITLE: process.env.TITLE,
     SUPABASE_PUBLIC_KEY: process.env.SUPABASE_PUBLIC_KEY,
     SUPABASE_PUBLIC_URL: process.env.SUPABASE_PUBLIC_URL
@@ -109,10 +109,10 @@ export default {
       prefix: 'auth_'
     },
     redirect: {
-      login: '/connect',
+      login: false,
       logout: '/connect',
       callback: false,
-      home: '/'
+      home: false
     },
     strategies: {
       hawtoo: { scheme: '~/schemes/supabaseScheme' },
@@ -129,7 +129,10 @@ export default {
     }
   },
 
-  serverMiddleware: isServerlessEnvironment ? [] : ['~/api/index.js'],
+  serverMiddleware: isServerlessEnvironment ? [] : [
+    '~/api/index.js',
+    '~/api/opengraph.js'
+  ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

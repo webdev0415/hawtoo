@@ -5,10 +5,6 @@
     },
     "builds": [
         {
-            "src": "api/**/*.js",
-            "use": "@vercel/node"
-        },
-        {
             "src": "nuxt.config.js",
             "use": "@nuxtjs/vercel-builder",
             "config": {
@@ -20,6 +16,12 @@
             }
         }
     ],
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api"
+        }
+    ],
     "routes": [
         {
             "src": "/api/subscribe",
@@ -27,6 +29,10 @@
         },
         {
             "src": "/api/increment_page_view",
+            "dest": "/api/index.js"
+        },
+        {
+            "src": "/api/opengraph",
             "dest": "/api/index.js"
         },
         {

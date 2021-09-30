@@ -28,7 +28,6 @@
         </div>
       </div>
     </section>
-    <button class="btn" @click="testClick">Test modal</button>
 
     <HomeTopProjects :has-loaded="notEmptyObject(topProjects)" :projects="topProjects" />
   </main>
@@ -81,7 +80,6 @@ export default {
   mounted() {
     this.$store.dispatch('SET_FIXED_HEADER', true)
     // eslint-disable-next-line no-console
-    console.log(this.$auth.user)
     console.log(`✨ Thanks for visiting ${process.env.TITLE}`)
   }
 }
