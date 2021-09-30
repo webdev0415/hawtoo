@@ -16,12 +16,6 @@
             }
         }
     ],
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/api"
-        }
-    ],
     "routes": [
         {
             "src": "/api/subscribe",
