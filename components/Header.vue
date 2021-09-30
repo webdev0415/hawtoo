@@ -206,6 +206,7 @@ export default {
   },
   methods: {
     async logout() {
+      this.$store.commit("setIsNewUser", true)
       await this.$auth.logout()
     },
     handleScroll() {
