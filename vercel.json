@@ -3,11 +3,6 @@
     "github": {
         "enabled": true
     },
-    "functions": {
-        "api/**": {
-            "memory": 1024
-        }
-    },
     "builds": [
         {
             "src": "nuxt.config.js",
@@ -22,6 +17,18 @@
         }
     ],
     "routes": [
+        {
+            "src": "/api/subscribe",
+            "dest": "/api/index.js"
+        },
+        {
+            "src": "/api/increment_page_view",
+            "dest": "/api/index.js"
+        },
+        {
+            "src": "/api/og",
+            "dest": "/api/index.js"
+        },
         {
             "src": "/sw.js",
             "continue": true,

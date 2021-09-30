@@ -1,16 +1,9 @@
 /* eslint-disable no-console */
-
-// import getLocalIdent from './getLocalIdent'
-require('dotenv').config()
-
 const path = require('path');
 require('dotenv').config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`) });
 
-// console.log("Path to ENV: " + path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`));
-
 const isDev = process.env.NODE_ENV !== "production";
 const isServerlessEnvironment = !!process.env.NOW_REGION
-
 const SITE_TITLE = 'HawToo'
 const SITE_DESCRIPTION = '# Helping Humans Safely Enter The Digital World of Crypto';
 
@@ -129,7 +122,7 @@ export default {
     }
   },
 
-  // serverMiddleware: isServerlessEnvironment ? [] : ['~/api/index.js'],
+  serverMiddleware: isServerlessEnvironment ? [] : ['~/api/index.js'],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -176,21 +169,5 @@ export default {
       }
     },
     extractCSS: !isDev,
-    // extend(config) {
-    //   const cssLoader = config.module.rules.find((rule) => {
-    //     return rule.test.toString() === '/\\.css$/i'
-    //   })
-    //   cssLoader.oneOf = cssLoader.oneOf.map((loader) => {
-    //     loader.use = loader.use.map((item) => {
-    //       if (item.options.modules) {
-    //         if (process.env.NODE_ENV === 'production') {
-    //           item.options.modules.getLocalIdent = getLocalIdent
-    //         }
-    //       }
-    //       return item
-    //     })
-    //     return loader
-    //   })
-    // },
   },
 }
