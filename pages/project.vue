@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import getMeta from '~/utils/get-meta'
 import global from '@/mixins/global'
 
 // import visitorService from '@/utils/visitorService'
@@ -68,16 +69,30 @@ export default {
     }
   },
 
-  fetchOnServer: false,
-  async fetch() {
-    // if (!visitorService.hasVisited()) {
-    //   visitorService.saveVisited()
-    //   await this.$supabase.rpc('increment_page_view', {
-    //     page_slug: this.$route.params.id
-    //   })
-    // }
-    await axios.post('/api/increment_page_view', {
-      slug: this.$route.params.id
+  // fetchOnServer: false,
+  // async fetch() {
+  //   // if (!visitorService.hasVisited()) {
+  //   //   visitorService.saveVisited()
+  //   //   await this.$supabase.rpc('increment_page_view', {
+  //   //     page_slug: this.$route.params.id
+  //   //   })
+  //   // }
+  //   await axios.post('/api/increment_page_view', {
+  //     slug: this.$route.params.id
+  //   })
+  // },
+
+  head: {
+    title: 'Test',
+    meta: getMeta({
+      slug: '@cyberkongz',
+      verified: true,
+      title: 'View CyberKongz Links, Stats And How To Buy',
+      authorName: 'CyberKongz',
+      authorNameBadge: 'NFT',
+      authorNameDesc: 'Lives on OpenSea',
+      authorImage:
+        'https://lh3.googleusercontent.com/LIpf9z6Ux8uxn69auBME9FCTXpXqSYFo8ZLO1GaM8T7S3hiKScHaClXe0ZdhTv5br6FE2g5i-J5SobhKFsYfe6CIMCv-UfnrlYFWOM4=s130'
     })
   },
 

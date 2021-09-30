@@ -30,6 +30,10 @@
             "dest": "/api/index.js"
         },
         {
+            "src": "/api/opengraph",
+            "dest": "/api/opengraph.js"
+        },
+        {
             "src": "/sw.js",
             "continue": true,
             "headers": {
