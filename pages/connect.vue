@@ -48,7 +48,7 @@
           <path d="M15.5 11.5l4.512 3.992a3 3 0 003.976 0L28.5 11.5" stroke="#9CA3AF" stroke-width="1.5"></path>
           <path d="M9 11v4M9 19v.01" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
-        <p class="flex-auto max-w-lg ml-3 text-sm text-gray-500 dark:text-gray-400"><strong class="font-semibol">Don’t see it yet?</strong> It might be in your spam folder (ugh). Still nothing? <NuxtLink to="/connect" class="font-medium underline text-neutral">Try to re-enter your address.</NuxtLink>.</p>
+        <p class="flex-auto max-w-lg ml-3 text-sm text-gray-500 dark:text-gray-400"><strong class="font-semibol">Don’t see it yet?</strong> It might be in your spam folder (ugh). Still nothing? <span class="font-medium underline cursor-pointer text-neutral" @click="reloadPage">Try to re-enter your address.</span>.</p>
       </footer>
     </div>
   </div>
@@ -67,6 +67,9 @@ export default {
   methods: {
     showMyModal() {
       this.showModal = true
+    },
+    reloadPage() {
+      window.location.reload()
     }
   }
 }
