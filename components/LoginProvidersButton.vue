@@ -41,8 +41,11 @@ export default {
   },
   methods: {
     async handleLoginWithProvider(type) {
+      const redirectSlug = this.$route.query.redirect || '/account'
+      const redirectURL = process.env.BASE_URL + redirectSlug
+
       await this.$auth
-        .login({ provider: type })
+        .login({ provider: type }, { redirectTo: redirectURL })
         .then(() => {
           this.isProcessing = type
         })
