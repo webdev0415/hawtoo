@@ -30,7 +30,6 @@ app.post('/subscribe', async (req, res) => {
         email: emailAddress
     };
 
-
     let disposableEmail = false;
 
     consola.info(`Received ${emailAddress}`)
@@ -48,7 +47,7 @@ app.post('/subscribe', async (req, res) => {
             }).end()
         }
     }).catch((err) => {
-        consola.error(err);
+        // consola.error(err);
         res.status(err.status).send(err.detail).end()
     });
 
@@ -68,7 +67,7 @@ app.post('/subscribe', async (req, res) => {
             }).end()
 
         }).catch((err) => {
-            consola.error(err);
+            // consola.error(err);
             res.status(err.status).send({
                 message: {
                     type: 'error',
