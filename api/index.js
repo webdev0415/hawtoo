@@ -1,14 +1,14 @@
 import consola from "consola";
 import hash from 'object-hash'
 import { v2 as cloudinary } from 'cloudinary';
-const { createClient } = require('@supabase/supabase-js')
-const axios = require('axios')
-const express = require('express')
+import { createClient } from '@supabase/supabase-js'
+import { post, get } from 'axios';
+import express from 'express';
 
 // Express
 const app = express()
 
-app.use(express.json())
+app.use(express.json());
 
 const supabase = createClient(process.env.SUPABASE_PUBLIC_URL, process.env.SUPABASE_SERVICE_KEY);
 
@@ -33,7 +33,7 @@ app.post('/subscribe', async (req, res) => {
 
     let disposableEmail = false;
 
-    await axios.get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
+    await get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
         disposableEmail = result.data.disposable;
 
         if (result.data.disposable) {
@@ -49,7 +49,7 @@ app.post('/subscribe', async (req, res) => {
     });
 
     if (!disposableEmail) {
-        await axios.post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
+        await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
             res.status(result.status).send({
                 email: result.data.subscription.subscriber.email_address,
                 message: {
@@ -139,7 +139,7 @@ app.get('/og', async (req, res) => {
     let imageBuffer;
     const screenshotApiKey = process.env.SCREENSHOT_API_KEY;
 
-    await axios.get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&url=${url.toString()}`).then((result) => {
+    await get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&url=${url.toString()}`).then((result) => {
         imageBuffer = result.data;
     }).catch((err) => {
         res.status(err.status).send(err.data).end()
