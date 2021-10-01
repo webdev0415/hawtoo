@@ -14,11 +14,26 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   name: 'Onboarding',
   layout: 'empty',
-  mounted() {
-    this.$store.commit("setIsNewUser", false)
+  async mounted() {
+    const authState = this.$auth.$state
+    if (
+      authState.loggedIn &&
+      authState.user !== null &&
+      authState.user.last_sign_in_at.split('.')[0] ===
+        authState.user.email_confirmed_at.split('.')[0] &&
+      this.$store.state.isNewUser === true
+    ) {
+      await axios.post('/api/subscribe', {
+        email: authState.user.email
+      })
+      this.$store.commit("setIsNewUser", false)
+    }
+    
   }
 }
 </script>

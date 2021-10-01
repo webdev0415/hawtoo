@@ -23,8 +23,8 @@ app.post('/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
     const baseApiUrl = 'https://api.convertkit.com/v3';
-    const formId = '2634622';
-
+    // const formId = '2634622';
+    const formId = '2647747'
     const params = {
         api_key: process.env.CONVERTKIT_API_KEY,
         api_secret: process.env.CONVERTKIT_API_SECRET,
@@ -35,7 +35,7 @@ app.post('/subscribe', async (req, res) => {
 
     await get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
         disposableEmail = result.data.disposable;
-
+        console.log("result", result)
         if (result.data.disposable) {
             res.status(result.status).send({
                 message: {
