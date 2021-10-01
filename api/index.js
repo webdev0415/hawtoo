@@ -139,10 +139,15 @@ app.get('/og', async (req, res) => {
     let imageBuffer;
     const screenshotApiKey = process.env.SCREENSHOT_API_KEY;
 
-    await get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&delay=1500&url=${url.toString()}`).then((result) => {
+    // encodeURIComponent is important here because the url passed contains query strings too.
+    await get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&delay=1500&url=${encodeURIComponent(url.toString())}`).then((result) => {
         imageBuffer = result.data;
     }).catch((err) => {
-        res.status(err.status).send(err.data).end()
+        res.status(400).json({
+            "success": false,
+            "error": "Error getting screenshot!",
+            "dev": err,
+        }).end();
     });
 
     // Upload to cloudinary
