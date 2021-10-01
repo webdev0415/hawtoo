@@ -23,7 +23,6 @@ app.post('/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
     const baseApiUrl = 'https://api.convertkit.com/v3';
-    // const formId = '2634622';
     const formId = '2647747'
     const params = {
         api_key: process.env.CONVERTKIT_API_KEY,
@@ -31,12 +30,16 @@ app.post('/subscribe', async (req, res) => {
         email: emailAddress
     };
 
+
     let disposableEmail = false;
+
+    consola.info(`Received ${emailAddress}`)
 
     await get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
         disposableEmail = result.data.disposable;
-        console.log("result", result)
+
         if (result.data.disposable) {
+            consola.info(`${emailAddress} is a disposable email. Stop subscribing`);
             res.status(result.status).send({
                 message: {
                     type: 'error',
@@ -45,11 +48,17 @@ app.post('/subscribe', async (req, res) => {
             }).end()
         }
     }).catch((err) => {
+        consola.error(err);
         res.status(err.status).send(err.detail).end()
     });
 
     if (!disposableEmail) {
+        consola.info(`${emailAddress} looks legit. Subscribing to ConvertKit.`)
+
         await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
+
+            consola.success(`${emailAddress} got subscribed`)
+
             res.status(result.status).send({
                 email: result.data.subscription.subscriber.email_address,
                 message: {
@@ -59,6 +68,7 @@ app.post('/subscribe', async (req, res) => {
             }).end()
 
         }).catch((err) => {
+            consola.error(err);
             res.status(err.status).send({
                 message: {
                     type: 'error',
