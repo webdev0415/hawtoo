@@ -27,11 +27,11 @@ function delay(time) {
 
 // It is important that the full path is specified here
 app.post('/api/subscribe', async (req, res) => {
-
+    console.log('email', req.body.email)
     const { email: emailAddress } = req.body
     const baseApiUrl = 'https://api.convertkit.com/v3';
-    const formId = '2634622';
-
+    // const formId = '2634622';
+    const formId = '2647747'
     const params = {
         api_key: process.env.CONVERTKIT_API_KEY,
         api_secret: process.env.CONVERTKIT_API_SECRET,
@@ -42,7 +42,7 @@ app.post('/api/subscribe', async (req, res) => {
 
     await axios.get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
         disposableEmail = result.data.disposable;
-
+        console.log("result", result)
         if (result.data.disposable) {
             res.status(result.status).send({
                 message: {

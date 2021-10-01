@@ -34,6 +34,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 import global from '@/mixins/global'
 
 export default {
