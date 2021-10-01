@@ -57,9 +57,9 @@
             </div>
 
             <!-- Profile dropdown -->
-            <div class="relative ml-3">
+            <div class="relative ml-3" v-click-outside="() => userMenuOpen = false">
               <div v-if="user">
-                <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
+                <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen" >
                   <span class="sr-only">Open user menu</span>
                   <Avatar :size="36" :fullname="displayName" :image="avatarUrl" />
                 </button>
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 import {
   navigation,
   mobileNavigation,
@@ -156,6 +157,9 @@ export default {
   name: 'Header',
   props: {
     fixed: { type: Boolean, default: false }
+  },
+  directives: {
+    clickOutside: vClickOutside.directive
   },
   data() {
     return {
