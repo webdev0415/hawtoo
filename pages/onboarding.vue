@@ -1,7 +1,7 @@
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
-    <section class="max-w-6xl px-4 mx-auto sm:px-6 pt-8 sm:pt-14 ">
-      <h1 class="dark:text-white mb-5">Onboarding - You are new user.</h1>
+    <section class="max-w-6xl px-4 pt-8 mx-auto sm:px-6 sm:pt-14 ">
+      <h1 class="mb-5 dark:text-white">Onboarding - You are new user.</h1>
       <p class="dark:text-white">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore tenetur
         odit repellendus repudiandae? Cum fuga, consequatur eius assumenda
@@ -14,11 +14,25 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Onboarding',
   layout: 'empty',
-  mounted() {
-    this.$store.commit("setIsNewUser", false)
+  async mounted() {
+    const authState = this.$auth.$state
+    if (
+      authState.loggedIn &&
+      authState.user !== null &&
+      authState.user.last_sign_in_at.split('.')[0] ===
+        authState.user.email_confirmed_at.split('.')[0] &&
+      this.$store.state.isNewUser === true
+    ) {
+      await axios.post('/api/subscribe', {
+        email: authState.user.email
+      })
+      this.$store.commit('setIsNewUser', false)
+    }
   }
 }
 </script>

@@ -12,7 +12,7 @@
           </h2>
 
           <div class="flex items-center mt-14">
-            <div v-if="$route.query.authorImage" class="mr-6">
+            <div class="mr-6">
               <avatar :size="100" :size-badge="32" :verified="isVerified" :fullname="$route.query.authorName" :image="$route.query.authorImage" />
             </div>
 

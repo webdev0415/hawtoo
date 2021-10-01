@@ -1,13 +1,14 @@
-const { createClient } = require('@supabase/supabase-js')
-const axios = require('axios')
-const express = require('express')
-const hash = require('object-hash')
-const puppeteer = require('puppeteer')
-const cloudinary = require('cloudinary').v2
+import consola from "consola";
+import hash from 'object-hash'
+import { v2 as cloudinary } from 'cloudinary';
+import { createClient } from '@supabase/supabase-js'
+import { post, get } from 'axios';
+import express from 'express';
+
 // Express
 const app = express()
 
-app.use(express.json())
+app.use(express.json());
 
 const supabase = createClient(process.env.SUPABASE_PUBLIC_URL, process.env.SUPABASE_SERVICE_KEY);
 
@@ -17,33 +18,28 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-
-function delay(time) {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(true), time)
-    })
-}
-
-
 // It is important that the full path is specified here
-app.post('/api/subscribe', async (req, res) => {
+app.post('/subscribe', async (req, res) => {
 
     const { email: emailAddress } = req.body
     const baseApiUrl = 'https://api.convertkit.com/v3';
-    const formId = '2634622';
-
+    const formId = '2647747'
     const params = {
         api_key: process.env.CONVERTKIT_API_KEY,
         api_secret: process.env.CONVERTKIT_API_SECRET,
         email: emailAddress
     };
 
+
     let disposableEmail = false;
 
-    await axios.get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
+    consola.info(`Received ${emailAddress}`)
+
+    await get(`https://open.kickbox.com/v1/disposable/${emailAddress}`).then((result) => {
         disposableEmail = result.data.disposable;
 
         if (result.data.disposable) {
+            consola.info(`${emailAddress} is a disposable email. Stop subscribing`);
             res.status(result.status).send({
                 message: {
                     type: 'error',
@@ -52,11 +48,17 @@ app.post('/api/subscribe', async (req, res) => {
             }).end()
         }
     }).catch((err) => {
+        consola.error(err);
         res.status(err.status).send(err.detail).end()
     });
 
     if (!disposableEmail) {
-        await axios.post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
+        consola.info(`${emailAddress} looks legit. Subscribing to ConvertKit.`)
+
+        await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
+
+            consola.success(`${emailAddress} got subscribed`)
+
             res.status(result.status).send({
                 email: result.data.subscription.subscriber.email_address,
                 message: {
@@ -66,6 +68,7 @@ app.post('/api/subscribe', async (req, res) => {
             }).end()
 
         }).catch((err) => {
+            consola.error(err);
             res.status(err.status).send({
                 message: {
                     type: 'error',
@@ -77,7 +80,7 @@ app.post('/api/subscribe', async (req, res) => {
 
 })
 
-app.post('/api/increment_page_view', async (req, res) => {
+app.post('/increment_page_view', async (req, res) => {
     const { slug: pageSlug } = req.body
 
     await supabase.rpc('increment_page_view', { pageSlug }).then((result) => {
@@ -90,15 +93,24 @@ app.post('/api/increment_page_view', async (req, res) => {
 /**
  * Auto-generates an opengraph image.
  */
-app.post('/api/og', async (req, res) => {
+app.get('/og', async (req, res) => {
+
+    // eslint-disable-next-line no-unused-vars
+    function delay(time) {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(true), time)
+        })
+    }
+
+    // Extract the url from the query parameter `path`
     const params = {
-        slug: req.body.slug,
-        verified: req.body.verified,
-        title: req.body.title,
-        authorImage: req.body.authorImage,
-        authorName: req.body.authorName,
-        authorNameBadge: req.body.authorNameBadge,
-        authorNameDesc: req.body.authorNameDesc
+        slug: req.query.slug,
+        verified: req.query.verified,
+        title: req.query.title,
+        authorImage: req.query.authorImage,
+        authorName: req.query.authorName,
+        authorNameBadge: req.query.authorNameBadge,
+        authorNameDesc: req.query.authorNameDesc
     }
 
     // Get a unique id for our image based of its params
@@ -108,28 +120,25 @@ app.post('/api/og', async (req, res) => {
     // First check to see if its already uploaded to cloudinary
     try {
         const result = await cloudinary.api.resource(`${CLOUDINARY_FOLDER}/${imageId}`)
-        console.log('Got existing image')
+        // Got existing image
 
-        res.setHeader('Content-Type', 'text/x-uri');
-        // res.status('200').send(result.secure_url).end()
+        consola.success('Got existing image!')
+
+        res.setHeader(
+            "Cache-Control",
+            "s-maxage=31536000, max-age=31536000, stale-while-revalidate"
+        )
+        res.setHeader("Content-Type", "image/png")
+        // res.end(result.secure_url)
         res.redirect(301, result.secure_url)
 
-        return
+        return;
     } catch (e) {
-        // No existing image
-        console.log('No existing image')
+        console.log(e);
     }
 
-    // Spawn a new headless browser
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.setViewport({
-        width: 1600,
-        height: 800
-    })
-
     // Visit our preview page and generate the image
-    const url = new URL(`${process.env.BASE_URL}/open-graph/`)
+    const url = new URL(`${'https://hawtoo.com'}/open-graph/`)
     Object.keys(params)
         .forEach((key) => {
             if (params[key]) {
@@ -137,26 +146,24 @@ app.post('/api/og', async (req, res) => {
             }
         })
 
-    // console.log(url.toString())
+    let imageBuffer;
+    const screenshotApiKey = process.env.SCREENSHOT_API_KEY;
 
-    await page.goto(url.toString(), { waitUntil: 'domcontentloaded' })
-    await delay(1000)
-    const imageBuffer = await page.screenshot()
-    await browser.close()
+    // encodeURIComponent is important here because the url passed contains query strings too.
+    await get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&delay=1500&url=${encodeURIComponent(url.toString())}`).then((result) => {
+        imageBuffer = result.data;
+    }).catch((err) => {
+        res.status(400).json({
+            "success": false,
+            "error": "Error getting screenshot!",
+            "dev": err,
+        }).end();
+    });
 
     // Upload to cloudinary
-    const image = await cloudinary.uploader.upload(
-        `data:image/png;base64,${imageBuffer.toString('base64')}`,
-        {
-            public_id: imageId,
-            folder: CLOUDINARY_FOLDER
-        }
-    )
+    const image = await cloudinary.uploader.upload(imageBuffer, { public_id: imageId, folder: CLOUDINARY_FOLDER })
 
-    // res.status('200').send(image.secure_url).end()
-    res.setHeader('Content-Type', 'text/x-uri');
-    // response.message(image.secure_url)
     res.redirect(301, image.secure_url);
 });
 
-module.exports = app
+module.exports = app;
