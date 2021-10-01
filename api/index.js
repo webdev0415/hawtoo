@@ -1,5 +1,4 @@
-import chromium from "chrome-aws-lambda";
-import playwright from "playwright-core";
+import consola from "consola";
 import hash from 'object-hash'
 import { v2 as cloudinary } from 'cloudinary';
 const { createClient } = require('@supabase/supabase-js')
@@ -128,26 +127,8 @@ app.get('/og', async (req, res) => {
         console.log(e);
     }
 
-    // Start Playwright with the dynamic chrome-aws-lambda args
-    const browser = await playwright.chromium.launch({
-        args: chromium.args,
-        executablePath:
-            process.env.NODE_ENV !== "development"
-                ? await chromium.executablePath
-                : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-        headless: process.env.NODE_ENV !== "development" ? chromium.headless : true,
-    })
-
-    // Create a page with the recommended Open Graph image size
-    const page = await browser.newPage({
-        viewport: {
-            width: 1600,
-            height: 800
-        },
-    })
-
     // Visit our preview page and generate the image
-    const url = new URL(`${process.env.BASE_URL}/open-graph/`)
+    const url = new URL(`${'https://hawtoo.com'}/open-graph/`)
     Object.keys(params)
         .forEach((key) => {
             if (params[key]) {
@@ -155,19 +136,17 @@ app.get('/og', async (req, res) => {
             }
         })
 
-    await page.goto(url.toString(), { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(500)
-    const imageBuffer = await page.screenshot()
-    await browser.close()
+    let imageBuffer;
+    const screenshotApiKey = process.env.SCREENSHOT_API_KEY;
+
+    await axios.get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&url=${url.toString()}`).then((result) => {
+        imageBuffer = result.data;
+    }).catch((err) => {
+        res.status(err.status).send(err.data).end()
+    });
 
     // Upload to cloudinary
-    const image = await cloudinary.uploader.upload(
-        `data:image/png;base64,${imageBuffer.toString('base64')}`,
-        {
-            public_id: imageId,
-            folder: CLOUDINARY_FOLDER
-        }
-    )
+    const image = await cloudinary.uploader.upload(imageBuffer, { public_id: imageId, folder: CLOUDINARY_FOLDER })
 
     res.redirect(301, image.secure_url);
 });
