@@ -139,7 +139,7 @@ app.get('/og', async (req, res) => {
     let imageBuffer;
     const screenshotApiKey = process.env.SCREENSHOT_API_KEY;
 
-    await get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&url=${url.toString()}`).then((result) => {
+    await get(`https://screenshots-multiplehats.vercel.app/api?key=${screenshotApiKey}&delay=1500&url=${url.toString()}`).then((result) => {
         imageBuffer = result.data;
     }).catch((err) => {
         res.status(err.status).send(err.data).end()
