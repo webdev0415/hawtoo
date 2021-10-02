@@ -1,6 +1,19 @@
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
-    Explore!
+
+    <ExploreFeatured v-if="featuredProjects" :has-loaded="notEmptyObject(featuredProjects)" :data="featuredProjects" :cols="2" />
+
+    <section class="pt-6 pb-8">
+      <div class="container">
+        <div class="mb-4">
+          <h2 class="mb-6">NFT's</h2>
+        </div>
+        <ProjectCardGrid title="Test" :has-loaded="notEmptyObject(gamingProjects)" :data="gamingProjects" />
+      </div>
+    </section>
+
+    <ExploreEmailForm v-if="!$auth.loggedIn" :css="emailFormOptions" />
+
   </main>
 </template>
 
@@ -8,9 +21,15 @@
 <script>
 // import axios from 'axios'
 import global from '@/mixins/global'
+import ExploreEmailForm from '@/components/Explore/ExploreEmailForm.vue'
+import ProjectCardGrid from '~/components/ProjectCardGrid.vue'
 
 export default {
   name: 'Home',
+  components: {
+    ExploreEmailForm,
+    ProjectCardGrid
+  },
   mixins: [global],
   middleware({ redirect, $auth, store }) {
     /**
@@ -29,38 +48,38 @@ export default {
   },
   async asyncData({ $supabase, $config, error, $content, $auth }) {
     await $auth.fetchUser()
-    const popularResp = await $supabase
+
+    const featuredgProjectsResp = await $supabase
       .from('projects')
       .select('*')
       .eq('verified', true)
-      .limit(3)
+      .eq('featured', true)
+      .limit(2)
 
-    const topProjectsResp = await $supabase
+    const nftGamingProjectsResp = await $supabase
       .from('projects')
-      .select(
-        `id,
-        name,
-        slug,
-        chain,
-        type,
-        avatar_name,
-        verified,
-        avatar_color,
-        view_count,
-        published_at`
-      )
-      .order('view_count', { ascending: false })
-      .limit(12)
+      .select('*')
+      .eq('verified', true)
+      .limit(6)
 
     return {
-      popularProjects: popularResp.data,
-      topProjects: topProjectsResp.data
+      featuredProjects: featuredgProjectsResp.data,
+      gamingProjects: nftGamingProjectsResp.data
     }
   },
   data() {
     return {
       allProjects: [],
-      hasLoaded: false
+      hasLoaded: false,
+      emailFormOptions: {
+        wrapper: 'bg-violet-50',
+        heading: '',
+        subheading: '',
+        button: {
+          btnBackground: 'bg-gray-700',
+          btnText: 'text-white'
+        }
+      }
     }
   }
 }

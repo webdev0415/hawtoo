@@ -22,14 +22,14 @@
     "@nuxtjs/vercel-builder": "^0.22.0",
     "@supabase/supabase-js": "^1.23.0",
     "cloudinary": "^1.27.0",
+    "dotenv": "^10.0.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "nuxt": "2.15.8",
     "object-hash": "^2.1.1",
     "vue-sweetalert2": "^5.0.2",
     "vuex": "^3.6.2",
-    "vuex-persistedstate": "4.1.0",
-    "dotenv": "^10.0.0"
+    "vuex-persistedstate": "4.1.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",

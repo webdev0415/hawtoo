@@ -21,8 +21,7 @@ export default {
   }),
   head: {
     bodyAttrs: {
-      class:
-        'antialiased bg-body text-body font-body min-w-xs min-h-screen bg-white'
+      class: 'antialiased bg-body text-body font-body min-w-xs min-h-screen'
     }
   },
 

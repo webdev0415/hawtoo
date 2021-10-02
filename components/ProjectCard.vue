@@ -9,7 +9,7 @@
 
           <!-- avatar -->
           <avatar v-if="hasLoaded" :size="48" :size-badge="20" :verified="data.verified" :fullname="data.name" :color="data.avatar_color" :image="avatarUrl" />
-          <VueSkeletonLoader v-else type="circle" :width="48" :height="48" />
+          <VueSkeletonLoader v-else class="skeleton-avatar" :width="48" :height="48" />
           <!-- title -->
           <a v-if="hasLoaded" class="ml-3 text-lg font-bold text-gray-800 dark:text-white">{{ data.name }}</a>
           <VueSkeletonLoader v-else class="ml-3" :width="150" :height="20" />
@@ -96,5 +96,8 @@ export default {
   z-index: -1;
   width: 50px;
   transform: rotate(-22deg);
+}
+.skeleton-avatar {
+  border-radius: 300px !important;
 }
 </style>

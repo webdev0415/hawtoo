@@ -7,7 +7,8 @@
           <!-- heading -->
           <h2 class="mb-4 text-3xl md:text-4xl md:mb-10 text-gradient lg:text-6xl font-heading">
             <span class="block text-violet-500"><span class="text-violet-500">Discover & Bookmark </span>
-              <typical class="typing" :steps="['NFT', 2000, 'Crypto', 4000]" :wrapper="'span'" :loop="Infinity"></typical>
+              <span class="inline-block md:hidden">NFT & Crypto</span>
+              <typical class="hidden md:inline-block typing" :steps="['NFT', 2000, 'Crypto', 4000]" :wrapper="'span'" :loop="Infinity"></typical>
             </span>
             <span class="block">projects all in one place.</span>
           </h2>
@@ -29,21 +30,21 @@
       <div class="max-w-[400px] sm:max-w-full md:max-w-[1200px] mx-auto px-4 mb-40">
         <div class="flex flex-col items-center justify-between font-sans leading-5 text-gray-800 opacity-100 sm:flex-row">
           <div class="w-full text-center sm:mt-0">
-            <div class="box-border mb-2 text-sm font-semibold leading-4 tracking-wide md:text-base">
+            <div class="box-border mb-2 text-base font-semibold leading-4 tracking-wide">
               💥 Discover Crypto Projects
             </div>
             <img src="~/assets/images/home/discover-projects.svg" alt="" class="inline-block w-full align-middle" />
           </div>
           <img src="~/assets/images/arrow-drawn-right.svg" alt="" class="hidden w-16 h-16 max-w-full leading-5 align-middle border-0 sm:inline-block" />
           <div class="w-full mt-4 text-center sm:mt-0">
-            <div class="box-border mb-2 text-sm font-semibold leading-4 tracking-wide md:text-base">
+            <div class="box-border mb-2 text-base font-semibold leading-4 tracking-wide">
               👀 Bookmark your investments
             </div>
             <img src="~/assets/images/home/bookmark-projects.svg" alt="" class="inline-block w-full align-middle" />
           </div>
           <img src="~/assets/images/arrow-drawn-right.svg" alt="" class="hidden w-16 h-16 max-w-full leading-5 align-middle border-0 sm:inline-block" />
           <div class="w-full mt-4 text-center sm:mt-0">
-            <div class="box-border mb-2 text-sm font-semibold leading-4 tracking-wide md:text-base">
+            <div class="box-border mb-2 text-base font-semibold leading-4 tracking-wide">
               🎉 Your investments at your fingertips
             </div>
             <img src="~/assets/images/home/my-watchlist.svg" alt="" class="inline-block w-full align-middle" />
