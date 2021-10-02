@@ -1,5 +1,5 @@
 <template>
-  <nav :class="[navClass]" :style="fixed && !view.atTopOfPage ? 'background : white' : fixed ? 'background : transparent' : '' ">
+  <nav :class="[navClass, fixed && !view.atTopOfPage ? 'shadow' : '', !fixed ? 'shadow' : '']" :style="fixed && !view.atTopOfPage ? 'background:white;' : fixed ? 'background : transparent' : '' ">
     <div class="container ">
       <div class="flex items-center justify-between h-20">
         <div class="flex items-center">
@@ -30,7 +30,7 @@
             </a>
           </p>
 
-          <div class="hidden lg:block">
+          <div v-if="!hideNav" class="hidden lg:block">
             <div class="flex items-baseline ml-10 space-x-4">
               <div v-for="route in navigation" :key="route.path">
                 <NuxtLink v-if="!route.auth" :to="route.path" class="px-3 py-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
@@ -155,7 +155,8 @@ import {
 export default {
   name: 'Header',
   props: {
-    fixed: { type: Boolean, default: false }
+    fixed: { type: Boolean, default: false },
+    hideNav: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -206,7 +207,7 @@ export default {
   },
   methods: {
     async logout() {
-      this.$store.commit("setIsNewUser", true)
+      this.$store.commit('setIsNewUser', true)
       await this.$auth.logout()
     },
     handleScroll() {

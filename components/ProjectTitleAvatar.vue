@@ -14,10 +14,10 @@
         </span>
       </NuxtLink>
       <span class="box-border p-0 m-0 text-sm leading-5 text-gray-600 border-0" style="outline: none;">
-        <div class="box-border inline-flex items-center justify-center h-4 px-1 text-xs leading-5 text-center uppercase transition duration-200 ease-in-out bg-blue-200 border border-transparent border-solid rounded-full dark:bg-gray-700 dark:text-white ">
+        <div class="box-border inline-flex items-center justify-center h-4 px-1 text-xs leading-5 text-center uppercase transition duration-200 ease-in-out bg-gray-200 border border-transparent border-solid rounded-full ">
           {{ chainAbbrevation }}
         </div>
-        <div class="box-border inline-flex items-center justify-center h-4 px-1 text-xs leading-5 text-center uppercase transition duration-200 ease-in-out bg-blue-200 border border-transparent border-solid rounded-full dark:bg-gray-700 dark:text-white ">
+        <div class="box-border inline-flex items-center justify-center h-4 px-1 text-xs leading-5 text-center uppercase transition duration-200 ease-in-out bg-gray-200 border border-transparent border-solid rounded-full ">
           {{ type }}
         </div>
       </span>

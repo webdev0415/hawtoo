@@ -1,19 +1,20 @@
 <template>
   <div id="app">
-    <Header />
-    <Nuxt />
+    <HeaderMinimal :fixed="true" :hide-nav="true" />
+    <nuxt />
     <LoginModal :modal-data="$store.state.loginModal" />
     <Footer />
   </div>
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
+import HeaderMinimal from '~/components/HeaderMinimal.vue'
 import Footer from '~/components/Footer.vue'
+
 export default {
   components: {
-    Header,
-    Footer
+    Footer,
+    HeaderMinimal
   },
   data: () => ({
     authenticated: false,
@@ -21,7 +22,8 @@ export default {
   }),
   head: {
     bodyAttrs: {
-      class: 'antialiased bg-body text-body font-body min-w-xs min-h-screen'
+      class:
+        'antialiased bg-body text-body font-body min-w-xs min-h-screen  bg-white dark:bg-gray-900'
     }
   },
 

@@ -28,7 +28,7 @@ export default {
   },
 
   publicRuntimeConfig: {
-    paginate: 50,
+    paginate: 5,
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
     supabase: {
       // url: process.env.BASE_URL || 'http://localhost:3000', //
@@ -36,6 +36,18 @@ export default {
       anonKey:
         process.env.NUXT_ENV_PUBLIC_SUPABASE_KEY || process.env.SUPABASE_KEY,
     },
+    tagNames: [
+      'metaverse',
+      'gaming',
+      'gambling',
+      'collection',
+      'fund',
+      'porn',
+      'defi'
+    ],
+    homepageTagNames: [
+      15, // 'soulection-radio'
+    ],
   },
 
   env: {
@@ -74,7 +86,7 @@ export default {
     // Doc: https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // Doc: https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
+    '@nuxtjs/tailwindcss'
   ],
 
   tailwindcss: {

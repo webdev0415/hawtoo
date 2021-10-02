@@ -5,7 +5,6 @@
         <NuxtLink to="/">
           <Logo class="h-auto mx-auto" />
         </NuxtLink>
-        {{ error }}
       </div>
       <div class="py-16">
         <div class="text-center">

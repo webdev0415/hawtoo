@@ -10,6 +10,11 @@ export const navigation = [
         path: '/owners'
     },
     {
+        name: 'All Projects',
+        text: 'Projects',
+        path: '/projects'
+    },
+    {
         name: 'Newsletter',
         text: 'Newsletter',
         path: '/newsletter'
