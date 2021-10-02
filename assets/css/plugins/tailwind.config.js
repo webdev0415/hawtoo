@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 
 module.exports = {
     darkMode: "class",
@@ -45,6 +47,7 @@ module.exports = {
 
             black: '#000',
             white: '#fff',
+            red: colors.rose,
 
             blueGray: {
                 50: '#F8FAFC',
@@ -195,7 +198,7 @@ module.exports = {
         },
         backgroundColor: theme => ({
             ...theme('colors'),
-            body: '#FFFFFF',
+            body: '#f7f7f7',
         }),
         backgroundImage: {
             none: 'none',
