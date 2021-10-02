@@ -4,9 +4,13 @@
       <h1 class="flex-1 text-4xl">
         {{ title }}
       </h1>
-      <nav class="relative flex flex-row w-full xl:w-auto site-sub-nav__menu">
-        <slot></slot>
-      </nav>
+      <div class="relative flex flex-row w-full xl:w-auto site-sub-nav__menu">
+        <div class="flex-1 overflow-x-auto ">
+          <nav class="relative flex flex-row w-full xl:w-auto">
+            <slot></slot>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </template>

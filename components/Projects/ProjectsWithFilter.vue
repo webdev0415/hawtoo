@@ -8,7 +8,12 @@
   </div>
 </template>
 <script>
+import ProjectsList from '@/components/Projects/ProjectsList.vue'
+
 export default {
+  components: {
+    ProjectsList
+  },
   props: {
     totalCount: {
       type: Number,
@@ -36,9 +41,9 @@ export default {
       const tag = this.$route.params.tag
       if (tag) {
         if (this.count <= 1) {
-          return `Browse ${this.count} ${this.$route.params.tag} project`
+          return `Browse ${this.count} "${this.$route.params.tag}" project`
         } else {
-          return `Browse ${this.count} ${this.$route.params.tag} projects`
+          return `Browse ${this.count} "${this.$route.params.tag}" projects`
         }
       }
       return `Browse all projects`

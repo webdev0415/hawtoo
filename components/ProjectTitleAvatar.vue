@@ -3,7 +3,7 @@
 
     <div class="box-border flex flex-col items-stretch flex-shrink-0 w-12 h-12 max-w-full p-0 m-0 border-0 border-black border-solid">
       <NuxtLink :to="'/@' + slug" class="box-border p-0 m-0 text-blue-600 no-underline bg-transparent border-0" style="outline: none;">
-        <avatar :verified="verified" :fullname="name" :color="avatarColor" :image="avatarUrl" />
+        <Avatar :verified="verified" :fullname="name" :color="avatarColor" :image="avatarUrl" />
       </NuxtLink>
     </div>
 
@@ -28,9 +28,13 @@
 
 <script>
 import helper from '@/utils/projectsHelpers.js'
+import Avatar from '@/components/Avatar'
 
 export default {
   nmae: 'ProjectCardMini',
+  components: {
+    Avatar
+  },
   props: {
     verified: { type: Boolean, default: false, required: true },
     name: { type: String, default: null, required: true },
@@ -54,15 +58,15 @@ export default {
     }
   },
   created() {
-    if (this.avatar_name) {
-      this.getAvatar(this.avatar_name)
+    if (this.avatarName) {
+      this.getAvatar(this.avatarName)
     }
   },
   methods: {
-    async getAvatar() {
+    async getAvatar(file) {
       const avatarUrlResp = await this.$supabase.storage
         .from('avatars')
-        .getPublicUrl(this.avatar_name)
+        .getPublicUrl(file)
 
       this.avatarUrl = avatarUrlResp.data.publicURL
     }

@@ -10,8 +10,14 @@
 
 <script>
 import useFilteredProjects from '~/utils/useFilteredProjects'
+import ProjectsSubNav from '@/components/Projects/ProjectsSubNav'
+import ProjectsWithFilter from '@/components/Projects/ProjectsWithFilter'
 
 export default {
+  components: {
+    ProjectsSubNav,
+    ProjectsWithFilter
+  },
   async asyncData({ $supabase, $config, error }) {
     const {
       error: err,

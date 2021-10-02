@@ -9,10 +9,12 @@
 
 <script>
 import AppSubNav from '@/components/Site/SubNav/AppSubNav.vue'
+import AppSubNavLink from '@/components/Site/SubNav/AppSubNavLink.js'
 
 export default {
   components: {
-    AppSubNav
+    AppSubNav,
+    AppSubNavLink
   },
   props: {
     tags: {
