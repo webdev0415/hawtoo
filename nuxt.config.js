@@ -38,8 +38,12 @@ export default {
     },
     tagNames: [
       'metaverse',
-      'meme',
       'gaming',
+      'gambling',
+      'collection',
+      'fund',
+      'porn',
+      'defi'
     ],
     homepageTagNames: [
       15, // 'soulection-radio'
