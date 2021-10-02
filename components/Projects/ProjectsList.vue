@@ -1,15 +1,17 @@
 <template>
   <div>
-    <ProjectListItem v-for="project in projects" :key="project.id" :episode="project" />
+    <ProjectListItem v-for="project in projects" :key="project.id" :project="project" />
     <StaticPagination class="mt-5" :path="path" :total="count" :per-page="$config.paginate" />
   </div>
 </template>
 <script>
 import StaticPagination from '@/components/Site/StaticPagination.vue'
+import ProjectListItem from '@/components/Projects/ProjectListItem.vue'
 
 export default {
   components: {
-    StaticPagination
+    StaticPagination,
+    ProjectListItem
   },
   props: {
     projects: {

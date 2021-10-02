@@ -18,7 +18,7 @@
           <template #row="props">
             <AppTableRow v-for="(row, index) in props.data" :key="index" :index="index" striped>
               <AppTableCell>
-                <ProjectTitleAvatar :verified="row.verified" :name="row.name" :avatar-color="row.avatar_color" :avatar-nam="row.avatar_name" :type="row.type" :chain="row.chain" :slug="row.slug" />
+                <ProjectTitleAvatar :verified="row.verified" :name="row.name" :avatar-color="row.avatar_color" :avatar-name="row.avatar_name" :type="row.type" :chain="row.chain" :slug="row.slug" />
               </AppTableCell>
 
               <AppTableCell>
