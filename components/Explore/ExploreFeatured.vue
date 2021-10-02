@@ -4,7 +4,7 @@
       <div class="mb-4">
         <h2 class="mb-6">Explore</h2>
       </div>
-      <div class="relative px-6 pt-16 pb-20 overflow-hidden bg-gray-600 lg:px-24 rounded-3xl">
+      <div class="relative px-6 pt-16 pb-20 overflow-hidden bg-gray-900 lg:px-24 rounded-3xl">
         <img class="absolute top-0 left-0" src="~/assets/images/lines/blue-half-circle.svg" alt="">
         <img class="absolute top-0 right-0 hidden mt-6 mr-12 lg:block" src="~/assets/images/zospace/stars.svg" alt="">
         <img class="absolute top-0 right-0 hidden lg:block w-96 h-96 -mt-14 -mr-14" src="~/assets/images/lines/circle.svg" alt="">
