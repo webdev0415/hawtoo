@@ -101,7 +101,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .form-control {
   margin-bottom: 0 !important;
 }

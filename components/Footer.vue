@@ -3,7 +3,7 @@
     <div class="container">
       <div class="flex flex-col flex-wrap py-5 md:items-center md:flex-row">
 
-        <NuxtLink to="/" class="flex items-center text-lg font-bold text-gray-600 flex-no-shrink">
+        <NuxtLink to="/" class="flex items-center justify-center mb-3 text-lg font-bold text-gray-600 md:mb-0 flex-no-shrink">
           <Logo width="120px" />
           <span class="text-xl font-bold sr-only">HawToo</span>
         </NuxtLink>
@@ -14,6 +14,9 @@
               {{ route.name }}
             </NuxtLink>
           </div>
+          <span class="px-4 py-1 mr-1 text-base transition duration-500 ease-in-out transform rounded-md text-blueGray-500 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-black hover:bg-blueGray-900" @click="login">
+            Login
+          </span>
         </nav>
 
         <span class="inline-flex justify-center mt-2 mr-2 sm:ml-auto sm:mt-0 sm:justify-start">
@@ -61,6 +64,16 @@ export default {
   computed: {
     currentYear() {
       return new Date().getFullYear()
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch('SET_LOGIN_MODAL', {
+        open: true,
+        title: 'Log in or sign up',
+        description: '',
+        referrer: this.$route.path
+      })
     }
   }
 }

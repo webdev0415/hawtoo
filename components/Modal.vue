@@ -1,9 +1,9 @@
 <template>
   <Transition name="fade">
     <div v-if="showing" class="fixed inset-0 z-50 flex items-center justify-center w-full h-screen bg-modal" :class="customCSS.background" @click.self="closeIfShown">
-      <div class="relative flex w-full max-w-2xl max-h-screen p-6 m-2 bg-white rounded-lg shadow-lg sm:p-8" :class="customCSS.modal">
+      <div class="relative flex w-full max-h-screen p-6 m-2 bg-white rounded-lg shadow-lg sm:p-8" :class="customCSS.modal">
         <button v-if="showClose" aria-label="close" class="absolute top-0 right-0 mx-4 my-2 text-xl text-gray-500" :class="customCSS.close" @click.prevent="close">
-          ×
+          <img src="~/assets/images/icons/close.svg" alt="Close">
         </button>
         <div class="w-full max-h-screen overflow-auto">
           <slot />
