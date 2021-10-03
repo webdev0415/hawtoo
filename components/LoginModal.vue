@@ -1,6 +1,5 @@
 <template>
   <Modal v-if="notEmptyObject(modalData)" :showing="modalData.open" :css="{ 'modal': 'max-w-md' }" @close="closeModal">
-
     <Logo width="140px" class="h-auto mx-auto mb-2" />
 
     <div v-if="!submittedEmailForm">
@@ -10,34 +9,35 @@
       <p class="mb-4 text-center text-md">
         {{ modalData.description }}
       </p>
-
-      <LoginProvidersButton />
-      <div class="mt-6">
-        <div class="relative">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-100"></div>
+      <div class="max-w-xs mx-auto">
+        <LoginProvidersButton />
+        <div class="mt-6">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-100"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 text-gray-100 bg-white">
+                Or
+              </span>
+            </div>
           </div>
-          <div class="relative flex justify-center text-sm">
-            <span class="px-2 text-gray-100 bg-white">
-              Or
-            </span>
-          </div>
+          <LoginEmailInput class="mt-2" @submitted-email-form="submittedEmailForm = true" />
         </div>
-        <LoginEmailInput class="mt-2" @submitted-email-form="submittedEmailForm = true" />
-      </div>
-      <div class="p-4 mt-2 rounded-md bg-blue-50">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <!-- Heroicon name: solid/information-circle -->
-            <svg class="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div class="flex-1 ml-3 md:flex md:justify-between">
-            <p class="text-sm text-blue-700">
-              Don't have an account yet? Just login with your Email, Discord or Twitter above and you'll be set!
-            </p>
+        <div class="p-4 mt-2 rounded-md bg-blue-50">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <!-- Heroicon name: solid/information-circle -->
+              <svg class="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="flex-1 ml-3 md:flex md:justify-between">
+              <p class="text-sm text-blue-700">
+                Don't have an account yet? Just login with your Email, Discord or Twitter above and you'll be set!
+              </p>
 
+            </div>
           </div>
         </div>
       </div>

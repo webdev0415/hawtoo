@@ -15,7 +15,7 @@
         <div class="max-w-xl mx-auto mb-2">
           <EmailForm :css="customCSS.button" />
         </div>
-        <p class="text-gray-300">
+        <p class="text-gray-500">
           <span>1-click unsubscribe and no spam</span>
         </p>
       </div>

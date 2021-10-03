@@ -465,7 +465,7 @@ module.exports = {
         },
         textColor: theme => ({
             ...theme('colors'),
-            body: '#070708',
+            body: '#191919',
         }),
         width: theme => ({
             auto: 'auto',
@@ -639,5 +639,6 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
     ],
 }
