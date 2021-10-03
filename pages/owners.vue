@@ -56,7 +56,6 @@ import global from '@/mixins/global'
 export default {
   name: 'Admins',
   mixins: [global],
-  layout: 'fixednavbar',
   async asyncData({ $supabase, $config, error, $content }) {
     const popularResp = await $supabase
       .from('projects')

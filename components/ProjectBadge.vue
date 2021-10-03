@@ -73,8 +73,7 @@ export default {
       this.$toast.open({
         message: `${this.copySuccessMessage} ✨`,
         type: 'success',
-        position: 'top-right',
-        duration: 2030234
+        position: 'top-right'
       })
     },
 

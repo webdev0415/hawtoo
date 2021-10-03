@@ -2,13 +2,15 @@
 export const strict = false;
 
 export const state = () => ({
-    fixedHeader: false,
     isNewUser: true,
     setFeaturedProjects: [],
     loginModal: {
         open: false,
         title: '',
         description: ''
+    },
+    header: {
+        hideNav: false,
     }
 });
 
@@ -21,6 +23,9 @@ export const getters = () => ({
 export const mutations = {
     setFixedHeader(state, bool) {
         state.fixedHeader = bool;
+    },
+    setHeader(state, data) {
+        state.header = data;
     },
     setLoginModal(state, data) {
         state.loginModal = data;
@@ -39,5 +44,8 @@ export const actions = {
     },
     SET_LOGIN_MODAL: ({ commit }, payload) => {
         commit('setLoginModal', payload)
+    },
+    SET_HEADER: ({ commit }, payload) => {
+        commit('setHeader', payload)
     },
 };

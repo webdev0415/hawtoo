@@ -1,20 +1,7 @@
 <template>
-  <div class="absolute z-20 top-4 left-4">
-    <div @mouseover="showBackBtntext = true" @mouseleave="showBackBtntext = false">
-      <button class="inline-flex items-center w-auto" @click="$router.push('/')">
-        <span class="flex p-3 bg-gray-200" :class="{ 'rounded-lg ': !showBackBtntext, 'rounded-l-lg  bg-gray-200': showBackBtntext }">
-          <!-- Heroicon name: outline/speakerphone -->
-          <FontAwesome class="text-gray-700" :icon="['fal', 'arrow-left']" />
-        </span>
-
-        <p v-if="showBackBtntext" class="flex items-center self-stretch px-4 font-medium text-gray-600 truncate bg-white flesx" :class="{ 'rounded-r-lg': showBackBtntext }">
-          <span class="opacity-70">
-            Back to HawToo
-          </span>
-        </p>
-      </button>
-    </div>
-  </div>
+  <NuxtLink to="/projects" class="absolute flex items-center justify-center w-10 h-10 font-sans text-indigo-700 bg-gray-200 rounded-full cursor-pointer" style="top: 24px; left: 24px; border-radius: 20px;">
+    <img src="~/assets/images/icons/back.svg" height="24" width="24" class="block h-4 m-auto" />
+  </NuxtLink>
 </template>
 
 <script>
