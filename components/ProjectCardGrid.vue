@@ -44,21 +44,18 @@ export default {
       return this.createEmptyObject(this.cols)
     },
     columns() {
-      const columnSizeMobile = this.cols / 2
+      // const columnSizeMobile = this.cols / 2
       const columnSizeDesktop = this.cols
 
       return {
         // Column size: 2
-        'grid-cols-1': columnSizeMobile === 1,
+        'grid-cols-1': true,
         'md:grid-cols-2': columnSizeDesktop === 2,
         // Column size: 4
-        'grid-cols-2': columnSizeMobile === 2,
         'md:grid-cols-4': columnSizeDesktop === 4,
         // Column size: 6
-        'grid-cols-3': columnSizeMobile === 3,
         'md:grid-cols-6': columnSizeDesktop === 6,
         // Column size: 8
-        'grid-cols-4': columnSizeMobile === 4,
         'md:grid-cols-8': columnSizeDesktop === 6
       }
     }
