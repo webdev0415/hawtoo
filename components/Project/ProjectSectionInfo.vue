@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col items-center">
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap justify-center mb-3">
       <avatar class="" :size="128" :size-badge="36" :verified-tooltip="`${data.name} is verified on HawToo`" :color="data.avatar_color" :verified="data.verified" :fullname="data.name" :image="avatarUrl" />
     </div>
 
-    <h1 class="text-4xl font-semibold leading-normal ">
+    <h1 class="mb-4 text-3xl font-semibold leading-tight text-center md:text-4xl">
       {{ data.name }}
     </h1>
 

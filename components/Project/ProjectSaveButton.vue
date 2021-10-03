@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" :class="[isOnWatchList ? 'collection' : 'uncollected']" @click="toggleWatchList">
+  <button class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" :class="[isOnWatchList ? 'collection' : 'uncollected']" @click="toggleWatchList">
     <img src="~/assets/images/icons/save.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
-  </div>
+  </button>
 </template>
 
 <script>
