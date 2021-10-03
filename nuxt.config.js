@@ -115,7 +115,7 @@ export default {
     },
     redirect: {
       login: false,
-      logout: '/connect',
+      logout: '/',
       callback: false,
       home: false
     },
@@ -127,9 +127,8 @@ export default {
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
-        name: 'Project',
         path: '/@:id',
-        component: resolve(__dirname, 'pages/project.vue')
+        component: resolve(__dirname, 'pages/linkinbio.vue')
       })
     }
   },

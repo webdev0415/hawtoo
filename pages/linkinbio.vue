@@ -1,37 +1,11 @@
 <template>
-  <div>
-
-    <main class="min-h-screen overflow-hidden bg-gray-100 profile-page">
-      <section class="relative block -mb-64 h-80 md:h-96 bg-gray-50">
-
-        <div v-if="data.avatar_color" class="absolute top-0 w-full h-full bg-center bg-cover" :style="{ backgroundColor: data.avatar_color }"></div>
-        <div class="absolute bottom-0 transform -translate-x-1/2 pointer-events-none left-1/2" aria-hidden="true">
-          <svg style="opacity:0.07" width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="illustration-01" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop stop-color="#FFF" offset="0%"></stop>
-                <stop stop-color="#EAEAEA" offset="77.402%"></stop>
-                <stop stop-color="#DFDFDF" offset="100%"></stop>
-              </linearGradient>
-            </defs>
-            <g fill="url(#illustration-01)" fill-rule="evenodd">
-              <circle cx="832" cy="128" r="128"></circle>
-              <circle cx="155" cy="443" r="64"></circle>
-              <circle cx="1300" cy="543" r="88"></circle>
-            </g>
-          </svg>
-        </div>
-      </section>
-
-      <div class="max-w-[700px] mx-auto">
-        <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
-      </div>
-
+  <main class="relative flex flex-row justify-center">
+    <div class="container">
+      <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
       <ProjectFooter />
-    </main>
-
-    <ProjectReturnButton />
-  </div>
+      <ProjectReturnButton />
+    </div>
+  </main>
 </template>
 
 <script>
@@ -44,7 +18,6 @@ import global from '@/mixins/global'
 export default {
   name: 'Project',
   mixins: [global],
-  layout: 'empty',
   colorMode: 'light',
   async asyncData({ $supabase, params, error }) {
     const pageSlug = params.id
@@ -79,6 +52,9 @@ export default {
 
   head() {
     return {
+      bodyAttrs: {
+        class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen'
+      },
       title: `View ${this.data.name} Links, Stats And How To Buy`,
       description: this.data.description,
       meta: getMeta({
@@ -101,6 +77,12 @@ export default {
       if (!this.$auth.user) return false
       else return this.$auth.user
     }
+  },
+
+  mounted() {
+    // this.$store.dispatch('SET_HEADER', {
+    //   hideNav: true
+    // })
   }
 }
 </script>
