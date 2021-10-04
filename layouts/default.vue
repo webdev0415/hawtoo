@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header />
+    <Header :header-data="$store.state.header" />
     <Nuxt />
     <LoginModal :modal-data="$store.state.loginModal" />
     <Footer />
@@ -8,12 +8,15 @@
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
-import Footer from '~/components/Footer.vue'
+import Header from '~/components/Header'
+import Footer from '~/components/Footer'
+import LoginModal from '~/components/LoginModal'
+
 export default {
   components: {
     Header,
-    Footer
+    Footer,
+    LoginModal
   },
   data: () => ({
     authenticated: false,
@@ -21,11 +24,9 @@ export default {
   }),
   head: {
     bodyAttrs: {
-      class:
-        'antialiased bg-body text-body font-body min-w-xs min-h-screen bg-white'
+      class: 'antialiased bg-body text-body font-body min-w-xs min-h-screen'
     }
   },
-
   async mounted() {
     /* When the app loads, check to see if the user is signed in */
     /* also create a listener for when someone signs in or out */

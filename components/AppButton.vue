@@ -65,7 +65,7 @@ export default {
         'cursor-not-allowed': this.disableButton === true,
         'btn base-button': true,
 
-        'px-12 py-5': this.size === 'large',
+        'px-8 py-3 md:px-10 md:py-4': this.size === 'large',
         'px-8 py-3': this.size === 'normal',
         'px-6 py-2': this.size === 'small',
         'px-4 py-1 text-xs': this.size === 'tiny'
@@ -164,6 +164,9 @@ export default {
               break
           }
           break
+
+        case 'outline':
+          return 'border-gray-500 text-gray-500 hover:border-gray-500 hover:text-gray-600'
 
         default:
           break

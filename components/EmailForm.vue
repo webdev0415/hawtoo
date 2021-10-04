@@ -1,9 +1,13 @@
 <template>
-  <FormulateForm v-slot="{ isLoading }" v-model="form" class="sm:flex" @submit="subscribe">
-    <label for="email-address" class="sr-only">Email address</label>
-    <FormulateInput type="email" :value="'bla' + Math.floor(Math.random() * 999) + '@33mail.com'" name="email" input-class="w-full px-5 py-3 text-base placeholder-gray-500 border-2 border-gray-300 rounded-md md:rounded-l-lg md:rounded-r-none focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs" placeholder="Sample email placeholder" validation="required|email" error-behavior="submit" />
-    <FormulateInput type="submit" input-class="w-full px-5 py-3 mt-5 text-base text-white bg-black border-transparent rounded-md md:mt-0 md:w-auto md:rounded-l-none md:rounded-r-lg btn " :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Subscribe now'" />
-  </FormulateForm>
+  <div class="p-2 bg-white rounded-lg">
+    <FormulateForm v-slot="{ isLoading }" v-model="form" class="w-full min-w-full sm:flex subscribe-form" @submit="subscribe">
+      <label for="email-address" class="sr-only">Email address</label>
+      <FormulateInput type="email" name="email" outer-class="w-full" input-class="w-full px-5 py-3 placeholder-gray-500 border-2 border-transparent shadow-none" placeholder="Your email" validation="required|email" error-behavior="submit" />
+      <div class="mt-3 rounded-md sm:mt-0 sm:flex-shrink-0">
+        <FormulateInput type="submit" input-class="w-full px-5 py-3 text-base text-white border-transparent rounded-md btn" :class="[customCSS.btnBackground, customCSS.btnText]" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Subscribe now'" />
+      </div>
+    </FormulateForm>
+  </div>
 </template>
 
 <script>
@@ -11,6 +15,13 @@ import axios from 'axios'
 import confetti from 'canvas-confetti'
 
 export default {
+  props: {
+    css: {
+      type: Object,
+      required: false,
+      default: () => {}
+    }
+  },
   data() {
     return {
       form: {
@@ -22,7 +33,17 @@ export default {
       }
     }
   },
-  mounted() {},
+  computed: {
+    customCSS() {
+      return {
+        ...{
+          btnBackground: 'bg-blue-400',
+          btnText: 'text-white'
+        },
+        ...this.css
+      }
+    }
+  },
   methods: {
     async subscribe(event) {
       const formData = { ...this.form }
@@ -83,5 +104,15 @@ export default {
 <style scoped>
 .form-control {
   margin-bottom: 0 !important;
+}
+
+input {
+  box-shadow: 0 !important;
+}
+
+.subscribe-form [type='email']:focus {
+  box-shadow: none !important;
+  border-color: transparent !important;
+  outline: none !important;
 }
 </style>

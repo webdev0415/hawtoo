@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 
 module.exports = {
     darkMode: "class",
@@ -45,6 +47,8 @@ module.exports = {
 
             black: '#000',
             white: '#fff',
+            red: colors.rose,
+            gray: colors.trueGray,
 
             blueGray: {
                 50: '#F8FAFC',
@@ -59,18 +63,18 @@ module.exports = {
                 900: '#101729',
             },
 
-            gray: {
-                50: '#fafafa',
-                100: '#f4f4f4',
-                200: '#ededed',
-                300: '#7C7C7F',
-                400: '#515155',
-                500: '#25252A',
-                600: '#1E1E22',
-                700: '#1a2036',
-                800: '#141125',
-                900: '#0a091c',
-            },
+            // gray: {
+            //     50: '#fafafa',
+            //     100: '#f4f4f4',
+            //     200: '#ededed',
+            //     300: '#7C7C7F',
+            //     400: '#515155',
+            //     500: '#25252A',
+            //     600: '#1E1E22',
+            //     700: '#1a2036',
+            //     800: '#141125',
+            //     900: '#0a091c',
+            // },
 
             blue: {
                 50: '#E9ECFD',
@@ -195,7 +199,7 @@ module.exports = {
         },
         backgroundColor: theme => ({
             ...theme('colors'),
-            body: '#FFFFFF',
+            body: '#f7f7f7',
         }),
         backgroundImage: {
             none: 'none',
@@ -461,7 +465,7 @@ module.exports = {
         },
         textColor: theme => ({
             ...theme('colors'),
-            body: '#070708',
+            body: '#191919',
         }),
         width: theme => ({
             auto: 'auto',
@@ -635,5 +639,6 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
     ],
 }
