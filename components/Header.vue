@@ -62,14 +62,14 @@
                   <!-- <AppButton variant="primary" size="small" class="ml-8 desktop-primary-button" to="/connect">Sign up free</AppButton> -->
                 </div>
 
-                <!-- Profile dropdown -->
-                <div class="relative ml-3">
-                  <div v-if="user">
-                    <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
-                      <span class="sr-only">Open user menu</span>
-                      <Avatar :size="36" :fullname="displayName" :image="avatarUrl" />
-                    </button>
-                  </div>
+            <!-- Profile dropdown -->
+            <div class="relative ml-3" v-click-outside="() => userMenuOpen = false">
+              <div v-if="user">
+                <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen" >
+                  <span class="sr-only">Open user menu</span>
+                  <Avatar :size="36" :fullname="displayName" :image="avatarUrl" />
+                </button>
+              </div>
 
                   <!-- Profile menu -->
                   <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
@@ -165,6 +165,7 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 import LogoIcon from '@/components/Site/Logo/LogoIcon'
 import {
   navigation,
@@ -184,6 +185,9 @@ export default {
       required: true
     },
     fixed: { type: Boolean, default: false }
+  },
+  directives: {
+    clickOutside: vClickOutside.directive
   },
   data() {
     return {
