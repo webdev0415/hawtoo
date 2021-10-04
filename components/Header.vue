@@ -165,11 +165,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import vClickOutside from 'v-click-outside'
-=======
 import LogoIcon from '@/components/Site/Logo/LogoIcon'
->>>>>>> 7ff0ebbe14b1770744100fd7e9f115a6891019f6
 import {
   navigation,
   mobileNavigation,
