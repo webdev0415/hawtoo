@@ -85,7 +85,6 @@ export default {
               })
             }
             if (res.data) {
-              console.log(`Project id is ${res.data[0].id}`)
               this.watchListId = res.data[0].id
               this.isOnWatchList = true
               this.$toast.open({
