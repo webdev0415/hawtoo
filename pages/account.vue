@@ -23,6 +23,9 @@
             <NuxtLink to="/submit-project" class="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
               Submit project
             </NuxtLink>
+            <NuxtLink to="/account/edit-profile" class="flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
+              Edit Profile
+            </NuxtLink>
           </div>
         </div>
       </div>
