@@ -63,7 +63,7 @@
                 </div>
 
             <!-- Profile dropdown -->
-            <div class="relative ml-3" v-click-outside="() => userMenuOpen = false">
+            <div v-click-outside="() => userMenuOpen = false" class="relative ml-3">
               <div v-if="user">
                 <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen" >
                   <span class="sr-only">Open user menu</span>
@@ -178,6 +178,9 @@ export default {
   components: {
     LogoIcon
   },
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   props: {
     headerData: {
       type: Object,
@@ -185,9 +188,6 @@ export default {
       required: true
     },
     fixed: { type: Boolean, default: false }
-  },
-  directives: {
-    clickOutside: vClickOutside.directive
   },
   data() {
     return {
