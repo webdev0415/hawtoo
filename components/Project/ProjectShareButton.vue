@@ -1,7 +1,7 @@
 <template>
-  <div v-clipboard="() => copyText" v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler" class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200 rounded-full">
+  <button v-clipboard="() => copyText" v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler" class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200 rounded-full">
     <img src="~/assets/images/icons/share.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
-  </div>
+  </button>
 </template>
 
 <script>
