@@ -1,7 +1,8 @@
 <template>
-  <button class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" :class="[isOnWatchList ? 'collection' : 'uncollected']" @click="toggleWatchList">
-    <img src="~/assets/images/icons/save.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
-  </button>
+  <div class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" :class="[isOnWatchList ? 'collection' : 'uncollected']" @click="toggleWatchList">
+    <img v-if="!isOnWatchList" src="~/assets/images/icons/save.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
+    <img v-else src="~/assets/images/icons/check.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
+  </div>
 </template>
 
 <script>
@@ -10,10 +11,6 @@ import global from '@/mixins/global'
 export default {
   mixins: [global],
   props: {
-    favorited: {
-      type: Boolean,
-      default: false
-    },
     data: {
       type: Object,
       required: true,
@@ -23,17 +20,30 @@ export default {
 
   data() {
     return {
-      isOnWatchList: '',
+      isOnWatchList: false,
       watchListId: null
     }
   },
 
+  async fetch() {
+    const { data: favorite } = await this.$supabase
+      .from('watch_list')
+      .select('id, user_id, project_id')
+      .eq('user_id', this.userId)
+      .eq('project_id', this.projectId)
+      .single()
+
+    if (favorite && this.notEmptyObject(favorite)) {
+      this.isOnWatchList = true
+      this.watchListId = favorite.id
+    } else {
+      this.isOnWatchList = false
+    }
+  },
+
   computed: {
-    isFavorite() {
-      return this.favorited
-    },
     userId() {
-      return this.$auth.user.uid
+      return this.$auth.user.id
     },
     projectId() {
       return this.data.id
@@ -41,61 +51,61 @@ export default {
   },
 
   mounted() {
-    this.getWatchlistForProject(this.userId, this.projectId)
-    this.isOnWatchList = !!this.isFavorite
+    console.log(this.isOnWatchList)
   },
 
   methods: {
-    async getWatchlistForProject(userId, projectId) {
-      const { data: favorite } = await this.$supabase
-        .from('watch_list')
-        .select('id, user_id, project_id')
-        .eq('user_id', userId)
-        .eq('project_id', projectId)
-        .single()
+    // async getWatchlistForProject(userId, projectId) {
+    // const { data: favorite } = await this.$supabase
+    //   .from('watch_list')
+    //   .select('id, user_id, project_id')
+    //   .eq('user_id', userId)
+    //   .eq('project_id', projectId)
+    //   .single()
 
-      if (favorite && this.notEmptyObject(favorite)) {
-        this.isOnWatchList = true
-        this.watchListId = favorite.id
-      } else {
-        this.isOnWatchList = false
-      }
-    },
+    // console.log(`Is on watch list: ${favorite}`)
+    // if (favorite && this.notEmptyObject(favorite)) {
+    //   this.isOnWatchList = true
+    //   this.watchListId = favorite.id
+    // } else {
+    //   this.isOnWatchList = false
+    // }
+    // },
 
     toggleWatchList() {
       if (this.userId) {
         this.isOnWatchList = !this.isOnWatchList
-        const userId = this.userId
-        const projectId = this.projectId
 
         if (this.isOnWatchList) {
-          this.addToWatchList(projectId, userId).then((res) => {
+          this.addToWatchList(this.projectId, this.userId).then((res) => {
             if (res.error) {
-              this.isOnWatchList = false
               this.$toast.open({
                 message: `Something went wrong!`,
                 type: 'error'
               })
             }
             if (res.data) {
+              this.watchListId = res.data[0].id
+              this.isOnWatchList = true
               this.$toast.open({
-                message: `Added to watchlist!`,
+                message: `${this.data.name} got added to your watchlist!`,
                 type: 'success'
               })
             }
           })
         } else {
-          this.removeFromWatchList(projectId, userId).then((res) => {
+          this.removeFromWatchList(this.projectId, this.userId).then((res) => {
             if (res.error) {
-              this.isOnWatchList = true
               this.$toast.open({
                 message: `Something went wrong!`,
                 type: 'error'
               })
             }
             if (res.data) {
+              this.isOnWatchList = false
+
               this.$toast.open({
-                message: `Removed from watchlist!`,
+                message: `${this.data.name} was removed from your watchlist!`,
                 type: 'success'
               })
             }
@@ -107,12 +117,14 @@ export default {
     },
 
     async addToWatchList(id, userId) {
+      console.log(`Adding to watchlist with id ${id} from user ${userId}`)
       return await this.$supabase
         .from('watch_list')
-        .insert([{ project_id: id, user_id: userId }])
+        .upsert([{ project_id: id, user_id: userId }])
     },
 
     async removeFromWatchList() {
+      console.log('Removing from watchlist')
       return await this.$supabase
         .from('watch_list')
         .delete()
