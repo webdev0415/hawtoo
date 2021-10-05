@@ -3,6 +3,7 @@
     <Header :header-data="$store.state.header" />
     <Nuxt />
     <LoginModal :modal-data="$store.state.loginModal" />
+    <CollectionSaveModal />
     <Footer />
   </div>
 </template>
@@ -11,12 +12,14 @@
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import LoginModal from '~/components/LoginModal'
+import CollectionSaveModal from '~/components/Collections/CollectionSaveModal'
 
 export default {
   components: {
     Header,
     Footer,
-    LoginModal
+    LoginModal,
+    CollectionSaveModal
   },
   data: () => ({
     authenticated: false,

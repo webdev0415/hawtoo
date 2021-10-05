@@ -66,7 +66,6 @@
 
 <script>
 import global from '@/mixins/global'
-
 // this.$store.dispatch('SET_LOGIN_MODAL', {
 //   open: true,
 //   title: 'wqejrlqewrqewr',
