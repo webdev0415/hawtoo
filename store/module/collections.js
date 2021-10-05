@@ -21,14 +21,7 @@ const actions = {
 
                 const collections = data.map((collection) => ({
                     ...collection,
-                    // id: collection.id,
-                    // title: collection.collection_name,
-                    // description: collection.collection_description,
-                    // public: collection.public,
-                    // collected: collection.collected_projects,
                 }))
-
-                console.log(collections);
 
                 commit('SET_COLLECTIONS', collections)
 
