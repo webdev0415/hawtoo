@@ -75,6 +75,7 @@ export default {
     { src: '~/plugins/vue-formulate.js' },
     { src: '~/plugins/vue-placeholders.js' },
     { src: '~/plugins/vue-observe-visibility.client.js' },
+    { src: "~/plugins/v-click-outside", ssr: false }
   ],
 
 

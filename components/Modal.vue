@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       default: true
     },
+    allowEsc: {
+      type: Boolean,
+      default: true
+    },
     backgroundClose: {
       type: Boolean,
       default: true
@@ -48,6 +52,9 @@ export default {
     }
   },
   watch: {
+    $route() {
+      this.close()
+    },
     showing(value) {
       if (value) {
         return document.querySelector('body').classList.add('overflow-hidden')
@@ -56,7 +63,7 @@ export default {
     }
   },
   mounted() {
-    if (this.showClose) {
+    if (this.showClose && this.allowEsc) {
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           this.close()

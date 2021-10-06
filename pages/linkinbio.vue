@@ -12,7 +12,6 @@
 // import axios from 'axios'
 import getMeta from '~/utils/get-meta'
 import global from '@/mixins/global'
-
 // import visitorService from '@/utils/visitorService'
 
 export default {
