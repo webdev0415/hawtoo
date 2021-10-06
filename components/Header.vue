@@ -40,11 +40,15 @@
           <div class="flex items-center justify-center w-full h-full">
             <div class="hidden lg:flex">
               <div class="flex items-baseline">
-                <div v-for="route in navigation" :key="route.path">
-                  <NuxtLink :to="route.path" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
-                    {{ route.text }}
-                  </NuxtLink>
-                </div>
+                <NuxtLink to="/projects" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openCollectionModal">
+                  Browse
+                </NuxtLink>
+                <a href="javascript:void(0)" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openCollectionModal">
+                  My Watchlists
+                </a>
+                <NuxtLink to="/about" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openCollectionModal">
+                  About
+                </NuxtLink>
               </div>
             </div>
           </div>
@@ -220,9 +224,30 @@ export default {
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
       toggleCollectionModal: 'general/TOGGLE_COLLECTION_MODAL'
     }),
+    openCollectionModal() {
+      if (this.$auth.loggedIn) {
+        this.toggleCollectionModal({
+          open: true,
+          saveMode: false,
+          title: 'My Collections'
+        })
+      } else {
+        this.promptLogin()
+      }
+    },
+
+    promptLogin() {
+      this.toggleLoginModal({
+        open: true,
+        title: 'Connect your account',
+        description: 'In order to collect you need to connect your account'
+      })
+    },
+
     async logout() {
       await this.$auth.logout()
     },
+
     login() {
       this.toggleLoginModal({
         open: true,

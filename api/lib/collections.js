@@ -7,14 +7,19 @@ const getUserCollections = async (userId) => {
         .eq('author_id', userId)
 }
 
-const addProjectToCollection = async (userId, projectId) => {
+const createNewCollection = async (userId, collectionName) => {
+    return await supabase
+        .from('collections').insert({ author_id: userId, collection_name: collectionName })
+}
+
+const addProjectToCollection = async (userId, collectionId, collectedArray) => {
     return await supabase
         .from('collections')
-        .select('*')
-        .eq('author_id', userId)
+        .upsert({ id: collectionId, author_id: userId, collected_projects: collectedArray })
 }
 
 export {
     getUserCollections,
-    addProjectToCollection
+    createNewCollection,
+    addProjectToCollection,
 }

@@ -29,6 +29,7 @@ export default {
         this.toggleCollectionModal({
           open: true,
           saveMode: true,
+          projectId: this.data.id,
           title: 'Save this project to a collection'
         })
       } else {

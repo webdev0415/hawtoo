@@ -51,6 +51,9 @@ export default {
     }
   },
   watch: {
+    $route() {
+      this.close()
+    },
     showing(value) {
       if (value) {
         return document.querySelector('body').classList.add('overflow-hidden')

@@ -75,9 +75,10 @@ const mutations = {
         const itemFound = state.collections.find((item) => {
             return collection.id === item.id
         })
+        itemFound.collected_projects = collection.collected_projects
         itemFound.collection_name = collection.collection_name
         itemFound.collection_description = collection.collection_description
-    },
+    }
 }
 
 export default {
