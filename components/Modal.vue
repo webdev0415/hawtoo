@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// Modals
 export default {
   props: {
     showing: {
