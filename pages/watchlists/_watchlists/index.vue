@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import getMeta from '~/utils/get-meta'
+// import getMeta from '~/utils/get-meta'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import ProjectListItem from '@/components/Projects/ProjectListItem'
@@ -33,12 +33,14 @@ export default {
 
     if (watchlistResponse.error) {
       const watchlistError = watchlistResponse.error
-      if (watchlistError.details.startsWith('Results contain 0 rows')) {
+      if (watchlistError.details?.startsWith('Results contain 0 rows')) {
         error({ statusCode: 404 })
       } else {
         error({ statusCode: 500, watchlistError })
       }
     }
+
+    console.log(watchlistResponse)
 
     const authorId = watchlistResponse.data.author_id
     const canEdit = authorId === $auth.user?.id
@@ -81,13 +83,13 @@ export default {
         class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen'
       },
       title: `${this.data.name}`,
-      description: this.data.description,
-      meta: getMeta({
-        title: `Watchlist: ${this.data.name}`,
-        authorName: this.data.author_id,
-        authorNameDesc: this.data.description,
-        authorImage: this.avatarUrl
-      })
+      description: this.data.description
+      // meta: getMeta({
+      //   title: `Watchlist: ${this.data.name}`,
+      //   authorName: this.data.author_id,
+      //   authorNameDesc: this.data.description,
+      //   authorImage: this.avatarUrl
+      // })
     }
   }
 }

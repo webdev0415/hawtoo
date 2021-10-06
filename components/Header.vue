@@ -222,7 +222,7 @@ export default {
   methods: {
     ...mapMutations({
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
-      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
     }),
     openWatchlistModal() {
       if (this.$auth.loggedIn) {

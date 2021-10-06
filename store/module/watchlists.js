@@ -23,30 +23,30 @@ const actions = {
                     ...watchlist,
                 }))
 
-                commit('SET_COLLECTIONS', watchlists)
+                commit('SET_WATCHLISTS', watchlists)
 
-                const subscriber = supabase
+                supabase
                     .from('watchlists')
                     .on('*', (payload) => {
                         console.log('Change received!', payload)
                         switch (payload.eventType) {
                             case 'INSERT':
-                                commit('ADD_COLLECTION', payload.new)
+                                commit('ADD_WATCHLIST', payload.new)
                                 break
                             case 'UPDATE':
-                                commit('MODIFY_COLLECTION', payload.new)
+                                commit('MODIFY_WATCHLIST', payload.new)
                                 return
                             case 'DELETE':
-                                commit('DELETE_COLLECTION', payload.new.id)
+                                commit('DELETE_WATCHLIST', payload.new.id)
                                 break
                         }
                     })
                     .subscribe()
 
-                commit('SET_SUBSCRIBER', subscriber)
+                // commit('SET_SUBSCRIBER', subscriber)
             }
         } catch (error) {
-            alert(error.message)
+            console.log(error.message)
         }
     },
     unsubscribeWatchlist: ({ state }) => {
@@ -54,24 +54,24 @@ const actions = {
     },
     destroySubscriber: ({ dispatch, commit }) => {
         dispatch('unsubscribeWatchlist')
-        commit('RESET_COLLECTIONS')
+        commit('RESET_WATCHLISTS')
     },
 }
 
 const mutations = {
-    SET_COLLECTIONS: (state, watchlists) => {
+    SET_WATCHLISTS: (state, watchlists) => {
         state.watchlists = watchlists
     },
     SET_SUBSCRIBER: (state, subscriber) => {
         state.watchlistsSubscriber = subscriber
     },
-    RESET_COLLECTIONS: (state, watchlists) => {
+    RESET_WATCHLISTS: (state, watchlists) => {
         state.watchlists = []
     },
-    ADD_COLLECTION: (state, watchlist) => {
+    ADD_WATCHLIST: (state, watchlist) => {
         state.watchlists.push(watchlist)
     },
-    MODIFY_COLLECTION: (state, watchlist,) => {
+    MODIFY_WATCHLIST: (state, watchlist,) => {
         const itemFound = state.watchlists.find((item) => {
             return watchlist.id === item.id
         })

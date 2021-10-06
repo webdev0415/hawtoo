@@ -29,7 +29,7 @@ const mutations = {
     TOGGLE_LOGIN_MODAL(state, data) {
         state.loginModal = data;
     },
-    TOGGLE_COLLECTION_MODAL(state, data) {
+    TOGGLE_WATCHLIST_MODAL(state, data) {
         state.watchlistModal = data;
     },
     SET_NEW_USER(state, flag) {

@@ -95,7 +95,7 @@ export default {
       fetchWatchlists: 'watchlists/fetchWatchlists'
     }),
     ...mapMutations({
-      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
     }),
 
     handleWatchlistClick(id) {
