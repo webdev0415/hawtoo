@@ -48,18 +48,6 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 export default {
   middleware: 'user-auth',
   data: () => ({
@@ -108,15 +96,9 @@ export default {
           }
         })
 
-        Toast.fire({
-          icon: 'success',
-          title: 'Profile updated'
-        })
+        this.$toast.success('Updated profile')
       } catch (e) {
-        Toast.fire({
-          icon: 'error',
-          title: 'There was a error!'
-        })
+        this.$toast.success('There was an error')
       }
     },
     async handleFileUpload(file, progress, formError, option) {
