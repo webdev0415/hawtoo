@@ -1,13 +1,13 @@
 <template>
-  <Modal v-if="notEmptyObject(modalData)" :showing="modalData.open" :css="{ 'modal': 'max-w-md' }" @close="closeModal">
+  <Modal :showing="getLoginModal.open" :css="{ 'modal': 'max-w-md' }" @close="closeModal">
     <Logo width="140px" class="h-auto mx-auto mb-2" />
 
     <div v-if="!submittedEmailForm">
       <h2 class="mb-1 text-3xl font-extrabold text-center ">
-        {{ modalData.title }}
+        {{ getLoginModal.title }}
       </h2>
       <p class="mb-4 text-center text-md">
-        {{ modalData.description }}
+        {{ getLoginModal.description }}
       </p>
       <div class="max-w-xs mx-auto">
         <LoginProvidersButton />
@@ -65,35 +65,10 @@
 </template>
 
 <script>
-import global from '@/mixins/global'
-
-// this.$store.dispatch('SET_LOGIN_MODAL', {
-//   open: true,
-//   title: 'wqejrlqewrqewr',
-//   description: 'qwekrqwelrqewreeqw'
-// })
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'Loginmodal',
-  mixins: [global],
-  props: {
-    modalData: {
-      type: Object,
-      default: () => {},
-      required: true
-    },
-    title: {
-      type: String,
-      default: 'Connect to continue',
-      required: false
-    },
-    description: {
-      type: String,
-      default:
-        'Sign in with your existing account, or enter your email to create a new account.',
-      required: false
-    }
-  },
   data() {
     return {
       loading: false,
@@ -101,9 +76,17 @@ export default {
       submittedEmailForm: false
     }
   },
+  computed: {
+    ...mapGetters({
+      getLoginModal: 'general/loginModal'
+    })
+  },
   methods: {
+    ...mapMutations({
+      toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL'
+    }),
     closeModal() {
-      this.$store.dispatch('SET_LOGIN_MODAL', {
+      this.toggleLoginModal({
         open: false,
         title: '',
         description: ''

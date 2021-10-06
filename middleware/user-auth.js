@@ -15,7 +15,7 @@ export default async function ({ $auth, route, store, redirect }) {
             store.dispatch('SET_LOGIN_MODAL', {
                 open: true,
                 title: 'Log in or sign up',
-                description: 'To save crypto projects to collections',
+                description: 'To save crypto projects to watchlists',
                 referrer: route.path
             })
             redirect({ path: false })

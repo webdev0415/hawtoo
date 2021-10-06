@@ -1,12 +1,12 @@
 export const navigation = [
     { name: 'Browse', text: 'Browse', path: '/projects' },
-    { name: 'My Collections', text: 'My Collections', path: '/account/watchlist', },
+    { name: 'My Watchlists', text: 'My Watchlists', path: '/account/watchlist', },
     { name: 'About', text: 'About', path: '/about', }
 ]
 
 export const mobileNavigation = [
     { name: 'Browse', text: 'Browse', path: '/projects' },
-    { name: 'My Collections', text: 'My Collections', path: '/account/watchlist', },
+    { name: 'My Watchlists', text: 'My Watchlists', path: '/account/watchlist', },
     { name: 'About', text: 'About', path: '/about', }
 ]
 
@@ -17,6 +17,6 @@ export const userMenuNavigation = [
 
 export const footerNavigation = [
     { name: 'Browse', text: 'Browse', path: '/projects' },
-    { name: 'My Collections', text: 'My Collections', path: '/account/watchlist', },
+    { name: 'My Watchlists', text: 'My Watchlists', path: '/account/watchlist', },
     { name: 'About', text: 'About', path: '/about', }
 ]

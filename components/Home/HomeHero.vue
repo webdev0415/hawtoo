@@ -34,7 +34,7 @@
           <img src="~/assets/images/arrow-drawn-right.svg" alt="" class="hidden w-16 h-16 max-w-full leading-5 align-middle border-0 sm:inline-block" />
           <div class="w-full mt-4 text-center sm:mt-0">
             <div class="box-border mb-2 text-base font-semibold leading-4 tracking-wide">
-              🙌 Save them to your collection
+              🙌 Save them to your watchlist
             </div>
             <img src="~/assets/images/home/bookmark-projects.svg" alt="" class="inline-block w-full align-middle" />
           </div>
