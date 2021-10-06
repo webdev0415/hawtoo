@@ -5,15 +5,29 @@
     </button>
     <!-- Modal -->
     <Modal :showing="show" :css="{ 'modal': 'max-w-md' }" @close="closeModal">
-      <div v-if="data.type === 'coin'" class="flex flex-col items-center justify-between w-auto h-30">
-        <a v-for="(url, title) in buyOnDexLinks" :key="title" :href="url" target="blank" class="relative inline-flex items-center px-4 py-2 my-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-          {{ title }}
-        </a>
+
+      <div class="flex items-center justify-center mb-2">
+        <ProjectAvatar :verified="data.verified" :size="64" :name="data.name" :avatar-color="data.avatar_color" :avatar-name="data.avatar_name" :slug="data.slug" />
       </div>
-      <div v-if="data.type === 'nft'" class="flex flex-col items-center justify-between w-auto h-30">
-        <a v-for="link in data.marketplaces" :key="link.name" :href="link.url" target="blank" class="relative inline-flex items-center px-4 py-2 my-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-          {{ link.name }}
-        </a>
+
+      <div class="mb-3 text-center">
+        <h3 class="text-2xl">
+          Buy {{ data.name }}
+        </h3>
+      </div>
+
+      <div class="mb-4">
+        <div v-if="data.type === 'coin'" class="flex flex-col items-center justify-between w-full">
+          <AppButton v-for="(url, title) in buyOnDexLinks" :key="title" :href="url" variant="outline" size="small" target="_blank" class="w-full mt-3">
+            Buy on {{ title  }}
+          </AppButton>
+        </div>
+
+        <div v-if="data.type === 'nft'" class="flex flex-col items-center justify-between w-full">
+          <AppButton v-for="link in data.marketplaces" :key="link.name" :href="link.url" variant="outline" size="small" target="_blank" class="w-full mt-3">
+            Buy on {{ link.name }}
+          </AppButton>
+        </div>
       </div>
     </Modal>
   </div>
