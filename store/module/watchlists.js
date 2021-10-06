@@ -1,32 +1,32 @@
 import { supabase } from '@/plugins/supabase'
-import { getUserCollections } from '@/api/lib/collections'
+import { getUserWatchlists } from '@/api/lib/watchlists'
 
 const state = () => ({
-    collections: [],
-    collectionsSubscriber: {},
+    watchlists: [],
+    watchlistsSubscriber: {},
 })
 
 const getters = {
-    collections: (state) => state.collections,
+    watchlists: (state) => state.watchlists,
 }
 
 const actions = {
-    fetchCollections: async ({ state, commit, rootState }, userId) => {
+    fetchWatchlists: async ({ state, commit, rootState }, userId) => {
 
         try {
-            const { data, error, status } = await getUserCollections(userId)
+            const { data, error, status } = await getUserWatchlists(userId)
             if (error && status !== 406) throw error
 
             if (data) {
 
-                const collections = data.map((collection) => ({
-                    ...collection,
+                const watchlists = data.map((watchlist) => ({
+                    ...watchlist,
                 }))
 
-                commit('SET_COLLECTIONS', collections)
+                commit('SET_COLLECTIONS', watchlists)
 
                 const subscriber = supabase
-                    .from('collections')
+                    .from('watchlists')
                     .on('*', (payload) => {
                         console.log('Change received!', payload)
                         switch (payload.eventType) {
@@ -49,35 +49,35 @@ const actions = {
             alert(error.message)
         }
     },
-    unsubscribeCollection: ({ state }) => {
-        supabase.removeSubscription(state.collectionsSubscriber)
+    unsubscribeWatchlist: ({ state }) => {
+        supabase.removeSubscription(state.watchlistsSubscriber)
     },
     destroySubscriber: ({ dispatch, commit }) => {
-        dispatch('unsubscribeCollection')
+        dispatch('unsubscribeWatchlist')
         commit('RESET_COLLECTIONS')
     },
 }
 
 const mutations = {
-    SET_COLLECTIONS: (state, collections) => {
-        state.collections = collections
+    SET_COLLECTIONS: (state, watchlists) => {
+        state.watchlists = watchlists
     },
     SET_SUBSCRIBER: (state, subscriber) => {
-        state.collectionsSubscriber = subscriber
+        state.watchlistsSubscriber = subscriber
     },
-    RESET_COLLECTIONS: (state, collections) => {
-        state.collections = []
+    RESET_COLLECTIONS: (state, watchlists) => {
+        state.watchlists = []
     },
-    ADD_COLLECTION: (state, collection) => {
-        state.collections.push(collection)
+    ADD_COLLECTION: (state, watchlist) => {
+        state.watchlists.push(watchlist)
     },
-    MODIFY_COLLECTION: (state, collection,) => {
-        const itemFound = state.collections.find((item) => {
-            return collection.id === item.id
+    MODIFY_COLLECTION: (state, watchlist,) => {
+        const itemFound = state.watchlists.find((item) => {
+            return watchlist.id === item.id
         })
-        itemFound.collected_projects = collection.collected_projects
-        itemFound.collection_name = collection.collection_name
-        itemFound.collection_description = collection.collection_description
+        itemFound.collected = watchlist.collected
+        itemFound.name = watchlist.name
+        itemFound.description = watchlist.description
     }
 }
 

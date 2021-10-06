@@ -23,15 +23,7 @@ export default {
   computed: {
     ...mapGetters({
       isNewUser: 'general/isNewUser'
-    }),
-
-    filteredBottles(value) {
-      return this.getCollections.filter((collection) => {
-        return collection.collection_name
-          .toLowerCase()
-          .includes(this.searchTerm.toLowerCase())
-      })
-    }
+    })
   },
   async mounted() {
     const authState = this.$auth.$state

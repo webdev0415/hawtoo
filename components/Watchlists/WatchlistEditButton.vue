@@ -12,9 +12,9 @@
       <h3 class="mx-0 mt-4 mb-2 font-sans text-sm font-medium leading-5 text-gray-600">
         Update watchlist details or delete the watchlist.
       </h3>
-      <FormulateForm v-slot="{ isLoading }" v-model="formValues" @submit="handleEditCollection">
-        <FormulateInput type="text" name="collection_name" label="Watchlist name" />
-        <FormulateInput type="textarea" name="collection_description" label="Watchlist description" error-behavior="submit" />
+      <FormulateForm v-slot="{ isLoading }" v-model="formValues" @submit="handleEditWatchlist">
+        <FormulateInput type="text" name="name" label="Watchlist name" />
+        <FormulateInput type="textarea" name="description" label="Watchlist description" error-behavior="submit" />
         <FormulateInput type="checkbox" name="public" label="Public watchlist" error-behavior="submit" />
         <FormulateInput :disabled="isLoading" type="submit" :label="isLoading ? 'Saving...' : 'Save changes'" class="text-right mt-7" />
       </FormulateForm>
@@ -24,11 +24,11 @@
       <div class="sm:flex sm:items-start">
         <div class="mt-3">
           <h3 class="text-lg font-medium leading-6 text-gray-900">
-            Delete collection
+            Delete watchlist
           </h3>
           <div class="my-2">
             <p class="text-sm text-gray-500">
-              Permanently delete this collection and all of its content
+              Permanently delete this watchlist and all of its content
             </p>
           </div>
           <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm" @click="open = false">
@@ -56,29 +56,29 @@ export default {
   }),
   mounted() {
     this.formValues = {
-      collection_name: this.data.collection_name,
-      collection_description: this.data.collection_description,
+      name: this.data.name,
+      description: this.data.description,
       public: this.data.public
     }
   },
   methods: {
-    async handleEditCollection(data) {
+    async handleEditWatchlist(data) {
       try {
-        const collectionId = this.data.id
+        const watchlistId = this.data.id
         await this.$supabase
-          .from('collections')
+          .from('watchlists')
           .update({
-            collection_name: data.collection_name,
-            collection_description: data.collection_description,
+            name: data.name,
+            description: data.description,
             public: data.public
           })
-          .match({ id: collectionId })
+          .match({ id: watchlistId })
 
         this.show = false
 
         this.$toast.success('Your changes were saved')
       } catch (e) {
-        this.$toast.error('Unable to save collection')
+        this.$toast.error('Unable to save watchlist')
       }
     },
     openModal() {

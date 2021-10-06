@@ -1,10 +1,10 @@
 // import Vuex from 'vuex';
 import general from './module/general'
-import collections from './module/collections'
+import watchlists from './module/watchlists'
 
 export default {
     strict: false,
-    modules: { collections, general },
+    modules: { watchlists, general },
     state: {},
     actions: {},
     mutatations: {},

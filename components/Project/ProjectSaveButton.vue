@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" :class="[isOnWatchList ? 'collection' : 'uncollected']" @click="toggleWatchList">
+  <div class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" :class="[isOnWatchList ? 'watchlist' : 'uncollected']" @click="toggleWatchList">
     <img v-if="!isOnWatchList" src="~/assets/images/icons/save.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
     <img v-else src="~/assets/images/icons/check.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
   </div>

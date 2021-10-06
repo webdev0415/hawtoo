@@ -1,9 +1,9 @@
 <template>
-  <Modal :showing="getCollectionModal.open" :allow-esc="false" :background-close="false" :css="{ 'modal': 'max-w-xl' }" @close="closeModal">
+  <Modal :showing="getWatchlistModal.open" :allow-esc="false" :background-close="false" :css="{ 'modal': 'max-w-xl' }" @close="closeModal">
     <div>
 
       <h2 class="mb-3 text-2xl font-extrabold text-left ">
-        {{ getCollectionModal.title }}
+        {{ getWatchlistModal.title }}
       </h2>
 
       <div class="bg-white">
@@ -17,17 +17,17 @@
       </div>
 
       <ul rule="lixtbox" class="text-md font-medium overflow-y-auto border-t border-gray-200 divide-y divide-gray-200 rounded-b-lg max-h-[18.375rem]">
-        <!--- Search through collections -->
-        <li v-for="( collection, i ) in filteredCollections" :key="collection.id" :aria-selected="(selected === i).toString()" class="bg-white">
-          <div class="flex justify-between p-4 cursor-pointer" :class="{ 'bg-gray-100': selected === i }" @mouseenter="selected = i" @mouseleave="selected = null" @click="handleCollectionClick(collection.id)">
-            <span class="text-gray-900 whitespace-nowrap">{{ collection.collection_name }}</span>
+        <!--- Search through watchlists -->
+        <li v-for="( watchlist, i ) in filteredWatchlists" :key="watchlist.id" :aria-selected="(selected === i).toString()" class="bg-white">
+          <div class="flex justify-between p-4 cursor-pointer" :class="{ 'bg-gray-100': selected === i }" @mouseenter="selected = i" @mouseleave="selected = null" @click="handleWatchlistClick(watchlist.id)">
+            <span class="text-gray-900 whitespace-nowrap">{{ watchlist.name }}</span>
             <span class="inline-flex px-2 ml-4 text-xs font-semibold leading-5 text-right text-green-800 uppercase bg-green-100 rounded-full">Add</span>
           </div>
         </li>
-        <!-- No collection found after search -->
+        <!-- No watchlist found after search -->
         <li v-if="noSearchResults" class="bg-white">
-          <div class="flex justify-between p-4 cursor-pointer" :class="{ 'bg-gray-100': selected }" @mouseleave="selected = false" @mouseenter="selected = true" @click="handleNewCollection">
-            <span class="text-gray-900 whitespace-nowrap">{{ newCollectionText }}</span>
+          <div class="flex justify-between p-4 cursor-pointer" :class="{ 'bg-gray-100': selected }" @mouseleave="selected = false" @mouseenter="selected = true" @click="handleNewWatchlist">
+            <span class="text-gray-900 whitespace-nowrap">{{ newWatchlistText }}</span>
             <span class="inline-flex px-2 ml-4 text-xs font-semibold leading-5 text-right text-green-800 uppercase bg-green-100 rounded-full">New</span>
           </div>
         </li>
@@ -40,10 +40,7 @@
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import {
-  addProjectToCollection,
-  createNewCollection
-} from '@/api/lib/collections'
+import { addProjectToWatchlist, createNewWatchlist } from '@/api/lib/watchlists'
 import global from '@/mixins/global'
 
 export default {
@@ -59,28 +56,28 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getCollectionModal: 'general/collectionModal',
-      getCollections: 'collections/collections'
+      getWatchlistModal: 'general/watchlistModal',
+      getWatchlists: 'watchlists/watchlists'
     }),
 
-    filteredCollections() {
-      return this.getCollections.filter((collection) => {
-        return collection.collection_name
+    filteredWatchlists() {
+      return this.getWatchlists.filter((watchlist) => {
+        return watchlist.name
           .toLowerCase()
           .includes(this.searchQuery.toLowerCase())
       })
     },
 
-    newCollectionText() {
-      if (this.getCollectionModal.saveMode) {
-        return `Create new collection and add to "${this.searchQuery}"`
+    newWatchlistText() {
+      if (this.getWatchlistModal.saveMode) {
+        return `Create new watchlist and add to "${this.searchQuery}"`
       }
 
-      return `Create new collection "${this.searchQuery}"`
+      return `Create new watchlist "${this.searchQuery}"`
     }
   },
   watch: {
-    filteredCollections: debounce(function (item) {
+    filteredWatchlists: debounce(function (item) {
       if (item.length === 0) {
         this.noSearchResults = true
       } else {
@@ -90,47 +87,47 @@ export default {
   },
   created() {
     if (this.$auth.loggedIn) {
-      this.fetchCollections(this.$auth.user.id)
+      this.fetchWatchlists(this.$auth.user.id)
     }
   },
   methods: {
     ...mapActions({
-      fetchCollections: 'collections/fetchCollections'
+      fetchWatchlists: 'watchlists/fetchWatchlists'
     }),
     ...mapMutations({
-      toggleCollectionModal: 'general/TOGGLE_COLLECTION_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
     }),
 
-    handleCollectionClick(id) {
-      const saveMode = this.getCollectionModal.saveMode
+    handleWatchlistClick(id) {
+      const saveMode = this.getWatchlistModal.saveMode
       if (saveMode) {
-        this.addToCollection(id)
+        this.addToWatchlist(id)
       } else {
-        this.$router.push({ path: `/collections/${id}` })
+        this.$router.push({ path: `/watchlists/${id}` })
       }
     },
 
-    async addToCollection(collectionId) {
+    async addToWatchlist(watchlistId) {
       const userId = this.$auth.user.id
-      const projectId = this.getCollectionModal.projectId
-      const collection = this.getCollections.find((item) => {
-        return collectionId === item.id
+      const projectId = this.getWatchlistModal.projectId
+      const watchlist = this.getWatchlists.find((item) => {
+        return watchlistId === item.id
       })
 
-      if (!collection) {
+      if (!watchlist) {
         this.$toast.error('Something went wrong adding')
         return
       }
 
-      const collectedArray = collection.collected_projects ?? []
+      const collectedArray = watchlist.collected ?? []
 
       if (!collectedArray.includes(projectId)) {
         collectedArray.push(projectId)
       }
 
-      const { error, data } = await addProjectToCollection(
+      const { error, data } = await addProjectToWatchlist(
         userId,
-        collectionId,
+        watchlistId,
         collectedArray
       )
 
@@ -140,16 +137,16 @@ export default {
       }
 
       if (data) {
-        this.$toast.success(`Saved to "${data[0].collection_name}"`)
+        this.$toast.success(`Saved to "${data[0].name}"`)
       }
     },
-    async handleNewCollection() {
+    async handleNewWatchlist() {
       const userId = this.$auth.user.id
-      const saveMode = this.getCollectionModal.saveMode
+      const saveMode = this.getWatchlistModal.saveMode
       const newName = this.searchQuery
-      let collectionId
+      let watchlistId
 
-      const { error, data } = await createNewCollection(userId, newName)
+      const { error, data } = await createNewWatchlist(userId, newName)
 
       if (error) {
         this.$toast.error('Something went wrong. Try again later')
@@ -157,19 +154,19 @@ export default {
       }
 
       if (data) {
-        collectionId = data[0].id
+        watchlistId = data[0].id
       }
 
       if (saveMode) {
-        await this.addToCollection(collectionId)
+        await this.addToWatchlist(watchlistId)
       } else {
-        this.$router.push({ path: `/collections/${collectionId}` })
+        this.$router.push({ path: `/watchlists/${watchlistId}` })
       }
 
       this.searchQuery = ''
     },
     closeModal() {
-      this.toggleCollectionModal({
+      this.toggleWatchlistModal({
         open: false
       })
     }

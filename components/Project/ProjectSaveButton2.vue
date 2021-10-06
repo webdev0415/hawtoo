@@ -21,16 +21,16 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toggleCollectionModal: 'general/TOGGLE_COLLECTION_MODAL',
+      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL',
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL'
     }),
     openModal() {
       if (this.$auth.loggedIn) {
-        this.toggleCollectionModal({
+        this.toggleWatchlistModal({
           open: true,
           saveMode: true,
           projectId: this.data.id,
-          title: 'Save this project to a collection'
+          title: 'Save this project to a watchlist'
         })
       } else {
         this.promptLogin()

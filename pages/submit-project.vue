@@ -144,7 +144,7 @@
                       <formulate-input name="name" type="select" :options="marketplaceLinks" label="Platform" placeholder="Select a marketplace" validation="noSameMarketPlace|required" error-behavior="submit" />
                     </div>
                     <div class="sm:col-span-4">
-                      <formulate-input name="url" type="url" label="URL to collection" placeholder="Enter a url" validation="url|required" error-behavior="submit" />
+                      <formulate-input name="url" type="url" label="URL to watchlist" placeholder="Enter a url" validation="url|required" error-behavior="submit" />
                     </div>
                   </div>
                 </div>
@@ -240,33 +240,33 @@ export default {
         marketplaces: [
           {
             name: 'OpenSea',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           },
           {
             name: 'Rarible',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           }
         ],
         socials: [
           {
             name: 'Telegram',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           },
           {
             name: 'Discord',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           },
           {
             name: 'Twitter',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           },
           {
             name: 'YouTube',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           },
           {
             name: 'Instagram',
-            url: 'https://opensea.io/collection/cyberkongz/'
+            url: 'https://opensea.io/watchlist/cyberkongz/'
           }
         ]
       }

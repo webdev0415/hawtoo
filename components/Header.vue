@@ -40,13 +40,13 @@
           <div class="flex items-center justify-center w-full h-full">
             <div class="hidden lg:flex">
               <div class="flex items-baseline">
-                <NuxtLink to="/projects" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openCollectionModal">
+                <NuxtLink to="/projects" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openWatchlistModal">
                   Browse
                 </NuxtLink>
-                <a href="javascript:void(0)" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openCollectionModal">
+                <a href="javascript:void(0)" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openWatchlistModal">
                   My Watchlists
                 </a>
-                <NuxtLink to="/about" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openCollectionModal">
+                <NuxtLink to="/about" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openWatchlistModal">
                   About
                 </NuxtLink>
               </div>
@@ -222,14 +222,14 @@ export default {
   methods: {
     ...mapMutations({
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
-      toggleCollectionModal: 'general/TOGGLE_COLLECTION_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
     }),
-    openCollectionModal() {
+    openWatchlistModal() {
       if (this.$auth.loggedIn) {
-        this.toggleCollectionModal({
+        this.toggleWatchlistModal({
           open: true,
           saveMode: false,
-          title: 'My Collections'
+          title: 'My Watchlists'
         })
       } else {
         this.promptLogin()
