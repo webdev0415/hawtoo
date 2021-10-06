@@ -15,7 +15,7 @@ const createNewWatchlist = async (userId, watchlistName) => {
 const addProjectToWatchlist = async (userId, watchlistId, collectedArray) => {
     return await supabase
         .from('watchlists')
-        .upsert({ id: watchlistId, author_id: userId, collected: collectedArray })
+        .update({ id: watchlistId, author_id: userId, collected: collectedArray }, { onConflict: id })
 }
 
 export {
