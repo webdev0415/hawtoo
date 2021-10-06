@@ -3,7 +3,7 @@
     <Header />
     <Nuxt />
     <LoginModal />
-    <WatchlistSaveModal />
+    <WatchlistModal />
     <Footer />
   </div>
 </template>
@@ -12,14 +12,14 @@
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import LoginModal from '~/components/LoginModal'
-import WatchlistSaveModal from '~/components/Watchlists/WatchlistSaveModal'
+import WatchlistModal from '~/components/Watchlists/WatchlistModal'
 
 export default {
   components: {
     Header,
     Footer,
     LoginModal,
-    WatchlistSaveModal
+    WatchlistModal
   },
   data: () => ({
     authenticated: false,
