@@ -1,7 +1,6 @@
 
 const state = () => ({
     isNewUser: true,
-    setFeaturedProjects: [],
     loginModal: {
         open: false,
         title: '',
@@ -12,16 +11,7 @@ const state = () => ({
         saveMode: false,
         title: 'My Collecions'
     },
-    header: {
-        hideNav: false,
-    }
 });
-
-const actions = {
-    toggleCollectionModal: ({ dispatch, commit }, payload) => {
-        commit('SET_COLLECTION_MODAL', payload)
-    },
-}
 
 const getters = {
     isNewUser: (state) => {
@@ -30,25 +20,19 @@ const getters = {
     collectionModal: (state) => {
         return state.collectionModal
     },
+    loginModal: (state) => {
+        return state.loginModal
+    },
 };
 
 const mutations = {
-    SET_FIXED_HEADER(state, bool) {
-        state.fixedHeader = bool;
-    },
-    setHeader(state, data) {
-        state.header = data;
-    },
-    SET_LOGIN_MODAL(state, data) {
+    TOGGLE_LOGIN_MODAL(state, data) {
         state.loginModal = data;
     },
-    SET_COLLECTION_MODAL(state, data) {
+    TOGGLE_COLLECTION_MODAL(state, data) {
         state.collectionModal = data;
     },
-    setFeaturedProjects(state, data) {
-        state.featuredProjects = state.featuredProjects.concat(data);
-    },
-    setIsNewUser(state, flag) {
+    SET_NEW_USER(state, flag) {
         state.isNewUser = flag
     }
 };
@@ -57,6 +41,5 @@ export default {
     namespaced: true,
     state,
     getters,
-    actions,
     mutations,
 }

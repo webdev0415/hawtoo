@@ -1,8 +1,8 @@
 <template>
-  <Modal :showing="getModal.open" :allow-esc="false" :background-close="false" :css="{ 'modal': 'max-w-xl' }" @close="closeModal">
+  <Modal :showing="getCollectionModal.open" :allow-esc="false" :background-close="false" :css="{ 'modal': 'max-w-xl' }" @close="closeModal">
     <div class="p-4">
       <h2 class="mb-1 text-xl font-extrabold text-left ">
-        {{ getModal.title }}
+        {{ getCollectionModal.title }}
       </h2>
 
       <input v-model="searchTerm" type="text">
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { addProjectToCollection } from '@/api/lib/collections'
 import global from '@/mixins/global'
 
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getModal: 'general/collectionModal',
+      getCollectionModal: 'general/collectionModal',
       getCollections: 'collections/collections'
     }),
 
@@ -45,16 +45,20 @@ export default {
     }
   },
   created() {
-    this.fetchCollections(this.$auth.user.id)
+    if (this.$auth.loggedIn) {
+      this.fetchCollections(this.$auth.user.id)
+    }
   },
   methods: {
     ...mapActions({
-      fetchCollections: 'collections/fetchCollections',
-      useModal: 'general/toggleCollectionModal'
+      fetchCollections: 'collections/fetchCollections'
+    }),
+    ...mapMutations({
+      toggleCollectionModal: 'general/TOGGLE_COLLECTION_MODAL'
     }),
 
     addToCollection(id) {
-      if (this.getModal.saveMode) {
+      if (this.getCollectionModal.saveMode) {
         console.log('Collection ID is: ' + id)
       }
     },
@@ -81,7 +85,7 @@ export default {
     },
 
     closeModal() {
-      this.useModal({
+      this.toggleCollectionModal({
         open: false
       })
     }

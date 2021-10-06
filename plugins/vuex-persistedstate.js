@@ -12,7 +12,7 @@ export default ({ store, isDev, req }) => {
         key: 'hawtooState',
         // Only keep these modules in persistated state.
         // We don't have to keep everything persisted.
-        paths: ['auth', 'isNewUser'],
+        paths: ['auth', 'general/isNewUser'],
         storage: {
             getItem: (key) => process.client ? Cookies.getJSON(key) : cookie.parse(req.headers.cookie || '')[key],
             setItem: (key, value) => Cookies.set(key, value, { expires: 365, secure: !isDev }),

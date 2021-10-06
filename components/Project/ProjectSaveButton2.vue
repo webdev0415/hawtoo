@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapMutations } from 'vuex'
 import global from '@/mixins/global'
 
 export default {
@@ -19,42 +19,14 @@ export default {
       default: () => {}
     }
   },
-
-  // data() {
-  //   return {
-  //     allCollected: () => {}
-  //   }
-  // },
-
-  // async fetch() {
-  //   const { data, error } = await this.$supabase
-  //     .from('collections')
-  //     .select('*')
-  //     .eq('author_id', this.userId)
-
-  //   console.log(error)
-
-  //   this.allCollected = data
-  // },
-
-  computed: {
-    userId() {
-      return this.$auth.user.id
-    }
-  },
-
-  // mounted() {
-  //   console.log(this.allCollected)
-  // },
-
   methods: {
-    ...mapActions({
-      useModal: 'general/toggleCollectionModal'
+    ...mapMutations({
+      toggleCollectionModal: 'general/TOGGLE_COLLECTION_MODAL',
+      toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL'
     }),
-
     openModal() {
-      if (this.userId) {
-        this.useModal({
+      if (this.$auth.loggedIn) {
+        this.toggleCollectionModal({
           open: true,
           saveMode: true,
           title: 'Save this project to a collection'
@@ -65,7 +37,7 @@ export default {
     },
 
     promptLogin() {
-      this.$store.dispatch('SET_LOGIN_MODAL', {
+      this.toggleLoginModal({
         open: true,
         title: 'Connect your account',
         description: 'In order to collect you need to connect your account'
