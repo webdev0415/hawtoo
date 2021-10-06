@@ -18,11 +18,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import global from '@/mixins/global'
 import HomeFeatured from '@/components/Home/HomeFeatured.vue'
 import HomeEmailForm from '@/components/Home/HomeEmailForm.vue'
 import ProjectCardGrid from '@/components/ProjectCardGrid.vue'
-/* eslint-disable vue/no-unused-components */
+
 export default {
   components: {
     HomeEmailForm,
@@ -40,7 +41,7 @@ export default {
       $auth.user !== null &&
       $auth.user.last_sign_in_at.split('.')[0] ===
         $auth.user.email_confirmed_at.split('.')[0] &&
-      store.state.isNewUser === true
+      store.getters['general/isNewUser'] === true
     ) {
       redirect('/onboarding')
     }
@@ -80,6 +81,11 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      isNewUser: 'general/isNewUser'
+    })
   },
   mounted() {
     // eslint-disable-next-line no-console

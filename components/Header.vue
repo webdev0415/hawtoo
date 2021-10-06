@@ -1,5 +1,5 @@
 <template>
-  <nav :class="[navClass, { 'bg-black': mobileMenuOpen }, fixed && !view.atTopOfPage ? 'shadow' : '', !fixed ? 'border-gray-100 border-b' : '', , !fixed && mobileMenuOpen ? 'border-0 border-transparent' : '']" :style="fixed && !view.atTopOfPage ? 'background:white;' : fixed ? 'background : transparent' : '' ">
+  <nav class="bg-white" :class="{ 'bg-black border-0 border-transparent': mobileMenuOpen }">
     <div class="w-full px-4">
       <div class="flex items-center justify-between h-[52px]">
         <!--- Desktop menu -->
@@ -38,13 +38,17 @@
           </div>
           <!-- Center -->
           <div class="flex items-center justify-center w-full h-full">
-            <div v-if="!headerData.hideNav" class="hidden lg:flex">
+            <div class="hidden lg:flex">
               <div class="flex items-baseline">
-                <div v-for="route in navigation" :key="route.path">
-                  <NuxtLink :to="route.path" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
-                    {{ route.text }}
-                  </NuxtLink>
-                </div>
+                <NuxtLink to="/projects" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openWatchlistModal">
+                  Browse
+                </NuxtLink>
+                <a href="javascript:void(0)" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openWatchlistModal">
+                  My Watchlists
+                </a>
+                <NuxtLink to="/about" class="px-3 py-2 mx-2 font-medium text-gray-600 rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="openWatchlistModal">
+                  About
+                </NuxtLink>
               </div>
             </div>
           </div>
@@ -62,14 +66,14 @@
                   <!-- <AppButton variant="primary" size="small" class="ml-8 desktop-primary-button" to="/connect">Sign up free</AppButton> -->
                 </div>
 
-            <!-- Profile dropdown -->
-            <div v-click-outside="() => userMenuOpen = false" class="relative ml-3">
-              <div v-if="user">
-                <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen" >
-                  <span class="sr-only">Open user menu</span>
-                  <Avatar :size="36" :fullname="displayName" :image="avatarUrl" />
-                </button>
-              </div>
+                <!-- Profile dropdown -->
+                <div v-click-outside="() => userMenuOpen = false" class="relative ml-3">
+                  <div v-if="user">
+                    <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
+                      <span class="sr-only">Open user menu</span>
+                      <Avatar :size="36" :fullname="displayName" :image="avatarUrl" />
+                    </button>
+                  </div>
 
                   <!-- Profile menu -->
                   <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
@@ -165,6 +169,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import vClickOutside from 'v-click-outside'
 import LogoIcon from '@/components/Site/Logo/LogoIcon'
 import {
@@ -180,14 +185,6 @@ export default {
   },
   directives: {
     clickOutside: vClickOutside.directive
-  },
-  props: {
-    headerData: {
-      type: Object,
-      default: () => {},
-      required: true
-    },
-    fixed: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -210,19 +207,11 @@ export default {
     },
     displayName() {
       if (!this.$auth.user.user_metadata.full_name) return ''
-
       return this.$auth.user.user_metadata.full_name
     },
     avatarUrl() {
       if (!this.$auth.user.user_metadata.avatar_url) return ''
-
       return this.$auth.user.user_metadata.avatar_url
-    },
-    navClass() {
-      return {
-        'bg-white': true,
-        'fixed z-50 w-full': this.fixed === true
-      }
     }
   },
   watch: {
@@ -230,37 +219,42 @@ export default {
       this.mobileMenuOpen = false
     }
   },
-  beforeMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  },
   methods: {
+    ...mapMutations({
+      toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
+      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
+    }),
+    openWatchlistModal() {
+      if (this.$auth.loggedIn) {
+        this.toggleWatchlistModal({
+          open: true,
+          saveMode: false,
+          title: 'My Watchlists'
+        })
+      } else {
+        this.promptLogin()
+      }
+    },
+
+    promptLogin() {
+      this.toggleLoginModal({
+        open: true,
+        title: 'Connect your account',
+        description: 'In order to collect you need to connect your account'
+      })
+    },
+
     async logout() {
-      this.$store.commit('setIsNewUser', true)
       await this.$auth.logout()
     },
+
     login() {
-      this.$store.dispatch('SET_LOGIN_MODAL', {
+      this.toggleLoginModal({
         open: true,
         title: 'Log in or sign up',
         description: '',
         referrer: this.$route.path
       })
-    },
-    handleScroll() {
-      // when the user scrolls, check the pageYOffset
-      if (window.pageYOffset > 0) {
-        // user is scrolled
-        if (this.view.atTopOfPage) {
-          this.view.atTopOfPage = false
-        }
-      } else {
-        // user is at top of page
-        // eslint-disable-next-line no-lonely-if
-        if (!this.view.atTopOfPage) {
-          this.view.atTopOfPage = true
-        }
-      }
-      // console.log(this.view.atTopOfPage)
     }
   }
 }

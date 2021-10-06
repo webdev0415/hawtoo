@@ -15,10 +15,16 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'Onboarding',
   layout: 'empty',
+  computed: {
+    ...mapGetters({
+      isNewUser: 'general/isNewUser'
+    })
+  },
   async mounted() {
     const authState = this.$auth.$state
     if (
@@ -26,13 +32,18 @@ export default {
       authState.user !== null &&
       authState.user.last_sign_in_at.split('.')[0] ===
         authState.user.email_confirmed_at.split('.')[0] &&
-      this.$store.state.isNewUser === true
+      this.isNewUser === true
     ) {
       await axios.post('/api/subscribe', {
         email: authState.user.email
       })
-      this.$store.commit('setIsNewUser', false)
+      this.setNewUser(false)
     }
-  }
+  },
+  methods: [
+    ...mapMutations({
+      setNewUser: 'general/SET_NEW_USER'
+    })
+  ]
 }
 </script>

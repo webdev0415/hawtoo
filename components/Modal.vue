@@ -1,7 +1,7 @@
 <template>
   <Transition name="fade">
     <div v-if="showing" class="fixed inset-0 z-50 flex items-center justify-center w-full h-screen bg-modal" :class="customCSS.background" @click.self="closeIfShown">
-      <div class="relative flex w-full max-h-screen p-6 m-2 bg-white rounded-lg shadow-lg sm:p-8" :class="customCSS.modal">
+      <div class="relative flex w-full max-h-screen p-6 m-2 bg-white shadow-lg rounded-xl sm:p-8" :class="customCSS.modal">
         <button v-if="showClose" aria-label="close" class="absolute top-0 right-0 mx-4 my-2 text-xl text-gray-500" :class="customCSS.close" @click.prevent="close">
           <img src="~/assets/images/icons/close.svg" alt="Close">
         </button>
@@ -21,6 +21,10 @@ export default {
       type: Boolean
     },
     showClose: {
+      type: Boolean,
+      default: true
+    },
+    allowEsc: {
       type: Boolean,
       default: true
     },
@@ -47,6 +51,9 @@ export default {
     }
   },
   watch: {
+    $route() {
+      this.close()
+    },
     showing(value) {
       if (value) {
         return document.querySelector('body').classList.add('overflow-hidden')
@@ -55,7 +62,7 @@ export default {
     }
   },
   mounted() {
-    if (this.showClose) {
+    if (this.showClose && this.allowEsc) {
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           this.close()

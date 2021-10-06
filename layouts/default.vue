@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <Header :header-data="$store.state.header" />
+    <Header />
     <Nuxt />
-    <LoginModal :modal-data="$store.state.loginModal" />
+    <LoginModal />
+    <WatchlistModal />
     <Footer />
   </div>
 </template>
@@ -11,12 +12,14 @@
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import LoginModal from '~/components/LoginModal'
+import WatchlistModal from '~/components/Watchlists/WatchlistModal'
 
 export default {
   components: {
     Header,
     Footer,
-    LoginModal
+    LoginModal,
+    WatchlistModal
   },
   data: () => ({
     authenticated: false,
