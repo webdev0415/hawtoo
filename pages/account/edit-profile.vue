@@ -96,26 +96,44 @@ export default {
           }
         })
 
+        await this.$supabase
+          .from('profiles')
+          .update({
+            display_name: formData['display name'],
+            avatar_url: this.localSignedURL
+          })
+          .match({ id: this.$auth.user.id })
+
         this.$toast.success('Updated profile')
       } catch (e) {
         this.$toast.success('There was an error')
       }
     },
     async handleFileUpload(file, progress, formError, option) {
-      const bucketName = 'avatars'
-      const time = new Date().getTime()
-      const finalFileName = `avatar/${this.formValues.email}-${time}`
-      const { error } = await this.$supabase.storage
+      const bucketName = 'public'
+      const userId = this.$auth.user.id
+      const finalFileName = `avatars/profiles/${userId}`
+
+      const { data, error } = await this.$supabase.storage
         .from(bucketName)
-        .upload(finalFileName, file)
+        .upload(finalFileName, file, {
+          cacheControl: '450',
+          upsert: true
+        })
+
       if (error) {
+        this.$toast.error('Something went wrong with saving your profile')
         this.bailSubmission = true
       }
-      const { signedURL } = await this.$supabase.storage
-        .from(bucketName)
-        .createSignedUrl(finalFileName, 60)
-      if (signedURL) {
-        this.localSignedURL = signedURL
+
+      if (data) {
+        const avatarUrlResp = await this.$supabase.storage
+          .from(bucketName)
+          .getPublicUrl(finalFileName)
+
+        if (avatarUrlResp.data) {
+          this.localSignedURL = avatarUrlResp.data.publicURL
+        }
       }
       this.uploadedAvatarFileName = finalFileName
     },

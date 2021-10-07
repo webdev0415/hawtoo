@@ -1,6 +1,9 @@
 
 const state = () => ({
     isNewUser: true,
+    editProfileModal: {
+        open: false,
+    },
     loginModal: {
         open: false,
         title: '',
@@ -23,9 +26,15 @@ const getters = {
     loginModal: (state) => {
         return state.loginModal
     },
+    editProfileModal: (state) => {
+        return state.editProfileModal
+    },
 };
 
 const mutations = {
+    TOGGLE_EDIT_PROFILE_MODAL(state, data) {
+        state.editProfileModal = data;
+    },
     TOGGLE_LOGIN_MODAL(state, data) {
         state.loginModal = data;
     },

@@ -4,9 +4,9 @@
     <div class="flex flex-col">
       <div class="mb-4 sm:items-center sm:flex sm:space-x-5">
         <div class="flex-shrink-0 text-center md:text-left">
-          <Avatar :size="60" :fullname="data.authorMeta.display_name" :image="data.authorMeta.avatar_url" />
+          <UserAvatar :user-id="data.author_id" :size="60" />
         </div>
-        <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
+        <div class="mt-4 text-center sm:mt-0 sm:text-left">
           <p class="text-sm font-medium text-gray-600">A watchlist by:</p>
           <p class="font-bold text-gray-900 text-md">{{ data.authorMeta.display_name }}</p>
         </div>
@@ -33,10 +33,12 @@
 
 <script>
 import WatchlistEditButton from '@/components/Watchlists/WatchlistEditButton'
+import UserAvatar from '@/components/Site/UserAvatar'
 
 export default {
   components: {
-    WatchlistEditButton
+    WatchlistEditButton,
+    UserAvatar
   },
   props: {
     data: {

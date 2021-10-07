@@ -1,7 +1,5 @@
 <template>
-  <NuxtLink :to="'/@' + slug" class="relative" style="outline: none;">
-    <Avatar :verified="verified" :size="size" :size-badge="sizeBadge" :fullname="name" :color="avatarColor" :image="avatarUrl" />
-  </NuxtLink>
+  <Avatar :verified="verified" :size="size" :size-badge="sizeBadge" :fullname="name" :color="avatarColor" :image="avatarUrl" />
 </template>
 
 <script>

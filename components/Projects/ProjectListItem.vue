@@ -1,18 +1,19 @@
 <template>
-  <NuxtLink :to="`/@${project.slug}/`" class="block mt-4 bg-white rounded-lg hover:bg-gray-50">
+  <NuxtLink :to="`/@${project.slug}`" class="block mt-4 bg-white rounded-lg hover:bg-gray-50">
     <div class="flex items-center px-4 py-4 sm:px-6">
       <div class="flex-1 min-w-0 sm:flex sm:items-center sm:justify-between">
-        <div class="truncate">
-          <div class="flex text-sm">
-            <ProjectTitleAvatar :verified="project.verified" :name="project.name" :avatar-color="project.avatar_color" :avatar-name="project.avatar_name" :type="project.type" :chain="project.chain" :slug="project.slug" />
+        <div class="flex items-center">
+          <div>
+            <div class="flex items-center">
+              <ProjectAvatar :verified="project.verified" :size="64" :name="project.name" :avatar-color="project.avatar_color" :avatar-name="project.avatar_name" :slug="project.slug" />
+              <h4 class="ml-3 text-[17px] font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                {{ project.name }}
+              </h4>
+            </div>
           </div>
-        </div>
-        <div class="flex-shrink-0 mt-4 sm:mt-0 sm:ml-5">
-
         </div>
       </div>
       <div class="flex-shrink-0 ml-5">
-        <!-- Heroicon name: solid/chevron-right -->
         <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
         </svg>
@@ -22,11 +23,11 @@
 </template>
 
 <script>
-import ProjectTitleAvatar from '@/components/ProjectTitleAvatar.vue'
+import ProjectAvatar from '@/components/ProjectAvatar.vue'
 
 export default {
   components: {
-    ProjectTitleAvatar
+    ProjectAvatar
   },
   props: {
     project: {
