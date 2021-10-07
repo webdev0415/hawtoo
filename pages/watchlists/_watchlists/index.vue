@@ -25,6 +25,7 @@ export default {
     ProjectListItem
   },
   async asyncData({ $supabase, $config, params, error, $auth }) {
+    let canEdit = false
     const watchlistResponse = await $supabase
       .from('watchlists')
       .select('*')
@@ -33,17 +34,20 @@ export default {
 
     if (watchlistResponse.error) {
       const watchlistError = watchlistResponse.error
-      if (watchlistError.details?.startsWith('Results contain 0 rows')) {
+      if (watchlistError.details.startsWith('Results contain 0 rows')) {
         error({ statusCode: 404 })
       } else {
         error({ statusCode: 500, watchlistError })
       }
     }
 
-    console.log(watchlistResponse)
+    const authorId = watchlistResponse.data?.author_id ?? null
 
-    const authorId = watchlistResponse.data.author_id
-    const canEdit = authorId === $auth.user?.id
+    if ($auth.loggedIn) {
+      canEdit = authorId === $auth.user.id
+    }
+
+    // authorid is null so it won't equal to logged in user
     const isPrivateWatchlist = !watchlistResponse.data.public && !canEdit
     const collectedArray = watchlistResponse.data.collected ?? []
 

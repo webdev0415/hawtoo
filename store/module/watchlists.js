@@ -1,5 +1,5 @@
 import { supabase } from '@/plugins/supabase'
-import { getUserWatchlists } from '@/api/lib/watchlists'
+import { getUserWatchlists } from '@/utils/supabase/watchlists'
 
 const state = () => ({
     watchlists: [],
@@ -73,8 +73,10 @@ const mutations = {
     },
     MODIFY_WATCHLIST: (state, watchlist,) => {
         const itemFound = state.watchlists.find((item) => {
+            console.log(watchlist);
             return watchlist.id === item.id
         })
+
         itemFound.collected = watchlist.collected
         itemFound.name = watchlist.name
         itemFound.description = watchlist.description
