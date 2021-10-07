@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <div class="flex flex-wrap justify-center mb-3">
-      <avatar class="" :size="128" :size-badge="36" :verified-tooltip="`${data.name} is verified on HawToo`" :color="data.avatar_color" :verified="data.verified" :fullname="data.name" :image="avatarUrl" />
+      <ProjectAvatar :verified="data.verified" :size="128" :size-badge="36" :name="data.name" :avatar-color="data.avatar_color" :avatar-name="data.avatar_name" :slug="data.slug" />
     </div>
 
     <h1 class="mb-4 text-3xl font-semibold leading-tight text-center md:text-4xl">
@@ -29,9 +29,13 @@
 </template>
 
 <script>
+import ProjectAvatar from '@/components/ProjectAvatar.vue'
 import helper from '@/utils/projectsHelpers.js'
 
 export default {
+  components: {
+    ProjectAvatar
+  },
   props: {
     data: {
       type: Object,

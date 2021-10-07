@@ -33,7 +33,7 @@ export default {
   methods: {
     async getAvatar(file) {
       const avatarUrlResp = await this.$supabase.storage
-        .from('avatars')
+        .from('public')
         .getPublicUrl(file)
 
       this.avatarUrl = avatarUrlResp.data.publicURL
