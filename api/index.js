@@ -80,13 +80,14 @@ app.post('/subscribe', async (req, res) => {
 })
 
 app.post('/increment_page_view', async (req, res) => {
-    const { slug: pageSlug } = req.body
+    const { slug: page_slug } = req.body
+    const { data, error } = await supabase.rpc('increment_page_view', { page_slug })
 
-    await supabase.rpc('increment_page_view', { pageSlug }).then((result) => {
-        if (result.error) {
-            res.status(result.status).send(result.error).end()
-        }
-    });
+    if (error) {
+        console.error(error)
+    } else {
+        res.status(200).send(data)
+    }
 })
 
 /**
