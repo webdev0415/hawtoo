@@ -4,6 +4,7 @@
     <Nuxt />
     <LoginModal />
     <WatchlistModal />
+    <EditProfileModal />
     <Footer />
   </div>
 </template>
@@ -13,13 +14,15 @@ import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import LoginModal from '~/components/LoginModal'
 import WatchlistModal from '~/components/Watchlists/WatchlistModal'
+import EditProfileModal from '~/components/Account/EditProfileModal'
 
 export default {
   components: {
     Header,
     Footer,
     LoginModal,
-    WatchlistModal
+    WatchlistModal,
+    EditProfileModal
   },
   data: () => ({
     authenticated: false,

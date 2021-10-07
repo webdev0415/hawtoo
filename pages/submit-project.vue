@@ -144,7 +144,7 @@
                       <formulate-input name="name" type="select" :options="marketplaceLinks" label="Platform" placeholder="Select a marketplace" validation="noSameMarketPlace|required" error-behavior="submit" />
                     </div>
                     <div class="sm:col-span-4">
-                      <formulate-input name="url" type="url" label="URL to watchlist" placeholder="Enter a url" validation="url|required" error-behavior="submit" />
+                      <formulate-input name="slug" type="text" label="The collection slug" placeholder="Enter the collection slug" validation="required" error-behavior="submit" />
                     </div>
                   </div>
                 </div>
@@ -362,10 +362,10 @@ export default {
      * Gets fired before `handleSubmit()`
      */
     async handleFileUpload(file, progress, formError, option) {
-      const bucketName = 'avatars'
+      const bucketName = 'public'
       const projectSlug = this.projectSlug
       const time = new Date().getTime()
-      const finalFileName = `projects/${projectSlug}-${time}`
+      const finalFileName = `avatars/projects/${projectSlug}-${time}`
 
       const { data, error } = await this.$supabase.storage
         .from(bucketName)

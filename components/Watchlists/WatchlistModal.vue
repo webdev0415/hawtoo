@@ -40,7 +40,10 @@
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { addProjectToWatchlist, createNewWatchlist } from '@/api/lib/watchlists'
+import {
+  addProjectToWatchlist,
+  createNewWatchlist
+} from '@/utils/supabase/watchlists'
 import global from '@/mixins/global'
 
 export default {
@@ -95,7 +98,7 @@ export default {
       fetchWatchlists: 'watchlists/fetchWatchlists'
     }),
     ...mapMutations({
-      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
     }),
 
     handleWatchlistClick(id) {
@@ -137,7 +140,14 @@ export default {
       }
 
       if (data) {
-        this.$toast.success(`Saved to "${data[0].name}"`)
+        this.$toast.open({
+          message: `Saved to "${data[0].name}" <span class="ml-1 underline">View ></span>`,
+          type: 'success',
+          onClick: () => {
+            this.$router.push({ path: `/watchlists/${watchlistId}` })
+          }
+          // all of other options may go here
+        })
       }
     },
     async handleNewWatchlist() {

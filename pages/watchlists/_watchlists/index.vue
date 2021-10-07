@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import getMeta from '~/utils/get-meta'
+// import getMeta from '~/utils/get-meta'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import ProjectListItem from '@/components/Projects/ProjectListItem'
@@ -25,6 +25,7 @@ export default {
     ProjectListItem
   },
   async asyncData({ $supabase, $config, params, error, $auth }) {
+    let canEdit = false
     const watchlistResponse = await $supabase
       .from('watchlists')
       .select('*')
@@ -40,8 +41,13 @@ export default {
       }
     }
 
-    const authorId = watchlistResponse.data.author_id
-    const canEdit = authorId === $auth.user?.id
+    const authorId = watchlistResponse.data?.author_id ?? null
+
+    if ($auth.loggedIn) {
+      canEdit = authorId === $auth.user.id
+    }
+
+    // authorid is null so it won't equal to logged in user
     const isPrivateWatchlist = !watchlistResponse.data.public && !canEdit
     const collectedArray = watchlistResponse.data.collected ?? []
 
@@ -81,13 +87,13 @@ export default {
         class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen'
       },
       title: `${this.data.name}`,
-      description: this.data.description,
-      meta: getMeta({
-        title: `Watchlist: ${this.data.name}`,
-        authorName: this.data.author_id,
-        authorNameDesc: this.data.description,
-        authorImage: this.avatarUrl
-      })
+      description: this.data.description
+      // meta: getMeta({
+      //   title: `Watchlist: ${this.data.name}`,
+      //   authorName: this.data.author_id,
+      //   authorNameDesc: this.data.description,
+      //   authorImage: this.avatarUrl
+      // })
     }
   }
 }

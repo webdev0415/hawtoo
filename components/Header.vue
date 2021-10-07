@@ -54,7 +54,7 @@
           </div>
           <!-- Right -->
           <div class="flex items-center justify-end w-full h-full">
-            <div class="hidden lg:block">
+            <div class="">
               <div class="flex items-center ml-4 md:ml-6">
                 <!-- <div class="relative ml-3">
               <MiscSettingsMenu />
@@ -63,31 +63,18 @@
                 <!-- buttons -->
                 <div v-if="!user" class="flex items-center">
                   <span class="font-bold border-b border-gray-200" @click="login">Login</span>
-                  <!-- <AppButton variant="primary" size="small" class="ml-8 desktop-primary-button" to="/connect">Sign up free</AppButton> -->
                 </div>
 
-                <!-- Profile dropdown -->
-                <div v-click-outside="() => userMenuOpen = false" class="relative ml-3">
-                  <div v-if="user">
+                <!-- Profile menu: Toggle -->
+                <div v-if="user" class="relative ml-3">
+                  <div>
                     <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
                       <span class="sr-only">Open user menu</span>
-                      <Avatar :size="36" :fullname="displayName" :image="avatarUrl" />
+                      <UserAvatar :user-id="user.id" :size="36" />
+
                     </button>
                   </div>
 
-                  <!-- Profile menu -->
-                  <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
-                    >
-                    <div v-if="userMenuOpen" id="user-menu-nav" class="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                      <!-- Active: "bg-gray-100", Not Active: "" -->
-                      <NuxtLink v-for="route in userMenuNavigation" :key="route.path" :to="route.path" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        {{ route.name }}
-                      </NuxtLink>
-                      <span class="block px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100" @click="logout">
-                        Logout
-                      </span>
-                    </div>
-                  </transition>
                 </div>
               </div>
             </div>
@@ -116,49 +103,42 @@
           </div>
 
           <div class="flex items-center justify-end w-full h-full">
-            <span class="text-sm font-bold" :class="mobileMenuOpen ? 'text-white' : 'border-gray-200 border-b'" @click="login">Login</span>
+            <span v-if="!user" class="text-sm font-bold" :class="mobileMenuOpen ? 'text-white' : 'border-gray-200 border-b'" @click="login">Login</span>
+            <!-- Profile menu: Toggle -->
+            <button v-if="user" type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
+              <span class="sr-only">Open user menu</span>
+              <UserAvatar :user-id="user.id" :size="36" />
+            </button>
           </div>
 
         </div>
       </div>
     </div>
 
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div id="mobile-menu" :class="{ 'hidden': !mobileMenuOpen }" class="absolute left-0 z-50 w-full h-full pt-2 pl-0 pr-3  bg-black border-0 lg:hidden top-[52px]">
-      <div id="main-mobile-nav" class="container px-2 pt-2 pb-3 mx-auto space-y-1 sm:px-3">
-        <span class="block px-3 py-2 text-base font-bold uppercase rounded-md ">Menu</span>
-        <!-- Current: "bg-white ", Default: " hover:bg-gray-600 hover:bg-opacity-75" -->
-        <NuxtLink v-for="route in mobileNavigation" :key="route.path" :to="route.path" class="block px-3 py-4 text-4xl text-white rounded-md font-bpld ">
-          {{ route.text }}
-        </NuxtLink>
+    <!-- Profile menu -->
+    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+      <div v-if="userMenuOpen" v-click-outside="() => userMenuOpen = false" class="absolute top-[43px] right-[30px] z-50 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+        <span class="block px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100" @click="showEditProfileModal">
+          Account Settings
+        </span>
+        <span class="block px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100" @click="logout">
+          Logout
+        </span>
       </div>
+    </transition>
 
-      <!--- Mobile Menu: User -->
-      <div v-if="user" id="main-mobile-user-nav" class="container pt-4 pb-3 mx-auto border-t border-gray-200 dark:border-gray-700">
-        <div class="flex items-center px-5">
-          <div class="flex items-center">
-            <NuxtLink to="/account">
-              <Avatar :size="48" :fullname="displayName" :image="avatarUrl" />
-            </NuxtLink>
-          </div>
-          <div class="ml-3">
-            <div v-if="displayName" class="text-base font-medium ">
-              {{ displayName }}
-            </div>
-
-            <div class="font-medium text-gray-400 dark:text-gray-600">
-              {{ user.email }}
-            </div>
-          </div>
-        </div>
-        <div id="main-mobile-user-nav" class="px-2 mt-3 space-y-1">
-          <NuxtLink v-for="route in userMenuNavigation" :key="route.path" :to="route.path" class="block px-3 py-2 text-base font-medium rounded-md hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75">
-            {{ route.name }}
-          </NuxtLink>
-          <span class="block px-3 py-2 text-base font-medium rounded-md cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900 hover:bg-opacity-75" @click="logout">
-            Logout
-          </span>
-        </div>
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div id="mobile-menu" :class="{ 'hidden': !mobileMenuOpen }" class="absolute left-0 z-50 w-full h-full pt-2  bg-black border-0 lg:hidden top-[52px]">
+      <div id="main-mobile-nav" class="container pt-2 pb-3 space-y-1">
+        <NuxtLink to="/projects" class="block py-4 text-4xl font-extrabold text-white rounded-md">
+          Browse
+        </NuxtLink>
+        <a href="javascript:void(0)" class="block py-4 text-4xl font-extrabold text-white rounded-md" @click="openWatchlistModal">
+          My Watchlists
+        </a>
+        <NuxtLink to="/about" class="block py-4 text-4xl font-extrabold text-white rounded-md">
+          About
+        </NuxtLink>
       </div>
 
       <!-- <div class="container pt-4 pb-3 mx-auto border-t border-gray-200 dark:border-gray-700">
@@ -172,6 +152,8 @@
 import { mapMutations } from 'vuex'
 import vClickOutside from 'v-click-outside'
 import LogoIcon from '@/components/Site/Logo/LogoIcon'
+import UserAvatar from '@/components/Site/UserAvatar'
+
 import {
   navigation,
   mobileNavigation,
@@ -181,7 +163,8 @@ import {
 export default {
   name: 'Header',
   components: {
-    LogoIcon
+    LogoIcon,
+    UserAvatar
   },
   directives: {
     clickOutside: vClickOutside.directive
@@ -204,14 +187,6 @@ export default {
     user() {
       if (!this.$auth.user) return false
       else return this.$auth.user
-    },
-    displayName() {
-      if (!this.$auth.user.user_metadata.full_name) return ''
-      return this.$auth.user.user_metadata.full_name
-    },
-    avatarUrl() {
-      if (!this.$auth.user.user_metadata.avatar_url) return ''
-      return this.$auth.user.user_metadata.avatar_url
     }
   },
   watch: {
@@ -222,10 +197,12 @@ export default {
   methods: {
     ...mapMutations({
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
-      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL',
+      toggleEditProfileModal: 'general/TOGGLE_EDIT_PROFILE_MODAL'
     }),
     openWatchlistModal() {
       if (this.$auth.loggedIn) {
+        this.mobileMenuOpen = false
         this.toggleWatchlistModal({
           open: true,
           saveMode: false,
@@ -246,6 +223,12 @@ export default {
 
     async logout() {
       await this.$auth.logout()
+    },
+
+    showEditProfileModal() {
+      this.toggleEditProfileModal({
+        open: true
+      })
     },
 
     login() {

@@ -5,7 +5,9 @@ import watchlists from './module/watchlists'
 export default {
     strict: false,
     modules: { watchlists, general },
-    state: {},
+    state() {
+        return {};
+    },
     actions: {},
     mutatations: {},
     getters: {}

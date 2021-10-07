@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toggleWatchlistModal: 'general/TOGGLE_COLLECTION_MODAL',
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL',
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL'
     }),
     openModal() {
