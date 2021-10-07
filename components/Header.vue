@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- Profile menu: Toggle -->
-                <div v-click-outside="() => userMenuOpen = false" class="relative ml-3">
+                <div v-if="user" class="relative ml-3">
                   <div>
                     <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
                       <span class="sr-only">Open user menu</span>
@@ -117,11 +117,10 @@
 
     <!-- Profile menu -->
     <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
-      <div v-if="userMenuOpen" id="user-menu-nav" class="absolute top-[43px] right-[30px] z-50 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-        <!-- Active: "bg-gray-100", Not Active: "" -->
-        <NuxtLink v-for="route in userMenuNavigation" :key="route.path" :to="route.path" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-          {{ route.name }}
-        </NuxtLink>
+      <div v-if="userMenuOpen" v-click-outside="() => userMenuOpen = false" class="absolute top-[43px] right-[30px] z-50 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+        <span class="block px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100" @click="showEditProfileModal">
+          Account Settings
+        </span>
         <span class="block px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100" @click="logout">
           Logout
         </span>
@@ -131,13 +130,13 @@
     <!-- Mobile menu, show/hide based on menu state. -->
     <div id="mobile-menu" :class="{ 'hidden': !mobileMenuOpen }" class="absolute left-0 z-50 w-full h-full pt-2  bg-black border-0 lg:hidden top-[52px]">
       <div id="main-mobile-nav" class="container pt-2 pb-3 space-y-1">
-        <NuxtLink to="/projects" class="block py-4 text-4xl font-extrabold text-white rounded-md" @click="openWatchlistModal">
+        <NuxtLink to="/projects" class="block py-4 text-4xl font-extrabold text-white rounded-md">
           Browse
         </NuxtLink>
         <a href="javascript:void(0)" class="block py-4 text-4xl font-extrabold text-white rounded-md" @click="openWatchlistModal">
           My Watchlists
         </a>
-        <NuxtLink to="/about" class="block py-4 text-4xl font-extrabold text-white rounded-md" @click="openWatchlistModal">
+        <NuxtLink to="/about" class="block py-4 text-4xl font-extrabold text-white rounded-md">
           About
         </NuxtLink>
       </div>
@@ -188,14 +187,6 @@ export default {
     user() {
       if (!this.$auth.user) return false
       else return this.$auth.user
-    },
-    displayName() {
-      if (!this.$auth.user.user_metadata.full_name) return ''
-      return this.$auth.user.user_metadata.full_name
-    },
-    avatarUrl() {
-      if (!this.$auth.user.user_metadata.avatar_url) return ''
-      return this.$auth.user.user_metadata.avatar_url
     }
   },
   watch: {
@@ -206,7 +197,8 @@ export default {
   methods: {
     ...mapMutations({
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
-      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL',
+      toggleEditProfileModal: 'general/TOGGLE_EDIT_PROFILE_MODAL'
     }),
     openWatchlistModal() {
       if (this.$auth.loggedIn) {
@@ -231,6 +223,12 @@ export default {
 
     async logout() {
       await this.$auth.logout()
+    },
+
+    showEditProfileModal() {
+      this.toggleEditProfileModal({
+        open: true
+      })
     },
 
     login() {

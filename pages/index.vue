@@ -31,21 +31,17 @@ export default {
     ProjectCardGrid
   },
   mixins: [global],
-  middleware({ redirect, $auth, store }) {
-    /**
-     * Supabase redirects users to /explore after login.
-     * This redirects all users who are new and need onboarding.
-     */
-    if (
-      $auth.loggedIn &&
-      $auth.user !== null &&
-      $auth.user.last_sign_in_at.split('.')[0] ===
-        $auth.user.email_confirmed_at.split('.')[0] &&
-      store.getters['general/isNewUser'] === true
-    ) {
-      redirect('/onboarding')
-    }
-  },
+  // middleware({ redirect, $auth, store }) {
+  //   if (
+  //     $auth.loggedIn &&
+  //     $auth.user !== null &&
+  //     $auth.user.last_sign_in_at.split('.')[0] ===
+  //       $auth.user.email_confirmed_at.split('.')[0] &&
+  //     store.getters['general/isNewUser'] === true
+  //   ) {
+  //     redirect('/onboarding')
+  //   }
+  // },
   async asyncData({ $supabase, $config, error, $content, $auth }) {
     await $auth.fetchUser()
 

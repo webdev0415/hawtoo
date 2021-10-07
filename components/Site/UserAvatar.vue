@@ -17,7 +17,7 @@ export default {
     sizeBadge: { type: Number, default: 24 }
   },
   data: () => ({
-    avatarUrl: '',
+    avatarUrl: require('@/assets/images/default-avatar.png'),
     displayName: 'Random ape'
   }),
   computed: {
@@ -41,7 +41,9 @@ export default {
         const { data, error, status } = await getAvatarInfo(this.userId)
         if (error && status !== 406) throw error
         if (data) {
-          this.avatarUrl = data.avatar_url
+          if (data.avatar_url) {
+            this.avatarUrl = data.avatar_url
+          }
           this.displayName = data.display_name
         }
       } catch (error) {
