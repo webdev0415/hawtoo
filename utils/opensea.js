@@ -4,7 +4,9 @@ const getOpenSeaBasicInfo = async (slug) => {
     if (!slug) {
         throw new Error("Missing slug")
     }
-    const response = await get(`https://api.opensea.io/collection/${slug}`);
+    const response = await get(`https://api.opensea.io/collection/${slug}`, {
+        crossDomain: true
+    });
     const collectionObj = response.data.collection;
     return {
         slug,
