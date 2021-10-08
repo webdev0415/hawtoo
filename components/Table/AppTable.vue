@@ -1,6 +1,6 @@
 <template>
   <main>
-    <section v-if="filtered" class="p-3 mb-3 border border-gray-200 rounded-lg">
+    <section v-if="filtered" class="p-3 mb-3 border-0 rounded-lg">
       <div class="flex items-center">
         <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -8,9 +8,9 @@
         <input v-model="search" class="w-full pl-2 text-gray-500 outline-none" type="text" placeholder="Поиск">
       </div>
     </section>
-    <section class="overflow-auto border border-gray-200 rounded-lg">
-      <table class="w-full divide-y divide-gray-200">
-        <thead :class="theadClass" class="bg-gray-100">
+    <section class="overflow-auto border-0 rounded-lg">
+      <table class="w-full divide-y divide-gray-100">
+        <thead :class="theadClass" class="bg-white">
           <slot name="head" :data="columns">
             <AppTableRow>
               <AppTableCell v-for="(col, index) in columns" :key="index" td-class="text-xs font-medium tracking-wider text-left uppercase" @click="sorted && sort(col.field)">

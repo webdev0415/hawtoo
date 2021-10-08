@@ -16,8 +16,7 @@ export default {
     sizeBadge: { type: Number, default: 24 },
     name: { type: String, default: null, required: true },
     avatarColor: { type: String, default: null, required: true },
-    avatarName: { type: String, default: null, required: false },
-    slug: { type: String, default: null, required: true }
+    avatarName: { type: String, default: null, required: false }
   },
 
   data() {

@@ -1,6 +1,6 @@
 
 <template>
-  <td :class="tdClass" class="px-6 py-4 text-gray-500 whitespace-nowrap">
+  <td :class="tdClass" class="px-4 py-2 text-gray-900 whitespace-nowrap">
     <slot></slot>
   </td>
 </template>

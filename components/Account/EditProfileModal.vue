@@ -49,7 +49,7 @@ export default {
     const user = { ...this.$auth.user }
     this.formValues = {
       email: user.email,
-      display_name: user.user_metadata.display_name || ''
+      display_name: user.user_metadata?.display_name || ''
     }
     if (user.user_metadata?.avatar) {
       this.localAvatarURL = user.user_metadata.avatar_url

@@ -3,7 +3,7 @@
     <div class="container py-8">
       <WatchlistSectionInfo :data="data" />
       <div v-if="data.projects">
-        <ProjectListItem v-for="project in data.projects" :key="project.id" :project="project" />
+        <WatchlistTable :data="data" />
       </div>
       <div v-else class="">
         <WatchlistEmpty />
@@ -16,13 +16,13 @@
 // import getMeta from '~/utils/get-meta'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
-import ProjectListItem from '@/components/Projects/ProjectListItem'
+import WatchlistTable from '@/components/Watchlists/WatchlistTable'
 
 export default {
   components: {
     WatchlistSectionInfo,
     WatchlistEmpty,
-    ProjectListItem
+    WatchlistTable
   },
   async asyncData({ $supabase, $config, params, error, $auth }) {
     let canEdit = false
