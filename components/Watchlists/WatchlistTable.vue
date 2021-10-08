@@ -142,7 +142,7 @@ export default {
       const { count: totalCount } = await this.$supabase
         .from('watchlists')
         .select('*', { head: true, count: 'exact' })
-        .eq('author_id', this.$auth.user.id)
+        .eq('author_id', this.data.author_id)
 
       this.totalCount = totalCount
 

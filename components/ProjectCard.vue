@@ -8,7 +8,7 @@
         <div class="flex items-center -mt-1">
 
           <!-- avatar -->
-          <avatar v-if="hasLoaded" :size="48" :size-badge="20" :verified="data.verified" :fullname="data.name" :color="data.avatar_color" :image="avatarUrl" />
+          <ProjectAvatar v-if="hasLoaded" :verified="data.verified" :size="48" :size-badge="20" :name="data.name" :avatar-color="data.avatar_color" :avatar-name="data.avatar_name" />
           <VueSkeletonLoader v-else class="skeleton-avatar" :width="48" :height="48" />
           <!-- title -->
           <a v-if="hasLoaded" class="ml-3 text-lg font-bold text-gray-800 dark:text-white">{{ data.name }}</a>
@@ -69,20 +69,6 @@ export default {
       if (!this.data.chain) return null
       const chainAbbr = helper.createChainAbbrevation()
       return chainAbbr[this.data.chain]
-    }
-  },
-  created() {
-    if (this.data.avatar_name) {
-      this.getAvatar(this.data.avatar_name)
-    }
-  },
-  methods: {
-    async getAvatar() {
-      const avatarUrlResp = await this.$supabase.storage
-        .from('avatars')
-        .getPublicUrl(this.data.avatar_name)
-
-      this.avatarUrl = avatarUrlResp.data.publicURL
     }
   }
 }
