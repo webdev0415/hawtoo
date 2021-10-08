@@ -112,7 +112,7 @@ export default {
   ],
 
   passwordProtect: {
-    enabled: true,
+    enabled: !isDev,
     formPath: '/password',
     password: 'hello-world123',
     tokenSeed: 101010,
