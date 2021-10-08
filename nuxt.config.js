@@ -108,7 +108,21 @@ export default {
     ['vue-sweetalert2/nuxt/no-css'],
     ['@nuxtjs/axios'],
     ['@nuxtjs/auth-next'],
+    ['nuxt-password-protect']
   ],
+
+  passwordProtect: {
+    enabled: true,
+    formPath: '/password',
+    password: 'hello-world123',
+    tokenSeed: 101010,
+    queryString: '_pw',
+    cookieName: '_password',
+    cookie: {
+      prefix: '',
+      expires: 5
+    },
+  },
 
   auth: {
     cookie: {
@@ -126,6 +140,7 @@ export default {
   },
 
   router: {
+    middleware: ['password-protect'],
     extendRoutes(routes, resolve) {
       routes.push({
         path: '/@:id',
