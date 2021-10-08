@@ -26,9 +26,6 @@ export default {
       required: true,
       default: () => {}
     }
-  },
-  mounted() {
-    console.log(this.data)
   }
 }
 </script>
