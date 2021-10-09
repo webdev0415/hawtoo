@@ -90,12 +90,12 @@ export default {
   },
   created() {
     if (this.$auth.loggedIn) {
-      this.fetchWatchlists(this.$auth.user.id)
+      this.fetchUserWatchlists(this.$auth.user.id)
     }
   },
   methods: {
     ...mapActions({
-      fetchWatchlists: 'watchlists/fetchWatchlists'
+      fetchUserWatchlists: 'watchlists/fetchUserWatchlists'
     }),
     ...mapMutations({
       toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'

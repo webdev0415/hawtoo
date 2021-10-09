@@ -1,9 +1,13 @@
 <template>
   <main>
     <div class="container py-8">
-      <WatchlistSectionInfo :data="data" />
-      <div v-if="data.projects">
-        <WatchlistTable :data="data" />
+      <WatchlistSectionInfo :data="getWatchlist" />
+
+      <div v-if="getWatchlist.projects">
+        <!-- <div v-for="project in getWatchlist.projects" :key="project.id">
+          {{ project.name }}
+        </div> -->
+        <WatchlistTable :data="getWatchlist" />
       </div>
       <div v-else class="">
         <WatchlistEmpty />
@@ -14,6 +18,8 @@
 
 <script>
 // import getMeta from '~/utils/get-meta'
+// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import WatchlistTable from '@/components/Watchlists/WatchlistTable'
@@ -24,20 +30,23 @@ export default {
     WatchlistEmpty,
     WatchlistTable
   },
-  async asyncData({ $supabase, $config, params, error, $auth }) {
+  async asyncData({ $supabase, $config, params, error, $auth, store }) {
     let canEdit = false
+    const watchlistId = params.watchlists
     const watchlistResponse = await $supabase
       .from('watchlists')
       .select('*')
-      .eq('id', params.watchlists)
+      .eq('id', watchlistId)
       .single()
 
     if (watchlistResponse.error) {
       const watchlistError = watchlistResponse.error
       if (watchlistError.details.startsWith('Results contain 0 rows')) {
         error({ statusCode: 404 })
+        return
       } else {
         error({ statusCode: 500, watchlistError })
+        return
       }
     }
 
@@ -77,10 +86,13 @@ export default {
       watchlistResponse.data.projects = { ...collectedResponse.data }
     }
 
+    store.commit('watchlists/SET_SINGLE_WATCHLIST', watchlistResponse.data)
+
     return {
       data: watchlistResponse.data
     }
   },
+
   head() {
     return {
       bodyAttrs: {
@@ -94,6 +106,59 @@ export default {
       //   authorNameDesc: this.data.description,
       //   authorImage: this.avatarUrl
       // })
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getWatchlist: 'watchlists/watchlist'
+    })
+  },
+  created() {
+    // Listening for real-times updates to this watchlist.
+    const id = this.$route.params.watchlists
+    this.$supabase
+      .from(`watchlists:id=eq.${id}`)
+      .on('*', (payload) => {
+        switch (payload.eventType) {
+          case 'INSERT':
+            this.updateStore(payload.new)
+            break
+          case 'UPDATE':
+            this.updateStore(payload.new)
+            return
+          case 'DELETE':
+            this.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+            break
+        }
+      })
+      .subscribe()
+  },
+  methods: {
+    async updateStore(payload) {
+      // Get each project that has been collected by the user.
+      if (payload.collected) {
+        console.log(payload.collected)
+        const collectedArray = payload.collected
+        const collectedResponse = await this.$supabase
+          .from('projects')
+          .select('*')
+          .in('id', collectedArray)
+
+        payload.projects = { ...collectedResponse.data }
+      }
+
+      // Get author details.
+      const userResponse = await this.$supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', payload.author_id)
+        .single()
+
+      payload.authorMeta = {
+        ...userResponse.data
+      }
+
+      this.$store.commit('watchlists/SET_SINGLE_WATCHLIST', payload)
     }
   }
 }
