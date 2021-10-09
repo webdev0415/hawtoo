@@ -7,6 +7,13 @@ const getUserWatchlists = async (userId) => {
         .eq('author_id', userId)
 }
 
+const getWatchList = async (id) => {
+    return await supabase
+        .from('watchlists')
+        .select('*')
+        .eq('id', id)
+}
+
 const createNewWatchlist = async (userId, watchlistName) => {
     return await supabase
         .from('watchlists').insert({ author_id: userId, name: watchlistName })
@@ -23,4 +30,5 @@ export {
     getUserWatchlists,
     createNewWatchlist,
     addProjectToWatchlist,
+    getWatchList
 }
