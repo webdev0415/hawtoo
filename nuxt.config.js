@@ -122,6 +122,13 @@ export default {
     ['nuxt-password-protect']
   ],
 
+  sweetalert: {
+    customClass: {
+      confirmButton: 'btn btn-primary',
+      cancelButton: 'btn'
+    },
+  },
+
   passwordProtect: {
     enabled: !isDev,
     formPath: '/password',

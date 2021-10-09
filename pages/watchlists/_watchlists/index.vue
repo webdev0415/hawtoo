@@ -92,7 +92,9 @@ export default {
       data: watchlistResponse.data
     }
   },
-
+  data: () => ({
+    subscriber: null
+  }),
   head() {
     return {
       bodyAttrs: {
@@ -116,7 +118,7 @@ export default {
   created() {
     // Listening for real-times updates to this watchlist.
     const id = this.$route.params.watchlists
-    this.$supabase
+    this.subscriber = this.$supabase
       .from(`watchlists:id=eq.${id}`)
       .on('*', (payload) => {
         switch (payload.eventType) {
@@ -133,11 +135,13 @@ export default {
       })
       .subscribe()
   },
+  beforeDestroy() {
+    this.$supabase.removeSubscription(this.subscriber)
+  },
   methods: {
     async updateStore(payload) {
       // Get each project that has been collected by the user.
       if (payload.collected) {
-        console.log(payload.collected)
         const collectedArray = payload.collected
         const collectedResponse = await this.$supabase
           .from('projects')

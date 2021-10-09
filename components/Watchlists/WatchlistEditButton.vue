@@ -81,21 +81,7 @@ export default {
         this.$toast.error('Unable to save watchlist')
       }
     },
-    async deleteWatchlist() {
-      try {
-        const watchlistId = this.data.id
-        await this.$supabase
-          .from('watchlists')
-          .delete()
-          .match({ id: watchlistId })
 
-        this.show = false
-
-        this.$toast.success('Your watchlist was deleted')
-      } catch (e) {
-        this.$toast.error('Unable to delete watchlist')
-      }
-    },
     handleDelete() {
       this.$swal
         .fire({
@@ -108,12 +94,32 @@ export default {
           confirmButtonText: 'Yes, delete it!'
         })
         .then((result) => {
-          this.deleteWatchlist()
+          if (result.isConfirmed) {
+            this.deleteWatchlist()
+          }
         })
     },
+
+    async deleteWatchlist() {
+      try {
+        const watchlistId = this.data.id
+        await this.$supabase
+          .from('watchlists')
+          .delete()
+          .match({ id: watchlistId })
+
+        this.show = false
+        this.$toast.success('Your watchlist was deleted')
+        this.$store.commit('watchlists/DELETE_SINGLE_WATCHLIST', watchlistId)
+      } catch (e) {
+        this.$toast.error('Unable to delete watchlist')
+      }
+    },
+
     openModal() {
       this.show = true
     },
+
     closeModal() {
       this.show = false
     }

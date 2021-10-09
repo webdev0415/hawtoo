@@ -5,7 +5,7 @@ const state = () => ({
     watchlists: [],
     watchlistsSubscriber: {},
     watchlist: [],
-    watchlistSubscriber: null
+    watchlistSubscriber: []
 })
 
 const getters = {
@@ -28,7 +28,7 @@ const actions = {
                 supabase
                     .from(`watchlists:id=eq.${id}`)
                     .on('*', (payload) => {
-                        console.log('Change received for single watchlist: ' + payload.eventType);
+                        // console.log('Change received for single watchlist: ' + payload.eventType);
                         switch (payload.eventType) {
                             case 'INSERT':
                                 commit('SET_SINGLE_WATCHLIST', payload.new)
@@ -47,6 +47,13 @@ const actions = {
         } catch (error) {
             throw new Error(error.message)
         }
+    },
+    unsubscribeSingleWatchlist: ({ state }) => {
+        supabase.removeSubscription(state.watchlistSubscriber)
+    },
+    destroySingleWatchlistSubscriber: ({ dispatch, commit }) => {
+        dispatch('unsubscribeSingleWatchlist')
+        commit('RESET_SINGLE_WATCHLIST')
     },
     /**
      * Will only be called for authenticated users. Each user will subscribe to their own changes.
@@ -69,16 +76,16 @@ const actions = {
                 const subscriber = supabase
                     .from(`watchlists:author_id=eq.${userId}`)
                     .on('*', (payload) => {
-                        console.log('Change received: ' + payload.eventType);
+                        // console.log('Change received: ' + payload.eventType);
                         switch (payload.eventType) {
                             case 'INSERT':
                                 commit('ADD_TO_ALL_WATCHLISTS', payload.new)
                                 break
                             case 'UPDATE':
                                 commit('MODIFY_TO_ALL_WATCHLISTS', payload.new)
-                                return
+                                break
                             case 'DELETE':
-                                commit('DELETE_WATCHLIST', payload.new.id)
+                                commit('SET_WATCHLISTS', payload.new)
                                 break
                         }
                     })
@@ -90,11 +97,11 @@ const actions = {
             throw new Error(error.message)
         }
     },
-    unsubscribeWatchlist: ({ state }) => {
+    unsubscribeWatchlists: ({ state }) => {
         supabase.removeSubscription(state.watchlistsSubscriber)
     },
-    destroySubscriber: ({ dispatch, commit }) => {
-        dispatch('unsubscribeWatchlist')
+    destroyWatchListsSubscriber: ({ dispatch, commit }) => {
+        dispatch('unsubscribeWatchlists')
         commit('RESET_ALL_WATCHLISTS')
     },
 }
@@ -107,8 +114,12 @@ const mutations = {
     SET_SINGLE_WATCHLIST_SUBSCRIBER: (state, watchlist) => {
         state.watchlistSubscriber = watchlist
     },
-    DELETE_SINGLE_WATCHLIST: (state, watchlist) => {
-        state.watchlist = []
+    DELETE_SINGLE_WATCHLIST: (state, id) => {
+        const index = state.watchlists.findIndex(watchlist => watchlist.id === id);
+        state.watchlists.splice(index, 1)
+    },
+    RESET_SINGLE_WATCHLIST: (state, watchlists) => {
+        state.watchlists = []
     },
     // LISTS OF WATCHLISTS
     SET_WATCHLISTS: (state, watchlists) => {
@@ -123,7 +134,7 @@ const mutations = {
     ADD_TO_ALL_WATCHLISTS: (state, watchlist) => {
         state.watchlists.push(watchlist)
     },
-    MODIFY_TO_ALL_WATCHLISTS: (state, watchlist,) => {
+    MODIFY_TO_ALL_WATCHLISTS: (state, watchlist) => {
         const itemFound = state.watchlists.find((item) => {
             return watchlist.id === item.id
         })
