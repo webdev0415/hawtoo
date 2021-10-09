@@ -37,17 +37,28 @@ export default {
         process.env.NUXT_ENV_PUBLIC_SUPABASE_KEY || process.env.SUPABASE_KEY,
     },
     tagNames: [
-      'metaverse',
-      'gaming',
-      'gambling',
-      'collection',
-      'fund',
-      'porn',
-      'defi'
+      'metaverses',
+      'defi',
+      'utility',
+      'nsfw',
+      'collectibles',
+      'punks',
+      'art',
+      'domains',
+      'gaming'
     ],
     homepageTagNames: [
       15, // 'soulection-radio'
     ],
+    axios: {
+      browserBaseURL: process.env.BASE_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL
+    }
   },
 
   env: {
@@ -112,7 +123,7 @@ export default {
   ],
 
   passwordProtect: {
-    enabled: true,
+    enabled: !isDev,
     formPath: '/password',
     password: 'hello-world123',
     tokenSeed: 101010,
@@ -189,7 +200,10 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL, // Used as fallback if no runtime config is provided
+  },
+
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

@@ -10,7 +10,7 @@
                 <Logo fill="white" />
               </a>
               <h2 class="mt-10 mb-6 text-4xl font-bold text-white lg:text-5xl font-heading">We're in closed beta!</h2>
-              <p class="max-w-xs text-gray-200">Soon you will be able to discover and keep track of your NFT investments all in once place. </p>
+              <p class="max-w-xs text-gray-200">Soon you will be able to discover and keep track of your NFT investments all in one place. </p>
               <form :action="redirectPath" method="GET" class="mt-6 sm:max-w-lg sm:w-full sm:flex">
                 <div class="flex-1 min-w-0">
                   <label for="hero-email" class="sr-only">Password</label>
