@@ -4,6 +4,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import { createClient } from '@supabase/supabase-js'
 import { post, get } from 'axios';
 import express from 'express';
+import { getOpenSeaBasicInfo } from './_lib/opensea'
+
 
 // Express
 const app = express()
@@ -80,11 +82,11 @@ app.post('/subscribe', async (req, res) => {
 })
 
 app.post('/increment_page_view', async (req, res) => {
-    const { slug: page_slug } = req.body
-    const { data, error } = await supabase.rpc('increment_page_view', { page_slug })
+    const { slug: pageSlug } = req.body
+    const { data, error } = await supabase.rpc('increment_page_view', { pageSlug })
 
     if (error) {
-        console.error(error)
+        throw new Error(error.message)
     } else {
         res.status(200).send(data)
     }
@@ -165,5 +167,23 @@ app.get('/og', async (req, res) => {
 
     res.redirect(301, image.secure_url);
 });
+
+/**
+ * Get OpenSea data.
+ */
+app.get('/opensea', async (req, res) => {
+    const { slug } = req.query
+
+    await getOpenSeaBasicInfo(slug).then((response) => {
+        res
+            .status(200)
+            .json({ response })
+            .end()
+
+    }).catch((error) => {
+        res.status(404).send(error)
+        throw new Error(error.message)
+    })
+})
 
 module.exports = app;
