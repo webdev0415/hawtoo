@@ -50,6 +50,15 @@ export default {
     homepageTagNames: [
       15, // 'soulection-radio'
     ],
+    axios: {
+      browserBaseURL: process.env.BASE_URL
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL
+    }
   },
 
   env: {
@@ -191,7 +200,10 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL, // Used as fallback if no runtime config is provided
+  },
+
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
