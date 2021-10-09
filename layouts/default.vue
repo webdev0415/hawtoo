@@ -4,7 +4,7 @@
     <Nuxt />
     <LoginModal />
     <WatchlistModal />
-    <EditProfileModal />
+    <EditProfileModal v-if="$auth.loggedIn" />
     <Footer />
   </div>
 </template>
