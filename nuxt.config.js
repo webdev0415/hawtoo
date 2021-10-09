@@ -37,13 +37,15 @@ export default {
         process.env.NUXT_ENV_PUBLIC_SUPABASE_KEY || process.env.SUPABASE_KEY,
     },
     tagNames: [
-      'metaverse',
-      'gaming',
-      'gambling',
-      'collection',
-      'fund',
-      'porn',
-      'defi'
+      'metaverses',
+      'defi',
+      'utility',
+      'nsfw',
+      'collectibles',
+      'punks',
+      'art',
+      'domains',
+      'gaming'
     ],
     homepageTagNames: [
       15, // 'soulection-radio'
