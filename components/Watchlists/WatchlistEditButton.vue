@@ -31,7 +31,7 @@
               Permanently delete this watchlist and all of its content
             </p>
           </div>
-          <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm" @click="open = false">
+          <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm" @click="handleDelete">
             Delete
           </button>
         </div>
@@ -80,6 +80,36 @@ export default {
       } catch (e) {
         this.$toast.error('Unable to save watchlist')
       }
+    },
+    async deleteWatchlist() {
+      try {
+        const watchlistId = this.data.id
+        await this.$supabase
+          .from('watchlists')
+          .delete()
+          .match({ id: watchlistId })
+
+        this.show = false
+
+        this.$toast.success('Your watchlist was deleted')
+      } catch (e) {
+        this.$toast.error('Unable to delete watchlist')
+      }
+    },
+    handleDelete() {
+      this.$swal
+        .fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        })
+        .then((result) => {
+          this.deleteWatchlist()
+        })
     },
     openModal() {
       this.show = true
