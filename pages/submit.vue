@@ -1,3 +1,4 @@
+
 <template>
   <div class="flex items-start justify-center h-screen min-h-screen px-2 bg-gray-100">
     <section>
@@ -115,7 +116,6 @@ import vSelect from 'vue-select'
 import { decode } from 'base64-arraybuffer'
 import slugify from 'slugify'
 import randomcolor from 'randomcolor'
-import { getOpenSeaBasicInfo } from '@/utils/opensea'
 import 'vue-select/dist/vue-select.css'
 const strip = require('strip-markdown')
 const remark = require('remark')
@@ -158,8 +158,9 @@ export default {
     searchOpenSea() {
       this.loading = true
       this.errorMessage = null
+
       setTimeout(() => {
-        this.opensea(this.slug)
+        this.opensea(this.slug.toLowerCase())
       }, 500)
     },
 
@@ -172,7 +173,6 @@ export default {
         this.errorMessage = 'Please provide the missing contract address'
         return
       }
-
       const payload = {}
       const formData = this.foundData
       const projectTags = []
@@ -202,6 +202,19 @@ export default {
         ? formData.contractAddress
         : this.contractAddress
 
+      const checkContractDuplicate = await this.$supabase
+        .from('projects')
+        .select(`contract_address`)
+        .eq('contract_address', payload.contract_address)
+        .single()
+
+      if (checkContractDuplicate.data) {
+        this.errorMessage =
+          'Duplicate project! Matching project with same contract address found'
+        return
+      }
+
+      /* eslint-disable no-unreachable */
       payload.slug = this.projectNameSlug
       payload.name = formData.name
       payload.verified = this.verified
@@ -382,16 +395,20 @@ export default {
 
     async opensea(slug) {
       try {
-        await getOpenSeaBasicInfo(slug).then((response) => {
-          this.found = true
+        await this.$axios
+          .get('/api/opensea', { params: { slug } })
+          .then((response) => {
+            this.found = true
+            const contractAddress = response.data.response.contractAddress
 
-          if (response.contractAddress) {
-            this.noAddress = false
-          } else {
-            this.noAddress = true
-          }
-          this.foundData = response
-        })
+            if (contractAddress) {
+              this.noAddress = false
+            } else {
+              this.noAddress = true
+            }
+
+            this.foundData = response.data.response
+          })
       } catch (e) {
         this.$toast.error(`Error: ${e.message}`)
         if (e.message.includes('404')) {
