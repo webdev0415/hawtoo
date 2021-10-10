@@ -10,17 +10,13 @@ import { getProfileInfo } from '@/utils/supabase/users'
 
 const state = () => ({
     loggedIn: false,
-    user: {
-        publicProfile: {
-            display_name: 'Random ape'
-        }
-    },
+    user: {},
 })
 
 const getters = {
     loggedIn: (state) => state.loggedIn,
     user: (state) => state.user,
-    profile: (state) => state.profile,
+    profile: (state) => state.user.public_profile,
 }
 
 const actions = {
@@ -63,7 +59,14 @@ const mutations = {
         state.user = user
     },
     SET_PROFILE: (state, profile) => {
-        state.user.publicProfile = profile
+        state.user.public_profile = profile
+    },
+    SET_DISPLAY_NAME: (state, displayName) => {
+        state.user.public_profile.display_name = displayName
+        state.user.user_metadata.full_name = displayName
+    },
+    SET_EMAIL: (state, email) => {
+        state.user.email = email
     },
 }
 
