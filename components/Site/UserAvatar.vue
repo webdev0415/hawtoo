@@ -49,8 +49,8 @@ export default {
         if (this.user.user_metadata?.avatar_url) {
           this.avatarUrl = this.user.user_metadata.avatar_url
         }
-        if (this.user.publicProfile?.display_name) {
-          this.displayName = this.user.publicProfile.display_name
+        if (this.user.public_profile?.display_name) {
+          this.displayName = this.user.public_profile.display_name
         }
       }
     }
