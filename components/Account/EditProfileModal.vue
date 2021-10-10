@@ -57,7 +57,6 @@ export default {
     localSignedURL: '',
     avatarFieldLabel: 'Upload avatar',
     uploadedAvatarFileName: '',
-    bailSubmission: false,
     formValues: {}
   }),
 
@@ -68,9 +67,9 @@ export default {
     })
   },
   mounted() {
-    // if (this.user.user_metadata.avatar_url) {
-    this.userAvatarURL = this.user.user_metadata.avatar_url
-    // }
+    if (this.user.user_metadata.avatar_url) {
+      this.userAvatarURL = this.user.user_metadata.avatar_url
+    }
     this.formValues = {
       email: this.user.email,
       display_name: this.user.user_metadata.display_name || ''
@@ -81,9 +80,6 @@ export default {
       toggleEditProfileModal: 'general/TOGGLE_EDIT_PROFILE_MODAL'
     }),
     async handleEditProfile(data) {
-      if (this.bailSubmission) {
-        return
-      }
       try {
         const formData = data
         delete formData.avatarTemp
@@ -133,7 +129,6 @@ export default {
 
       if (error) {
         this.$toast.error('Something went wrong with saving your profile')
-        this.bailSubmission = true
       }
 
       if (data) {
