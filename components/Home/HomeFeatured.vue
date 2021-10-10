@@ -9,7 +9,7 @@
         <img class="absolute top-0 right-0 hidden mt-6 mr-12 lg:block" src="~/assets/images/zospace/stars.svg" alt="">
         <img class="absolute top-0 right-0 hidden lg:block w-96 h-96 -mt-14 -mr-14" src="~/assets/images/lines/circle.svg" alt="">
         <div class="relative">
-          <h3 class="mt-6 mb-8 text-4xl text-white lg:text-5xl font-heading">{{ title }}</h3>
+          <h3 class="mt-6 mb-8 text-4xl text-white lg:text-5xl font-heading sp-white">{{ title }}</h3>
 
           <div class="grid items-start grid-cols-1 gap-6 mx-auto md:grid-cols-2">
             <div v-for="project in data" :key="project.id">
