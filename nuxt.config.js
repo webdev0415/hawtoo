@@ -70,22 +70,23 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/css/app.scss'
+    '@/assets/css/app.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/supabase.js' },
-    { src: '~/plugins/vuex-persistedstate.js', ssr: true },
-    { src: '~/plugins/filters.js' },
-    { src: '~/plugins/tooltips.js' },
-    { src: '~/plugins/clipboard.js' },
-    { src: '~/plugins/vue-toast-notification.js' },
-    { src: '~/plugins/font-awesome.js' },
-    { src: '~/plugins/vue-skeleton-loader.js' },
-    { src: '~/plugins/vue-formulate.js' },
-    { src: '~/plugins/vue-placeholders.js' },
-    { src: "~/plugins/v-click-outside", ssr: false }
+    { src: '@/plugins/swiper.js' },
+    { src: '@/plugins/supabase.js' },
+    { src: '@/plugins/vuex-persistedstate.js', ssr: true },
+    { src: '@/plugins/filters.js' },
+    { src: '@/plugins/tooltips.js' },
+    { src: '@/plugins/clipboard.js' },
+    { src: '@/plugins/vue-toast-notification.js' },
+    { src: '@/plugins/font-awesome.js' },
+    { src: '@/plugins/vue-skeleton-loader.js' },
+    { src: '@/plugins/vue-formulate.js' },
+    { src: '@/plugins/vue-placeholders.js' },
+    { src: "@/plugins/v-click-outside", ssr: false }
   ],
 
 
