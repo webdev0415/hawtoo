@@ -9,10 +9,10 @@ import cookie from 'cookie'
  */
 export default ({ store, isDev, req }) => {
     createPersistedState({
-        key: 'hawtooState',
+        key: 'hawt',
         // Only keep these modules in persistated state.
         // We don't have to keep everything persisted.
-        paths: ['auth', 'general/isNewUser'],
+        paths: ['auth'],
         storage: {
             getItem: (key) => process.client ? Cookies.getJSON(key) : cookie.parse(req.headers.cookie || '')[key],
             setItem: (key, value) => Cookies.set(key, value, { expires: 365, secure: !isDev }),

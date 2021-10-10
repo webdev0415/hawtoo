@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Vue from 'vue'
 import vSelect from 'vue-select'
 import { decode } from 'base64-arraybuffer'
@@ -138,6 +139,12 @@ export default {
     tagOptions: ['test', 'test2', 'test3', 'test4'],
     selectedTags: []
   }),
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    })
+  },
   async mounted() {
     const { data, error } = await this.$supabase.from('tags').select('id, name')
     const tagArray = []
@@ -226,7 +233,7 @@ export default {
       payload.marketplaces = []
       payload.type = 'nft'
       payload.chain = 'ethereum'
-      payload.author_id = this.$auth.user.id
+      payload.author_id = this.user.id
       payload.avatar_color = randomcolor({
         luminosity: 'bright',
         format: 'rgb'

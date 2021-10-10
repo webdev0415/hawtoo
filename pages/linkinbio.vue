@@ -9,7 +9,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import getMeta from '~/utils/get-meta'
 import global from '@/mixins/global'
 // import visitorService from '@/utils/visitorService'
@@ -71,22 +71,19 @@ export default {
   computed: {
     hasLoaded() {
       return this.notEmptyObject(this.data)
-    },
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
+    }
+  },
+
+  async mounted() {
+    console.log('mount')
+    const slug = this.$route.params.id
+    const data = await axios.post('/api/increment_page_view', {
+      slug
+    })
+    if (data.status === 200 && data.statusText === 'OK') {
+      console.log('data', data)
     }
   }
-
-  // async mounted() {
-  //   const slug = this.$route.params.id
-  //   const data = await axios.post('/api/increment_page_view', {
-  //     slug
-  //   })
-  //   if (data.status === 200 && data.statusText === 'OK') {
-  //     console.log('data', data)
-  //   }
-  // }
 }
 </script>
 

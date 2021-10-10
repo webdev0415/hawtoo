@@ -33,13 +33,16 @@ export default {
   },
   computed: {
     initials() {
-      const words = this.fullname.split(/[\s-]+/)
+      if (this.fullname) {
+        const words = this.fullname.split(/[\s-]+/)
 
       return words
         .map((word) => word.substr(0, 1))
         .join('')
         .substr(0, 3)
         .toUpperCase()
+      }
+      return ''
     },
     styleBadge() {
       return {

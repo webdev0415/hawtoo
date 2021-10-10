@@ -182,6 +182,7 @@
 
 <script>
 /* eslint-disable */
+import { mapGetters } from 'vuex'
 import randomcolor from 'randomcolor'
 
 export default {
@@ -274,9 +275,11 @@ export default {
   },
 
   computed: {
-    user() {
-      return this.$auth.user
-    },
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    }),
+
     projectSlug: {
       // getter
       get() {
@@ -330,14 +333,13 @@ export default {
      * Adds the project to the database.
      */
     async addProject(formData) {
-      const userId = this.$auth.user.id
       const projectId = formData.slug
 
       if (!projectId) {
         throw new Error('Missing project ID')
       }
 
-      if (!userId) {
+      if (!this.user.id) {
         throw new Error('Could not retrieve user ID')
       }
 
@@ -345,7 +347,7 @@ export default {
         [
           {
             ...formData,
-            author_id: userId,
+            author_id: this.user.id,
             avatar_name: this.uploadedAvatarFileName,
             avatar_color: randomcolor({
               luminosity: 'bright',

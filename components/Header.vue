@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import vClickOutside from 'v-click-outside'
 import LogoIcon from '@/components/Site/Logo/LogoIcon'
 import UserAvatar from '@/components/Site/UserAvatar'
@@ -184,10 +184,10 @@ export default {
     }
   },
   computed: {
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
-    }
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    })
   },
   watch: {
     $route() {
@@ -201,7 +201,7 @@ export default {
       toggleEditProfileModal: 'general/TOGGLE_EDIT_PROFILE_MODAL'
     }),
     openWatchlistModal() {
-      if (this.$auth.loggedIn) {
+      if (this.isAuthenticated) {
         this.mobileMenuOpen = false
         this.toggleWatchlistModal({
           open: true,
@@ -222,7 +222,12 @@ export default {
     },
 
     async logout() {
-      await this.$auth.logout()
+      const { error } = await this.$supabase.auth.signOut()
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      this.$router.push('/')
     },
 
     showEditProfileModal() {

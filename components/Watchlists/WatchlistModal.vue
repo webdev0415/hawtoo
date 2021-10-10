@@ -59,6 +59,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user',
       getWatchlistModal: 'general/watchlistModal',
       getWatchlists: 'watchlists/watchlists'
     }),
@@ -89,8 +91,8 @@ export default {
     }, 25)
   },
   created() {
-    if (this.$auth.loggedIn) {
-      this.fetchUserWatchlists(this.$auth.user.id)
+    if (this.isAuthenticated) {
+      this.fetchUserWatchlists(this.user.id)
     }
   },
   methods: {
@@ -111,7 +113,7 @@ export default {
     },
 
     async addToWatchlist(watchlistId) {
-      const userId = this.$auth.user.id
+      const userId = this.user.id
       const projectId = this.getWatchlistModal.projectId
       const watchlist = this.getWatchlists.find((item) => {
         return watchlistId === item.id
@@ -151,7 +153,7 @@ export default {
       }
     },
     async handleNewWatchlist() {
-      const userId = this.$auth.user.id
+      const userId = this.user?.id
       const saveMode = this.getWatchlistModal.saveMode
       const newName = this.searchQuery
       let watchlistId
