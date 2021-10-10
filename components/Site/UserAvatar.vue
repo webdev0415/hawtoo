@@ -18,7 +18,7 @@ export default {
     sizeBadge: { type: Number, default: 24 }
   },
   data: () => ({
-    avatarUrl: require('@/assets/images/default-avatar.png'),
+    avatarUrl: require('@/assets/images/default-avatar-empty.png'),
     displayName: 'Random ape'
   }),
   computed: {
@@ -46,10 +46,12 @@ export default {
           throw new Error(error.message)
         }
       } else {
-        if (this.user.user_metadata.avatar_url) {
+        if (this.user.user_metadata?.avatar_url) {
           this.avatarUrl = this.user.user_metadata.avatar_url
         }
-        this.displayName = this.user.publicProfile.display_name
+        if (this.user.publicProfile?.display_name) {
+          this.displayName = this.user.publicProfile.display_name
+        }
       }
     }
   }

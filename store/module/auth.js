@@ -10,7 +10,11 @@ import { getProfileInfo } from '@/utils/supabase/users'
 
 const state = () => ({
     loggedIn: false,
-    user: {},
+    user: {
+        publicProfile: {
+            display_name: 'Random ape'
+        }
+    },
 })
 
 const getters = {

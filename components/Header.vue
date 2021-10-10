@@ -227,7 +227,7 @@ export default {
         throw new Error(error.message)
       }
 
-      this.$router.push('/login')
+      this.$router.push('/')
     },
 
     showEditProfileModal() {

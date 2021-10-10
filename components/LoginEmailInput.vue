@@ -43,6 +43,7 @@ export default {
         }
         if (error) throw error
       } catch (err) {
+        console.log(err)
         if (err.status === 429) {
           this.error = 'You already requested a sign-in link.'
         } else if (err.status === 422) {
