@@ -8,6 +8,25 @@ const getAvatarInfo = async (id) => {
         .single()
 }
 
+const getProfileInfo = async (id) => {
+    return await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', id)
+        .single()
+}
+
+const logout = async () => {
+    try {
+        const { error } = await supabase.auth.signOut()
+        if (error) throw error
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
 export {
-    getAvatarInfo
+    getAvatarInfo,
+    getProfileInfo,
+    logout
 }

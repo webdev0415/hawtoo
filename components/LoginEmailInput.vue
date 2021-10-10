@@ -25,22 +25,26 @@ export default {
       const redirectSlug = this.$route.query.redirect || '/account'
       const redirectURL = process.env.BASE_URL + redirectSlug
 
-      await this.$auth
-        .login({ email }, { redirectTo: redirectURL })
-        .then(() => {
+      try {
+        const { user, error } = await this.$supabase.auth.signIn({
+          email,
+          redirectURL
+        })
+        if (user) {
           this.$emit('submitted-email-form', true)
-        })
-        .catch((err) => {
-          if (err.status === 429) {
-            this.error = 'You already requested a sign-in link.'
-          } else if (err.status === 422) {
-            this.error = 'This does not look like a valid emailaddress.'
-          } else if (err.status === 403) {
-            this.error = 'Signups via email are temporarily disabled.'
-          } else {
-            this.error = err.message
-          }
-        })
+        }
+        if (error) throw error
+      } catch (err) {
+        if (err.status === 429) {
+          this.error = 'You already requested a sign-in link.'
+        } else if (err.status === 422) {
+          this.error = 'This does not look like a valid emailaddress.'
+        } else if (err.status === 403) {
+          this.error = 'Signups via email are temporarily disabled.'
+        } else {
+          this.error = err.message
+        }
+      }
     }
   }
 }

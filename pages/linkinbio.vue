@@ -71,10 +71,6 @@ export default {
   computed: {
     hasLoaded() {
       return this.notEmptyObject(this.data)
-    },
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
     }
   }
 

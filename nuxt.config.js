@@ -75,7 +75,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/supabase.js',
+    { src: '~/plugins/supabase.js' },
     { src: '~/plugins/vuex-persistedstate.js', ssr: true },
     { src: '~/plugins/filters.js' },
     { src: '~/plugins/tooltips.js' },
@@ -85,7 +85,6 @@ export default {
     { src: '~/plugins/vue-skeleton-loader.js' },
     { src: '~/plugins/vue-formulate.js' },
     { src: '~/plugins/vue-placeholders.js' },
-    { src: '~/plugins/vue-observe-visibility.client.js' },
     { src: "~/plugins/v-click-outside", ssr: false }
   ],
 
@@ -118,7 +117,6 @@ export default {
     ['@nuxtjs/pwa'],
     ['vue-sweetalert2/nuxt/no-css'],
     ['@nuxtjs/axios'],
-    ['@nuxtjs/auth-next'],
     ['nuxt-password-protect']
   ],
 
@@ -140,21 +138,6 @@ export default {
       prefix: '',
       expires: 5
     },
-  },
-
-  auth: {
-    cookie: {
-      prefix: 'auth_'
-    },
-    redirect: {
-      login: false,
-      logout: '/',
-      callback: false,
-      home: false
-    },
-    strategies: {
-      hawtoo: { scheme: '~/schemes/supabaseScheme' },
-    }
   },
 
   router: {

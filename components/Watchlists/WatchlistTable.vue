@@ -119,12 +119,6 @@ export default {
       ]
     }
   },
-  computed: {
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
-    }
-  },
   watch: {
     currentPage() {
       this.fetchMoviesData()

@@ -6,14 +6,20 @@ const isDev = process.env.NODE_ENV !== "production";
 export default class SupabaseScheme extends LocalScheme {
     async fetchUser() {
         const supabase = await this.$auth.ctx.$supabase.auth
+        const authUser = supabase.user();
 
+        console.log(authUser);
+
+
+        // User logged out 🛑
         if (!supabase.user()) {
-            // if (isDev) {
-            //     console.log('User logged out 🛑');
-            // }
-
             return
         }
+        // const { data, error } = await supabase
+        //     .from('profiles')
+        //     .select('*')
+        //     .eq('id', id)
+        //     .single()
 
         // if (isDev) {
         //     console.log('User logged in 🙌');
@@ -46,7 +52,6 @@ export default class SupabaseScheme extends LocalScheme {
         if (isDev) {
             console.log('Magic link sent 🙌');
         }
-
 
         this.$auth.setUser(user)
     }

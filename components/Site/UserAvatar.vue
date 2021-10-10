@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Avatar from '@/components/Avatar'
 import { getAvatarInfo } from '@/utils/supabase/users'
 
@@ -21,33 +22,34 @@ export default {
     displayName: 'Random ape'
   }),
   computed: {
-    // displayName() {
-    //   if (!this.$auth.user?.user_metadata.full_name) return ''
-    //   return this.$auth.user.user_metadata.full_name
-    // },
-    // avatarUrl() {
-    //   if (!this.$auth.user?.user_metadata.avatar_url) {
-    //     return require('@/assets/images/default-avatar.png')
-    //   }
-    //   return this.$auth.user.user_metadata.avatar_url
-    // }
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    })
   },
   created() {
     this.getAvatar()
   },
   methods: {
     async getAvatar() {
-      try {
-        const { data, error, status } = await getAvatarInfo(this.userId)
-        if (error && status !== 406) throw error
-        if (data) {
-          if (data.avatar_url) {
-            this.avatarUrl = data.avatar_url
+      if (!this.isAuthenticated) {
+        try {
+          const { data, error, status } = await getAvatarInfo(this.userId)
+          if (error && status !== 406) throw error
+          if (data) {
+            if (data.avatar_url) {
+              this.avatarUrl = data.avatar_url
+            }
+            this.displayName = data.display_name
           }
-          this.displayName = data.display_name
+        } catch (error) {
+          throw new Error(error.message)
         }
-      } catch (error) {
-        console.log(error.message)
+      } else {
+        if (this.user.user_metadata.avatar_url) {
+          this.avatarUrl = this.user.user_metadata.avatar_url
+        }
+        this.displayName = this.user.publicProfile.display_name
       }
     }
   }

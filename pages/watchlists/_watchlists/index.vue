@@ -32,6 +32,7 @@ export default {
   },
   async asyncData({ $supabase, $config, params, error, $auth, store }) {
     let canEdit = false
+    const user = $supabase.auth.user()
     const watchlistId = params.watchlists
     const watchlistResponse = await $supabase
       .from('watchlists')
@@ -52,8 +53,8 @@ export default {
 
     const authorId = watchlistResponse.data?.author_id ?? null
 
-    if ($auth.loggedIn) {
-      canEdit = authorId === $auth.user.id
+    if (user) {
+      canEdit = authorId === user.id
     }
 
     // authorid is null so it won't equal to logged in user

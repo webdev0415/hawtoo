@@ -85,7 +85,6 @@ export default {
   },
   mounted() {
     // eslint-disable-next-line no-console
-    console.log(this.$auth.user)
     console.log(`✨ Thanks for visiting ${process.env.TITLE}`)
   }
 }

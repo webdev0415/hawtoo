@@ -44,14 +44,18 @@ export default {
       const redirectSlug = this.$route.query.redirect || '/account'
       const redirectURL = process.env.BASE_URL + redirectSlug
 
-      await this.$auth
-        .login({ provider: type }, { redirectTo: redirectURL })
-        .then(() => {
+      try {
+        const { user, error } = await this.$supabase.auth.signIn({
+          provider: type,
+          redirectURL
+        })
+        if (user) {
           this.isProcessing = type
-        })
-        .catch((err) => {
-          this.error = err.message
-        })
+        }
+        if (error) throw error
+      } catch (err) {
+        this.error = err.message
+      }
     }
   }
 }

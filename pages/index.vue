@@ -1,18 +1,16 @@
 
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
-    <HomeHero v-if="!$auth.loggedIn" />
+    <HomeHero v-if="!isAuthenticated" />
     <HomeFeatured v-if="featuredProjects" :has-loaded="true" :data="featuredProjects" :cols="2" />
-
     <section class="pt-6 pb-8">
       <div class="container">
         <div class="mb-4">
           <h2 class="mb-6">NFT's</h2>
         </div>
-        <ProjectCardGrid title="Test" :has-loaded="true" :data="gamingProjects" />
+        <ProjectCardGrid title="Gaming" :has-loaded="true" :data="gamingProjects" />
       </div>
     </section>
-
     <HomeEmailForm :css="emailForm" />
   </main>
 </template>
@@ -43,8 +41,6 @@ export default {
   //   }
   // },
   async asyncData({ $supabase, $config, error, $content, $auth }) {
-    await $auth.fetchUser()
-
     const featuredgProjectsResp = await $supabase
       .from('projects')
       .select('*')
@@ -80,6 +76,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
       isNewUser: 'general/isNewUser'
     })
   },
