@@ -83,7 +83,7 @@ app.post('/subscribe', async (req, res) => {
 
 app.post('/increment_page_view', async (req, res) => {
     const { slug: pageSlug } = req.body
-    const { data, error } = await supabase.rpc('increment_page_view', { pageSlug })
+    const { data, error } = await supabase.rpc('increment_page_view', { page_slug: pageSlug })
 
     if (error) {
         throw new Error(error.message)
