@@ -3,12 +3,14 @@
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
     <HomeHero v-if="!isAuthenticated" />
     <HomeFeatured v-if="featuredProjects" :has-loaded="true" :data="featuredProjects" :cols="2" />
+    <HomeNewProjects />
     <section class="pt-6 pb-8">
       <div class="container">
         <div class="mb-4">
           <h2 class="mb-6">NFT's</h2>
         </div>
         <ProjectCardGrid title="Gaming" :has-loaded="true" :data="gamingProjects" />
+
       </div>
     </section>
     <HomeEmailForm :css="emailForm" />
@@ -19,12 +21,14 @@
 import { mapGetters } from 'vuex'
 import global from '@/mixins/global'
 import HomeFeatured from '@/components/Home/HomeFeatured.vue'
+import HomeNewProjects from '@/components/Home/HomeNewProjects.vue'
 import HomeEmailForm from '@/components/Home/HomeEmailForm.vue'
 import ProjectCardGrid from '@/components/ProjectCardGrid.vue'
 
 export default {
   components: {
     HomeEmailForm,
+    HomeNewProjects,
     HomeFeatured,
     ProjectCardGrid
   },
@@ -52,7 +56,7 @@ export default {
       .from('projects')
       .select('*')
       .eq('verified', true)
-      .limit(6)
+      .limit(4)
 
     return {
       featuredProjects: featuredgProjectsResp.data,
