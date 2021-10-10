@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import global from '@/mixins/global'
 
 export default {
@@ -29,7 +30,7 @@ export default {
     const { data: favorite } = await this.$supabase
       .from('watch_list')
       .select('id, user_id, project_id')
-      .eq('user_id', this.userId)
+      .eq('user_id', this.user.id)
       .eq('project_id', this.projectId)
       .single()
 
@@ -42,9 +43,11 @@ export default {
   },
 
   computed: {
-    userId() {
-      return this.$auth.user.id
-    },
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    }),
+
     projectId() {
       return this.data.id
     }
@@ -73,11 +76,11 @@ export default {
     // },
 
     toggleWatchList() {
-      if (this.userId) {
+      if (this.user.id) {
         this.isOnWatchList = !this.isOnWatchList
 
         if (this.isOnWatchList) {
-          this.addToWatchList(this.projectId, this.userId).then((res) => {
+          this.addToWatchList(this.projectId, this.user.id).then((res) => {
             if (res.error) {
               this.$toast.open({
                 message: `Something went wrong!`,
@@ -94,7 +97,7 @@ export default {
             }
           })
         } else {
-          this.removeFromWatchList(this.projectId, this.userId).then((res) => {
+          this.removeFromWatchList(this.projectId, this.user.id).then((res) => {
             if (res.error) {
               this.$toast.open({
                 message: `Something went wrong!`,

@@ -18,7 +18,7 @@
               <h1 class="text-3xl leading-6 text-gray-900">
                 {{ data.name}}
               </h1>
-              <WatchlistEditButton v-if="$auth.loggedIn" :data="data" class="ml-4" />
+              <WatchlistEditButton v-if="isAuthenticated" :data="data" class="ml-4" />
             </div>
           </div>
           <p class="max-w-4xl mt-2 text-sm text-center sm:text-left">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import WatchlistEditButton from '@/components/Watchlists/WatchlistEditButton'
 import UserAvatar from '@/components/Site/UserAvatar'
 
@@ -46,6 +47,11 @@ export default {
       required: false,
       default: () => {}
     }
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn'
+    })
   }
 }
 </script>

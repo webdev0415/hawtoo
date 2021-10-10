@@ -63,3 +63,8 @@
     </div>
   </main>
 </template>
+<script>
+export default {
+  middleware: 'user-auth'
+}
+</script>

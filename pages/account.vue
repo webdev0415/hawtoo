@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   middleware: 'user-auth',
   head: {
@@ -44,13 +46,10 @@ export default {
     }
   },
   computed: {
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
-    }
-  },
-  mounted() {
-    console.log(this.user)
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    })
   }
 }
 </script>

@@ -22,7 +22,7 @@ export default {
   layout: 'empty',
   computed: {
     ...mapGetters({
-      isNewUser: 'general/isNewUser'
+      isNewUser: 'auth/newUser'
     })
   },
   async mounted() {

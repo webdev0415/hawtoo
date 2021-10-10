@@ -23,7 +23,9 @@ export default {
     /* also create a listener for when someone signs in or out */
 
     const { data: authListener } = await this.$supabase.auth.onAuthStateChange(
-      () => this.$auth.fetchUser()
+      (_, session) => {
+        this.$store.dispatch('auth/fetchUser', session?.user)
+      }
     )
     this.authListener = authListener
   },

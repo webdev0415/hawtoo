@@ -4,12 +4,12 @@
     <Nuxt />
     <LoginModal />
     <WatchlistModal />
-    <EditProfileModal v-if="$auth.loggedIn" />
+    <EditProfileModal v-if="isAuthenticated" />
     <Footer />
   </div>
 </template>
-
 <script>
+import { mapGetters } from 'vuex'
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import LoginModal from '~/components/LoginModal'
@@ -33,12 +33,18 @@ export default {
       class: 'antialiased bg-body text-body font-body min-w-xs min-h-screen'
     }
   },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn'
+    })
+  },
   async mounted() {
     /* When the app loads, check to see if the user is signed in */
     /* also create a listener for when someone signs in or out */
-
     const { data: authListener } = await this.$supabase.auth.onAuthStateChange(
-      () => this.$auth.fetchUser()
+      (_, session) => {
+        this.$store.dispatch('auth/fetchUser', session?.user)
+      }
     )
     this.authListener = authListener
   },

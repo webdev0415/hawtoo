@@ -4,3 +4,13 @@
 
 // Modules
 @import "animations";
+
+.sp-white {
+    background: #3f5efb;
+    background: -webkit-radial-gradient(circle,#3f5efb 0,#fc466b 100%);
+    background: radial-gradient(circle,#3f5efb 0,#fc466b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: Encode Sans SC,sans-serif;
+    text-shadow: 4px 4px #fff;
+}

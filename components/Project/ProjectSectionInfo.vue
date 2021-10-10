@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ProjectAvatar from '@/components/ProjectAvatar.vue'
 import helper from '@/utils/projectsHelpers.js'
 
@@ -49,10 +50,9 @@ export default {
     }
   },
   computed: {
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
-    },
+    ...mapGetters({
+      user: 'auth/user'
+    }),
     blockExplorer() {
       if (!this.data.chain || !this.data.contractAddress) return null
       return helper.getBlockExplorerUrl(

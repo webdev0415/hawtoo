@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import global from '@/mixins/global'
 
 export default {
@@ -19,13 +19,18 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn'
+    })
+  },
   methods: {
     ...mapMutations({
       toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL',
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL'
     }),
     openModal() {
-      if (this.$auth.loggedIn) {
+      if (this.isAuthenticated) {
         this.toggleWatchlistModal({
           open: true,
           saveMode: true,

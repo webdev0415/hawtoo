@@ -70,23 +70,23 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/css/app.scss'
+    '@/assets/css/app.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/supabase.js',
-    { src: '~/plugins/vuex-persistedstate.js', ssr: true },
-    { src: '~/plugins/filters.js' },
-    { src: '~/plugins/tooltips.js' },
-    { src: '~/plugins/clipboard.js' },
-    { src: '~/plugins/vue-toast-notification.js' },
-    { src: '~/plugins/font-awesome.js' },
-    { src: '~/plugins/vue-skeleton-loader.js' },
-    { src: '~/plugins/vue-formulate.js' },
-    { src: '~/plugins/vue-placeholders.js' },
-    { src: '~/plugins/vue-observe-visibility.client.js' },
-    { src: "~/plugins/v-click-outside", ssr: false }
+    { src: '@/plugins/swiper.js' },
+    { src: '@/plugins/supabase.js' },
+    { src: '@/plugins/vuex-persistedstate.js', ssr: true },
+    { src: '@/plugins/filters.js' },
+    { src: '@/plugins/tooltips.js' },
+    { src: '@/plugins/clipboard.js' },
+    { src: '@/plugins/vue-toast-notification.js' },
+    { src: '@/plugins/font-awesome.js' },
+    { src: '@/plugins/vue-skeleton-loader.js' },
+    { src: '@/plugins/vue-formulate.js' },
+    { src: '@/plugins/vue-placeholders.js' },
+    { src: "@/plugins/v-click-outside", ssr: false }
   ],
 
 
@@ -118,7 +118,6 @@ export default {
     ['@nuxtjs/pwa'],
     ['vue-sweetalert2/nuxt/no-css'],
     ['@nuxtjs/axios'],
-    ['@nuxtjs/auth-next'],
     ['nuxt-password-protect']
   ],
 
@@ -140,21 +139,6 @@ export default {
       prefix: '',
       expires: 5
     },
-  },
-
-  auth: {
-    cookie: {
-      prefix: 'auth_'
-    },
-    redirect: {
-      login: false,
-      logout: '/',
-      callback: false,
-      home: false
-    },
-    strategies: {
-      hawtoo: { scheme: '~/schemes/supabaseScheme' },
-    }
   },
 
   router: {

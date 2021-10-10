@@ -1,7 +1,7 @@
 <template>
   <section class="bg-white">
     <div class="overflow-x-auto">
-      <AppTable remote :columns="columns" :rows="rows" paginated :per-page="perPage" :total-count="totalCount" @page-changed="currentPage = $event">
+      <AppTable remote :columns="columns" :rows="rows" :sorted="true" current-sort="floor_price" current-sort-dir="desc" paginated :per-page="perPage" :total-count="totalCount" @sort="onSort" @page-changed="currentPage = $event">
         <template #row="props">
           <AppTableRow v-for="(row, index) in props.data" :key="index" :index="index">
             <!-- Cell: Count -->
@@ -85,8 +85,10 @@ export default {
       ],
       rows: [],
       currentPage: 1,
-      perPage: 10,
+      perPage: 50,
       totalCount: 0,
+      sortField: 'floor_price',
+      sortOrder: 'desc',
       footerFields: [
         {
           title: 'Floor Price',
@@ -119,12 +121,6 @@ export default {
       ]
     }
   },
-  computed: {
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
-    }
-  },
   watch: {
     currentPage() {
       this.fetchMoviesData()
@@ -134,18 +130,25 @@ export default {
     this.fetchMoviesData()
   },
   methods: {
+    onSort(field, order) {
+      console.log('SORTING NOW')
+      this.sortField = field
+      this.sortOrder = order
+      // this.fetchMoviesData()
+    },
     async fetchMoviesData() {
       const collectedArray = this.data.collected
       const perPage = this.perPage
       let currentPage = this.currentPage
 
       const { count: totalCount } = await this.$supabase
-        .from('watchlists')
+        .from('projects')
         .select('*', { head: true, count: 'exact' })
-        .eq('author_id', this.data.author_id)
+        .in('id', collectedArray)
 
       this.totalCount = totalCount
 
+      console.log(this.totalCount)
       console.log(`Current page: ${currentPage}`)
 
       currentPage = currentPage - 1 || 0

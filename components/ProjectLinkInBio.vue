@@ -56,10 +56,6 @@ export default {
     }
   },
   computed: {
-    user() {
-      if (!this.$auth.user) return false
-      else return this.$auth.user
-    },
     salesData() {
       const statsObject = this.data.sales_stats[0]
 
