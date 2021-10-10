@@ -22,14 +22,22 @@ export default {
   methods: {
     async handleEmailLogin() {
       const email = this.email
-      const redirectSlug = this.$route.query.redirect || '/account'
-      const redirectURL = process.env.BASE_URL + redirectSlug
+      const redirectSlug = this.$route.query.redirect || '/'
+      let redirectURL = process.env.BASE_URL + redirectSlug
+
+      if (process.env.VERCEL_ENV === 'preview') {
+        redirectURL = ''
+      }
 
       try {
-        const { user, error } = await this.$supabase.auth.signIn({
-          email,
-          redirectURL
-        })
+        const { user, error } = await this.$supabase.auth.signIn(
+          {
+            email
+          },
+          {
+            redirectTo: redirectURL
+          }
+        )
         if (user) {
           this.$emit('submitted-email-form', true)
         }

@@ -35,7 +35,7 @@ export default {
   //     $auth.user !== null &&
   //     $auth.user.last_sign_in_at.split('.')[0] ===
   //       $auth.user.email_confirmed_at.split('.')[0] &&
-  //     store.getters['general/isNewUser'] === true
+  //     store.getters['auth/newUser'] === true
   //   ) {
   //     redirect('/onboarding')
   //   }
@@ -77,7 +77,7 @@ export default {
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/loggedIn',
-      isNewUser: 'general/isNewUser'
+      isNewUser: 'auth/newUser'
     })
   },
   mounted() {

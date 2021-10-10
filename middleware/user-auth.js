@@ -1,5 +1,5 @@
-export default async function ({ $auth, route, store, redirect }) {
-    const isLoggedIn = await $auth.loggedIn
+export default function ({ route, store, redirect }) {
+    const isLoggedIn = store.state.auth.loggedIn
 
     if (!isLoggedIn) {
         /**
@@ -12,13 +12,13 @@ export default async function ({ $auth, route, store, redirect }) {
         //     redirect(REDIRECT_URL)
         // }
         if (route.path !== '/connect') {
-            store.dispatch('SET_LOGIN_MODAL', {
+            store.commit('general/TOGGLE_LOGIN_MODAL', {
                 open: true,
                 title: 'Log in or sign up',
                 description: 'To save crypto projects to watchlists',
                 referrer: route.path
             })
-            redirect({ path: false })
+            redirect({ path: '/' })
         }
     }
 }

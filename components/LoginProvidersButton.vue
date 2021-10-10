@@ -41,14 +41,22 @@ export default {
   },
   methods: {
     async handleLoginWithProvider(type) {
-      const redirectSlug = this.$route.query.redirect || '/account'
-      const redirectURL = process.env.BASE_URL + redirectSlug
+      const redirectSlug = this.$route.query.redirect || '/'
+      let redirectURL = process.env.BASE_URL + redirectSlug
+
+      if (process.env.VERCEL_ENV === 'preview') {
+        redirectURL = ''
+      }
 
       try {
-        const { user, error } = await this.$supabase.auth.signIn({
-          provider: type,
-          redirectURL
-        })
+        const { user, error } = await this.$supabase.auth.signIn(
+          {
+            provider: type
+          },
+          {
+            redirectTo: redirectURL
+          }
+        )
         if (user) {
           this.isProcessing = type
         }
