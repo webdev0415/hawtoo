@@ -4,6 +4,7 @@
     <Nuxt />
     <LoginModal />
     <WatchlistModal />
+    <ModalSearch />
     <EditProfileModal v-if="isAuthenticated" />
     <Footer />
   </div>
@@ -13,6 +14,7 @@ import { mapGetters } from 'vuex'
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import LoginModal from '~/components/LoginModal'
+import ModalSearch from '~/components/ModalSearch'
 import WatchlistModal from '~/components/Watchlists/WatchlistModal'
 import EditProfileModal from '~/components/Account/EditProfileModal'
 
@@ -21,6 +23,7 @@ export default {
     Header,
     Footer,
     LoginModal,
+    ModalSearch,
     WatchlistModal,
     EditProfileModal
   },

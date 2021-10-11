@@ -186,4 +186,8 @@ app.get('/opensea', async (req, res) => {
     })
 })
 
+// app.post('/request-project', async (req, res) => {
+//     // https://discord.com/api/webhooks/897216866752278618/pSXWGbT2lihOobU_spFbq2LZpz_gIpIjC9w_xxH_i008c37jn7fOIP8wtrp3Xz9KAFiG
+// })
+
 module.exports = app;

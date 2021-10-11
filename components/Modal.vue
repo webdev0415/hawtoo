@@ -87,7 +87,7 @@ export default {
 
 <style scoped>
 .bg-modal {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.25);
 }
 .fade-enter-active,
 .fade-leave-active {

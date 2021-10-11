@@ -2,6 +2,10 @@
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
     <HomeHero v-if="!isAuthenticated" />
+    <div class="container">
+
+      <InputSearch />
+    </div>
     <HomeFeatured v-if="featuredProjects" :has-loaded="true" :data="featuredProjects" :cols="2" />
     <HomeNewProjects />
     <section class="pt-6 pb-8">
