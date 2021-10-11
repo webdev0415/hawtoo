@@ -1,12 +1,11 @@
 <template>
-  <Modal :showing="getLoginModal.open" :css="{ 'modal': 'max-w-md' }" @close="closeModal">
-    <Logo width="140px" class="h-auto mx-auto mb-2" />
+  <Modal :showing="getLoginModal.open" :css="{ 'modal': 'max-w-lg' }" @close="closeModal">
 
-    <div v-if="!submittedEmailForm">
+    <div v-if="!submittedEmailForm" class="py-6">
       <h2 class="mb-1 text-3xl font-extrabold text-center ">
         {{ getLoginModal.title }}
       </h2>
-      <p class="mb-4 text-center text-md">
+      <p class="mb-4 text-lg text-center">
         {{ getLoginModal.description }}
       </p>
       <div class="max-w-xs mx-auto">

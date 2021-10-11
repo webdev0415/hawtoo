@@ -1,10 +1,7 @@
 <template>
-  <main class="relative flex flex-row justify-center">
-    <div class="container">
-      <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
-      <ProjectFooter />
-      <ProjectReturnButton />
-    </div>
+  <main class="relative flex flex-col justify-center">
+    <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
+    <ProjectReturnButton />
   </main>
 </template>
 
@@ -75,7 +72,6 @@ export default {
   },
 
   async mounted() {
-    console.log('mount')
     const slug = this.$route.params.id
     const data = await axios.post('/api/increment_page_view', {
       slug

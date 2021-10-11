@@ -1,5 +1,5 @@
 <template>
-  <button v-clipboard="() => copyText" v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler" class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200 rounded-full">
+  <button v-tooltip="'Copy & Share URL'" v-clipboard="() => copyText" v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler" class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200 rounded-full">
     <img src="~/assets/images/icons/share.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
   </button>
 </template>
@@ -25,7 +25,7 @@ export default {
   methods: {
     clipboardSuccessHandler() {
       this.$toast.open({
-        message: `Copied URL to cplibpoard`,
+        message: `Copied URL to clipboard ✨`,
         type: 'success',
         position: 'top-right'
       })
@@ -33,7 +33,7 @@ export default {
 
     clipboardErrorHandler() {
       this.$toast.open({
-        message: 'Something went wrong trying to copy this text 😮',
+        message: 'Something went wrong trying to the contract 😮',
         type: 'error',
         position: 'top-right'
       })

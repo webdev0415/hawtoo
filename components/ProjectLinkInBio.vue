@@ -1,33 +1,39 @@
 <template>
-  <div v-if="hasLoaded" class="py-20">
-    <ProjectSectionInfo :data="data" />
-    <ProjectActions :data="data" />
+  <div v-if="hasLoaded">
+    <ProjectBanner :data="data" />
+    <div class="pb-16 -mt-16">
+      <div class="container">
+        <ProjectSectionInfo :data="data" />
 
-    <!-- <Alert v-if="!data.verified" class="max-w-xl mx-auto mt-6 mb-4 text-center text-red-500 bg-red-100">
+        <ProjectActions :data="data" />
+
+        <!-- <Alert v-if="!data.verified" class="max-w-xl mx-auto mt-6 mb-4 text-center text-red-500 bg-red-100">
       This project is not verified yet! Please be aware that anyone
       can submit a project on HawToo. Please take extra caution and
       do your research. Always double check the contract address.
     </Alert> -->
-    <!-- Project: Bottom--->
-    <div class="px-8 pt-8 pb-12 mt-6">
-      <div class="max-w-lg mx-auto">
+        <!-- Project: Bottom--->
+        <div class="px-8 pt-8 pb-12 mt-6">
+          <div class="max-w-lg mx-auto">
 
-        <!--- Project: Main links -->
-        <h4 class="mb-2 text-left h4">Quick links</h4>
-        <ProjectMainLinks :data="data" />
+            <!--- Project: Main links -->
+            <h4 class="mb-2 text-left h4">Quick links</h4>
+            <ProjectMainLinks :data="data" />
 
-        <h4 class="mt-6 mb-2 text-left h4">Stats</h4>
-        <ProjectStats v-if="salesData" :stats="salesData" />
+            <h4 class="mt-6 mb-2 text-left h4">Stats</h4>
+            <ProjectStats v-if="salesData" :stats="salesData" />
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import ProjectSectionInfo from '~/components/Project/ProjectSectionInfo.vue'
-import ProjectActions from '~/components/Project/ProjectActions.vue'
-import ProjectStats from '~/components/Project/ProjectStats.vue'
+import ProjectSectionInfo from '~/components/Project/ProjectSectionInfo'
+import ProjectActions from '~/components/Project/ProjectActions'
+import ProjectStats from '~/components/Project/ProjectStats'
+import ProjectBanner from '~/components/Project/ProjectBanner'
 // import visitorService from '@/utils/visitorService'
 
 export default {
@@ -35,7 +41,8 @@ export default {
   components: {
     ProjectActions,
     ProjectSectionInfo,
-    ProjectStats
+    ProjectStats,
+    ProjectBanner
   },
   mixins: [global],
   props: {
@@ -62,10 +69,10 @@ export default {
       if (!statsObject) {
         return null
       }
-      if (this.data.current_price) {
-        statsObject.floor_price = this.data.current_price
-      }
-      console.log(statsObject)
+      // if (this.data.current_price) {
+      //   statsObject.floor_price = this.data.current_price
+      // }
+      // console.log(statsObject)
 
       return statsObject
     }

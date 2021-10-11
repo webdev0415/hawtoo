@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <div class="flex flex-wrap justify-center mb-3">
-      <ProjectAvatar :verified="data.verified" :size="128" :size-badge="36" :name="data.name" :avatar-color="data.avatar_color" :avatar-name="data.avatar_name" :slug="data.slug" />
+      <ProjectAvatar :verified="data.verified" verified-tooltip :size="128" :size-badge="36" :name="data.name" :avatar-color="data.avatar_color" :avatar-name="data.avatar_name" :slug="data.slug" />
     </div>
 
     <h1 class="mb-4 text-3xl font-semibold leading-tight text-center md:text-4xl">
@@ -22,9 +22,17 @@
       </div>
     </ProjectBadge>
 
-    <p class="max-w-[600px] pb-1 mx-auto mb-3 text-sm leading-relaxed text-center md:text-lg ">
-      {{ data.description }}
-    </p>
+    <div class="max-w-[680px] pb-1 mx-auto mb-3 text-sm leading-relaxed text-center md:text-lg ">
+      <p v-if="!readMore">{{data.description | strLimit(160) }} </p>
+      <a v-if="!readMore" class="mt-1 underline" href="javascript:void(0);" @click="readMore = true">
+        Read more
+      </a>
+      <!-- Full descripotion --->
+      <p v-if="readMore">{{ data.description }}</p>
+      <a v-if="readMore" class="mt-1 underline" href="javascript:void(0);" @click="readMore = false">
+        Read less
+      </a>
+    </div>
   </div>
 </template>
 
@@ -46,7 +54,7 @@ export default {
   },
   data() {
     return {
-      avatarUrl: ''
+      readMore: false
     }
   },
   computed: {
@@ -64,20 +72,6 @@ export default {
       if (!this.data.chain) return null
       const chainAbbr = helper.createChainAbbrevation()
       return chainAbbr[this.data.chain]
-    }
-  },
-  created() {
-    if (this.data.avatar_name) {
-      this.getAvatar(this.data.avatar_name)
-    }
-  },
-  methods: {
-    async getAvatar() {
-      const avatarUrlResp = await this.$supabase.storage
-        .from('avatars')
-        .getPublicUrl(this.data.avatar_name)
-
-      this.avatarUrl = avatarUrlResp.data.publicURL
     }
   }
 }
