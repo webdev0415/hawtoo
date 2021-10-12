@@ -30,15 +30,21 @@
       {{ helperMessage }}
     </div>
     <div v-if="noResults" class="p-16 text-center bg-gray-50">
-      <h2 class="mb-2 font-semibold text-gray-900 text-md">No results found</h2>
-      <p class="text-sm">We can’t find anything with that term at the moment, try searching something else.</p>
-      <button class="btn btn-primary" @click="requestProject">Missing this project? Request it</button>
+      <h2 class="mb-2 font-semibold text-gray-900 text-md">No results found?</h2>
+      <p class="mb-2 text-sm">We can’t find "<span class="inline-block underline">{{ value }}</span>". Perhaps this NFT is not on HawToo yet. Do you want us to add it?</p>
+      <button class="px-6 py-2 text-white btn btn-primary" @click="handleRequestBtn">Request this NFT</button>
+      <p class="text-sm text-red-500">Only OpenSea is supported at the moment</p>
+    </div>
+    <div v-if="requestReceived" class="p-16 text-center bg-gray-50">
+      <h2 class="mb-2 font-semibold text-gray-900 text-md">Done! ✨</h2>
+      <p class="mb-2 text-sm">We will notify you once this project becomes available on HawToo</p>
     </div>
   </div>
 </template>
 
 <script>
 import Autocomplete from '@trevoreyre/autocomplete-vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -47,11 +53,18 @@ export default {
   data() {
     return {
       value: '',
+      requestReceived: false,
       results: []
     }
   },
   computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/loggedIn',
+      user: 'auth/user'
+    }),
     noResults() {
+      console.log(this.results)
+
       return this.value.length >= 3 && this.results.length === 0
     },
     helperMessage() {
@@ -65,6 +78,7 @@ export default {
   methods: {
     search(input) {
       this.value = input
+      this.requestReceived = false
 
       if (input.length < 1) {
         this.results = []
@@ -79,12 +93,18 @@ export default {
       return new Promise((resolve) => {
         if (input.length < 3) {
           this.results = []
-          return resolve(this.results)
+          return resolve([])
         }
 
         search.then((res) => {
-          this.results = res.data
-          resolve(this.results)
+          console.log(res.data)
+          if (res.data) {
+            this.results = res.data
+            resolve(this.results)
+          } else {
+            this.results = []
+            resolve([])
+          }
         })
       })
     },
@@ -97,8 +117,32 @@ export default {
       this.$router.push(`/@${result.slug}`)
     },
 
-    requestProject() {
-      console.log('Send rquest')
+    handleRequestBtn() {
+      if (!this.isAuthenticated) {
+        alert(
+          `Please login to submit a request. We will notify you when it's added`
+        )
+        return
+      }
+
+      const openSea = prompt('What is the URL to the OpenSea collection?')
+
+      this.$axios
+        .post('api/request-project', {
+          email: this.user.email,
+          userId: this.user.id,
+          query: openSea
+        })
+        .then((res) => {
+          this.requestReceived = true
+        })
+        .catch((err) => {
+          this.$toast.error(err)
+        })
+        .finally(() => {
+          this.results = []
+          this.value = ''
+        })
     }
   }
 }

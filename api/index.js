@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import { post, get } from 'axios';
 import express from 'express';
 import { getOpenSeaBasicInfo } from './_lib/opensea'
-
+import { addProjectRequest } from './_lib/notion'
 
 // Express
 const app = express()
@@ -186,8 +186,18 @@ app.get('/opensea', async (req, res) => {
     })
 })
 
-// app.post('/request-project', async (req, res) => {
-//     // https://discord.com/api/webhooks/897216866752278618/pSXWGbT2lihOobU_spFbq2LZpz_gIpIjC9w_xxH_i008c37jn7fOIP8wtrp3Xz9KAFiG
-// })
+app.post('/request-project', async (req, res) => {
+    const { email, userId, query } = req.body;
+
+    await addProjectRequest(query, email, userId).then((response) => {
+        res
+            .status(200)
+            .json({ response })
+            .end()
+    }).catch((error) => {
+        throw new Error(error)
+    })
+
+})
 
 module.exports = app;

@@ -14,7 +14,18 @@
                   <span class="text-xl font-bold sr-only">HawToo</span>
                 </NuxtLink>
               </div>
-
+              <!--- search -->
+              <div class="flex items-center justify-between flex-auto px-4 sm:px-6 lg:mx-6 lg:px-0 xl:mx-8">
+                <button type="button" class="flex items-center w-full py-2 space-x-3 font-medium leading-6 transition-colors duration-200 group sm:space-x-3 hover:text-gray-500" @click="showSearchModal">
+                  <svg width="24" height="24" fill="none" class="text-gray-500 transition-colors duration-200 group-hover:text-gray-500">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  <span class="text-gray-500">Quick search</span>
+                  <span class="hidden sm:block text-gray-500 text-sm leading-5 py-0.5 px-1.5 border border-gray-300 rounded-md" style="opacity: 1;">
+                    <span class="sr-only">Press </span><kbd class="font-sans"><abbr title="Command" class="no-underline">⌘</abbr></kbd><span class="sr-only"> and </span><kbd class="font-sans">K</kbd><span class="sr-only"> to search</span>
+                  </span>
+                </button>
+              </div>
               <p v-if="sponsor" class="hidden pl-6 ml-6 text-sm border-l border-gray-200 lg:block">
                 <a href="/#product-ecommerce" class="relative flex items-center hover:text-gray-900">
                   <svg aria-hidden="true" width="19" height="16" fill="none" class="mr-2">
@@ -53,15 +64,12 @@
             </div>
           </div>
           <!-- Right -->
-          <div class="flex items-center justify-end w-full h-full">
+          <div class="flex flex-row items-center justify-end w-full h-full">
             <div class="">
-              <div class="flex items-center ml-4 md:ml-6">
-                <!-- <div class="relative ml-3">
-              <MiscSettingsMenu />
-            </div> -->
 
+              <div class="flex items-center ml-4 md:ml-6">
                 <!-- buttons -->
-                <div v-if="!user" class="flex items-center">
+                <div v-if="!user" class="flex items-center ml-3">
                   <span class="font-bold border-b border-gray-200" @click="login">Login</span>
                 </div>
 
@@ -71,10 +79,8 @@
                     <button type="button" class="flex items-center max-w-xs bg-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white" :aria-expanded="userMenuOpen" aria-haspopup="true" @click="userMenuOpen = !userMenuOpen">
                       <span class="sr-only">Open user menu</span>
                       <UserAvatar :user-id="user.id" :size="36" />
-
                     </button>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -93,6 +99,12 @@
               <span v-else>
                 <img src="~/assets/images/icons/close_white.svg" alt="">
               </span>
+            </button>
+
+            <button type="button" class="inline-flex items-center justify-center p-2 ml-1 text-gray-400" @click="showSearchModal">
+              <svg width="24" height="24" fill="none" class="text-gray-500 transition-colors duration-200 group-hover:text-gray-500">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
             </button>
           </div>
 
@@ -198,7 +210,8 @@ export default {
     ...mapMutations({
       toggleLoginModal: 'general/TOGGLE_LOGIN_MODAL',
       toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL',
-      toggleEditProfileModal: 'general/TOGGLE_EDIT_PROFILE_MODAL'
+      toggleEditProfileModal: 'general/TOGGLE_EDIT_PROFILE_MODAL',
+      toggleSearchModal: 'general/TOGGLE_SEARCH_MODAL'
     }),
     openWatchlistModal() {
       if (this.isAuthenticated) {
@@ -232,6 +245,13 @@ export default {
 
     showEditProfileModal() {
       this.toggleEditProfileModal({
+        open: true
+      })
+    },
+
+    showSearchModal() {
+      this.mobileMenuOpen = false
+      this.toggleSearchModal({
         open: true
       })
     },

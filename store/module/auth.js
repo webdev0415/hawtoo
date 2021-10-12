@@ -28,14 +28,14 @@ const actions = {
      */
     fetchUser: async ({ state, commit, rootState }, user) => {
         if (user) {
-            console.log('------- Changed received user -------');
-            console.log(user);
+            // console.log('------- Changed received user -------');
+            // console.log(user);
             commit('SET_LOGGED_IN', user != null)
             commit('SET_AUTH', user)
             try {
                 const { data, error, status } = await getProfileInfo(user.id)
-                console.log('------- Changed received profiles table -------');
-                console.log(data);
+                // console.log('------- Changed received profiles table -------');
+                // console.log(data);
                 if (error && status !== 406) throw error
 
                 if (data) {

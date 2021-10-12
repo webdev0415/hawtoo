@@ -13,6 +13,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@notionhq/client": "^0.4.3",
     "@nuxt/core": "^2.15.7",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/eslint-module": "^3.0.2",

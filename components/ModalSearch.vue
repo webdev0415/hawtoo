@@ -22,14 +22,15 @@ export default {
     InputSearch
   },
   data() {
-    return {
-      isOpen: false
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
       getSearchmodal: 'general/searchModal'
-    })
+    }),
+    isOpen() {
+      return this.$store.state.general.searchModal.open
+    }
   },
   watch: {
     $route() {
@@ -55,7 +56,6 @@ export default {
     })
     hotkeys('cmd+k, ctrl+r', (event, handler) => {
       event.preventDefault()
-      // Prevent the default refresh event under WINDOWS system
       vm.openModal()
     })
   },
@@ -65,11 +65,17 @@ export default {
     }),
 
     closeModal() {
-      this.isOpen = false
+      // this.isOpen = false
+      this.toggleSearchModal({
+        open: false
+      })
     },
 
     openModal() {
-      this.isOpen = true
+      // this.isOpen = true
+      this.toggleSearchModal({
+        open: true
+      })
     },
 
     closeIfShown() {
