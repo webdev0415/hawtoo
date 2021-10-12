@@ -1,5 +1,5 @@
 import { supabase } from '@/plugins/supabase'
-import { getUserWatchlists, getWatchList } from '@/utils/supabase/watchlists'
+import { getWatchlistsByUserId, getWatchlistById } from '@/utils/supabase/watchlists'
 
 const state = () => ({
     watchlists: [],
@@ -17,7 +17,7 @@ const actions = {
     fetchSingleWatchList: async ({ state, commit, rootState }, id) => {
         try {
 
-            const { data, error, status } = await getWatchList(id)
+            const { data, error, status } = await getWatchlistById(id)
 
             if (error && status !== 406) throw error
 
@@ -62,7 +62,7 @@ const actions = {
     fetchUserWatchlists: async ({ state, commit, rootState }, userId) => {
 
         try {
-            const { data, error, status } = await getUserWatchlists(userId)
+            const { data, error, status } = await getWatchlistsByUserId(userId)
             if (error && status !== 406) throw error
 
             if (data) {
