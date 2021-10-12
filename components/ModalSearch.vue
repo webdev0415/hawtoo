@@ -4,7 +4,7 @@
       <div class="fixed inset-0 w-full h-screen transition-opacity bg-modal" @click.self="closeIfShown"></div>
       <div class="relative w-full max-w-lg px-4 transition-all transform">
         <div class="bg-white rounded-lg shadow-md">
-          <InputSearch />
+          <InputSearch @selected-item="closeModal" />
         </div>
       </div>
     </div>
@@ -33,9 +33,6 @@ export default {
     }
   },
   watch: {
-    $route() {
-      this.closeModal()
-    },
     isOpen(value) {
       if (value) {
         return document
