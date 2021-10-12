@@ -1,5 +1,5 @@
 <template>
-  <Modal :showing="getWatchlistModal.open" :css="{ 'modal': 'max-w-xl' }" @close="closeModal">
+  <Modal :showing="getWatchlistModal.open" :css="{ 'modal': 'max-w-xl' }" @open="openModal" @close="closeModal">
     <div>
 
       <h2 class="mb-3 text-2xl font-extrabold text-left ">
@@ -47,7 +47,6 @@ import {
 import global from '@/mixins/global'
 
 export default {
-  name: 'Loginmodal',
   mixins: [global],
   data() {
     return {
@@ -90,11 +89,6 @@ export default {
       }
     }, 25)
   },
-  created() {
-    if (this.isAuthenticated) {
-      this.fetchUserWatchlists(this.user.id)
-    }
-  },
   methods: {
     ...mapActions({
       fetchUserWatchlists: 'watchlists/fetchUserWatchlists'
@@ -102,6 +96,12 @@ export default {
     ...mapMutations({
       toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
     }),
+
+    async openModal() {
+      if (this.isAuthenticated) {
+        await this.fetchUserWatchlists(this.user.id)
+      }
+    },
 
     handleWatchlistClick(id) {
       const saveMode = this.getWatchlistModal.saveMode

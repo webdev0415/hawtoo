@@ -131,8 +131,6 @@ export default {
               data: { avatar_url: avatarURL }
             })
             .then((res) => {
-              console.log('------- Updated auth table -------')
-              console.log(res)
               if (res.error) {
                 throw new Error(error.message)
               }

@@ -57,6 +57,7 @@ export default {
     },
     showing(value) {
       if (value) {
+        this.$emit('open')
         return document.querySelector('body').classList.add('overflow-hidden')
       }
       return document.querySelector('body').classList.remove('overflow-hidden')
