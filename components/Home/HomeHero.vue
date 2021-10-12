@@ -6,8 +6,8 @@
           <!-- heading -->
           <h2 class="mb-4 text-3xl md:text-4xl md:mb-8 text-gradient lg:text-6xl font-heading">
             <span class="block "><span class="">Discover & Bookmark </span>
-              <span class="inline-block text-blue-500 md:hidden">NFT & Crypto</span>
-              <typical class="hidden text-blue-500 md:inline-block typing" :steps="['NFT', 2000, 'Crypto', 4000]" :wrapper="'span'" :loop="Infinity"></typical>
+              <span class="inline-block ">NFT</span>
+              <!-- <typical class="hidden text-blue-500 md:inline-block typing" :steps="['NFT', 2000, 'Crypto', 4000]" :wrapper="'span'" :loop="Infinity"></typical> -->
             </span>
             <span class="block">projects all in one place.</span>
           </h2>
@@ -52,11 +52,11 @@
 </template>
 
 <script>
-import typical from 'vue-typical'
+// import typical from 'vue-typical'
 
 export default {
   components: {
-    typical
+    // typical
   }
 }
 </script>

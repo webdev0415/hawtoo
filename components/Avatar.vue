@@ -2,7 +2,7 @@
 <template>
   <div class="avatar">
     <!-- verified --->
-    <svg v-if="verified" v-tooltip="verifiedTooltip" class="z-10 verified-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" :style="styleBadge">
+    <svg v-if="verified" v-tooltip="showVerifiedTooltip ? 'Verified project' : ''" class="z-10 verified-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" :style="styleBadge">
       <polygon fill="#42a5f5" points="29.62,3 33.053,8.308 39.367,8.624 39.686,14.937 44.997,18.367 42.116,23.995 45,29.62 39.692,33.053 39.376,39.367 33.063,39.686 29.633,44.997 24.005,42.116 18.38,45 14.947,39.692 8.633,39.376 8.314,33.063 3.003,29.633 5.884,24.005 3,18.38 8.308,14.947 8.624,8.633 14.937,8.314 18.367,3.003 23.995,5.884" />
       <polygon fill="#fff" points="21.396,31.255 14.899,24.76 17.021,22.639 21.428,27.046 30.996,17.772 33.084,19.926" />
     </svg>
@@ -29,18 +29,18 @@ export default {
     color: { type: String, default: '' },
     image: { type: String, default: '' },
     verified: { type: Boolean, default: false },
-    verifiedTooltip: { type: String, default: '' }
+    showVerifiedTooltip: { type: Boolean, default: false }
   },
   computed: {
     initials() {
       if (this.fullname) {
         const words = this.fullname.split(/[\s-]+/)
 
-      return words
-        .map((word) => word.substr(0, 1))
-        .join('')
-        .substr(0, 3)
-        .toUpperCase()
+        return words
+          .map((word) => word.substr(0, 1))
+          .join('')
+          .substr(0, 3)
+          .toUpperCase()
       }
       return ''
     },
@@ -80,6 +80,12 @@ export default {
       }
 
       return '#' + Math.abs(hash).toString(16).substr(0, 6)
+    },
+    openModal() {
+      this.show = true
+    },
+    closeModal() {
+      this.show = false
     }
   }
 }

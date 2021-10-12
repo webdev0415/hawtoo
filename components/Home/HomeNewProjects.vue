@@ -76,8 +76,6 @@ export default {
     if (data) {
       this.projects = data
     }
-
-    console.log(this.projects)
   }
 }
 </script>

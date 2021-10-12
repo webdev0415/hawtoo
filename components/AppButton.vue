@@ -38,8 +38,8 @@ export default {
       default: 'normal'
     },
     href: {
-      type: String,
-      default: ''
+      type: Boolean,
+      default: false
     },
     type: {
       type: String,
@@ -188,7 +188,10 @@ export default {
 </script>
 
 <template>
-  <component :is="to ? 'nuxt-link' : href ? 'a' : 'button'" :to="to" :type="type" :disabled="disableButton" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" :href="to" v-on="$listeners">
-    <slot />
-  </component>
+  <a v-if="href" :href="to" :disabled="disableButton" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
+    <slot></slot>
+  </a>
+  <nuxt-link v-else :to="to" :disabled="disableButton" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
+    <slot></slot>
+  </nuxt-link>
 </template>

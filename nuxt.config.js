@@ -83,7 +83,6 @@ export default {
     { src: '@/plugins/clipboard.js' },
     { src: '@/plugins/vue-toast-notification.js' },
     { src: '@/plugins/font-awesome.js' },
-    { src: '@/plugins/vue-skeleton-loader.js' },
     { src: '@/plugins/vue-formulate.js' },
     { src: '@/plugins/vue-placeholders.js' },
     { src: "@/plugins/v-click-outside", ssr: false }
