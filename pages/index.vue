@@ -2,10 +2,7 @@
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
     <HomeHero v-if="!isAuthenticated" />
-    <div class="container">
-
-      <InputSearch />
-    </div>
+    <HomeSearch />
     <HomeFeatured v-if="featuredProjects" :has-loaded="true" :data="featuredProjects" :cols="2" />
     <HomeNewProjects />
     <section class="pt-6 pb-8">
@@ -24,13 +21,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import global from '@/mixins/global'
+import HomeHero from '@/components/Home/HomeHero.vue'
+import HomeSearch from '@/components/Home/HomeSearch.vue'
 import HomeFeatured from '@/components/Home/HomeFeatured.vue'
 import HomeNewProjects from '@/components/Home/HomeNewProjects.vue'
-import HomeEmailForm from '@/components/Home/HomeEmailForm.vue'
 import ProjectCardGrid from '@/components/ProjectCardGrid.vue'
+import HomeEmailForm from '@/components/Home/HomeEmailForm.vue'
 
 export default {
   components: {
+    HomeHero,
+    HomeSearch,
     HomeEmailForm,
     HomeNewProjects,
     HomeFeatured,
