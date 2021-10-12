@@ -57,6 +57,7 @@ export default {
     },
     showing(value) {
       if (value) {
+        this.$emit('open')
         return document.querySelector('body').classList.add('overflow-hidden')
       }
       return document.querySelector('body').classList.remove('overflow-hidden')
@@ -87,7 +88,7 @@ export default {
 
 <style scoped>
 .bg-modal {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.25);
 }
 .fade-enter-active,
 .fade-leave-active {

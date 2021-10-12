@@ -1,5 +1,5 @@
 <template>
-  <Modal :showing="getWatchlistModal.open" :css="{ 'modal': 'max-w-xl' }" @close="closeModal">
+  <Modal :showing="getWatchlistModal.open" :css="{ 'modal': 'max-w-xl' }" @open="openModal" @close="closeModal">
     <div>
 
       <h2 class="mb-3 text-2xl font-extrabold text-left ">
@@ -21,14 +21,14 @@
         <li v-for="( watchlist, i ) in filteredWatchlists" :key="watchlist.id" :aria-selected="(selected === i).toString()" class="bg-white">
           <div class="flex justify-between p-4 cursor-pointer" :class="{ 'bg-gray-100': selected === i }" @mouseenter="selected = i" @mouseleave="selected = null" @click="handleWatchlistClick(watchlist.id)">
             <span class="text-gray-900 whitespace-nowrap">{{ watchlist.name }}</span>
-            <span class="inline-flex px-2 ml-4 text-xs font-semibold leading-5 text-right text-green-800 uppercase bg-green-100 rounded-full">Add</span>
+            <span class="inline-flex items-center px-2 ml-4 text-xs font-semibold leading-5 text-white uppercase bg-gray-900 rounded-full items-centertext-right">{{ ctaBadge }}</span>
           </div>
         </li>
         <!-- No watchlist found after search -->
         <li v-if="noSearchResults" class="bg-white">
           <div class="flex justify-between p-4 cursor-pointer" :class="{ 'bg-gray-100': selected }" @mouseleave="selected = false" @mouseenter="selected = true" @click="handleNewWatchlist">
             <span class="text-gray-900 whitespace-nowrap">{{ newWatchlistText }}</span>
-            <span class="inline-flex px-2 ml-4 text-xs font-semibold leading-5 text-right text-green-800 uppercase bg-green-100 rounded-full">New</span>
+            <span class="inline-flex items-center px-2 ml-4 text-xs font-semibold leading-5 text-right text-green-800 uppercase bg-green-200 rounded-full">{{ ctaBadge }}</span>
           </div>
         </li>
       </ul>
@@ -47,7 +47,6 @@ import {
 import global from '@/mixins/global'
 
 export default {
-  name: 'Loginmodal',
   mixins: [global],
   data() {
     return {
@@ -73,11 +72,22 @@ export default {
       })
     },
 
+    ctaBadge() {
+      if (this.getWatchlistModal.saveMode && !this.noSearchResults) {
+        return `Add`
+      }
+
+      if (this.noSearchResults) {
+        return 'New'
+      }
+
+      return `View`
+    },
+
     newWatchlistText() {
       if (this.getWatchlistModal.saveMode) {
         return `Create new watchlist and add to "${this.searchQuery}"`
       }
-
       return `Create new watchlist "${this.searchQuery}"`
     }
   },
@@ -90,11 +100,6 @@ export default {
       }
     }, 25)
   },
-  created() {
-    if (this.isAuthenticated) {
-      this.fetchUserWatchlists(this.user.id)
-    }
-  },
   methods: {
     ...mapActions({
       fetchUserWatchlists: 'watchlists/fetchUserWatchlists'
@@ -102,6 +107,12 @@ export default {
     ...mapMutations({
       toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
     }),
+
+    async openModal() {
+      if (this.isAuthenticated) {
+        await this.fetchUserWatchlists(this.user.id)
+      }
+    },
 
     handleWatchlistClick(id) {
       const saveMode = this.getWatchlistModal.saveMode

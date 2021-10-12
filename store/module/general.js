@@ -9,6 +9,9 @@ const state = () => ({
         title: '',
         description: ''
     },
+    searchModal: {
+        open: false,
+    },
     watchlistModal: {
         open: false,
         saveMode: false,
@@ -22,6 +25,9 @@ const getters = {
     },
     watchlistModal: (state) => {
         return state.watchlistModal
+    },
+    searchModal: (state) => {
+        return state.searchModal
     },
     loginModal: (state) => {
         return state.loginModal
@@ -40,6 +46,9 @@ const mutations = {
     },
     TOGGLE_WATCHLIST_MODAL(state, data) {
         state.watchlistModal = data;
+    },
+    TOGGLE_SEARCH_MODAL(state, data) {
+        state.searchModal = data;
     },
     SET_NEW_USER(state, flag) {
         state.isNewUser = flag

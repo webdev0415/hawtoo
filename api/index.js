@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import { post, get } from 'axios';
 import express from 'express';
 import { getOpenSeaBasicInfo } from './_lib/opensea'
-
+import { addProjectRequest } from './_lib/notion'
 
 // Express
 const app = express()
@@ -184,6 +184,20 @@ app.get('/opensea', async (req, res) => {
         res.status(404).send(error)
         throw new Error(error.message)
     })
+})
+
+app.post('/request-project', async (req, res) => {
+    const { email, userId, query } = req.body;
+
+    await addProjectRequest(query, email, userId).then((response) => {
+        res
+            .status(200)
+            .json({ response })
+            .end()
+    }).catch((error) => {
+        throw new Error(error)
+    })
+
 })
 
 module.exports = app;
