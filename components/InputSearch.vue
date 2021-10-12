@@ -1,6 +1,6 @@
 <template>
   <div>
-    <autocomplete :search="search" :get-result-value="getResultValue" auto-select :debounce-time="350" placeholder="Find a project" aria-label="Find a project" @submit="handleSubmit">
+    <autocomplete :search="search" :get-result-value="getResultValue" auto-select :debounce-time="450" placeholder="Find a project" aria-label="Find a project" @submit="handleSubmit">
       <template #result="{ result, props }">
         <li v-bind="props" class="box-border flex flex-row items-center justify-center flex-shrink-0 w-full h-16 px-2 mx-auto my-0 font-sans text-black rounded-lg cursor-pointer">
           <div class="flex flex-col items-center justify-center flex-shrink-0 w-10 h-10 m-auto text-black bg-transparent rounded-lg">
@@ -29,15 +29,24 @@
     <div v-if="helperMessage" class="p-[12px] text-center text-sm text-gray-500">
       {{ helperMessage }}
     </div>
-    <div v-if="noResults" class="p-16 text-center bg-gray-50">
+    <div v-if="noResults" class="flex-row items-center justify-center p-8 text-center bg-white">
       <h2 class="mb-2 font-semibold text-gray-900 text-md">No results found?</h2>
       <p class="mb-2 text-sm">We can’t find "<span class="inline-block underline">{{ value }}</span>". Perhaps this NFT is not on HawToo yet. Do you want us to add it?</p>
-      <button class="px-6 py-2 text-white btn btn-primary" @click="handleRequestBtn">Request this NFT</button>
-      <p class="text-sm text-red-500">Only OpenSea is supported at the moment</p>
-    </div>
-    <div v-if="requestReceived" class="p-16 text-center bg-gray-50">
-      <h2 class="mb-2 font-semibold text-gray-900 text-md">Done! ✨</h2>
-      <p class="mb-2 text-sm">We will notify you once this project becomes available on HawToo</p>
+
+      <form class="mt-4 mb-3 sm:flex sm:justify-center">
+        <label for="opensea-slug" class="sr-only">OpenSea slug</label>
+        <input v-model="openseaURL" name="opensea_url" type="url" autocomplete="off" required="true" class="w-full px-5 py-3 placeholder-gray-500 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs" placeholder="e.g. https://opensea.io/collection/cyberkongz">
+        <div class="mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+          <button type="submit" class="inline-flex items-center px-5 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md shadow hover:bg-gray-700 focus:border-gray-700 active:bg-gray-700" :disabled="formLoading" @click="handleRequestBtn">
+            <svg v-if="formLoading" class="w-5 h-5 mr-3 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Request this NFT
+          </button>
+        </div>
+      </form>
+      <p class="mt-2 text-sm text-red-500">Only OpenSea is supported at the moment</p>
     </div>
   </div>
 </template>
@@ -53,8 +62,9 @@ export default {
   data() {
     return {
       value: '',
-      requestReceived: false,
-      results: []
+      results: [],
+      openseaURL: '',
+      formLoading: false
     }
   },
   computed: {
@@ -78,7 +88,6 @@ export default {
   methods: {
     search(input) {
       this.value = input
-      this.requestReceived = false
 
       if (input.length < 1) {
         this.results = []
@@ -114,6 +123,7 @@ export default {
     },
 
     handleSubmit(result) {
+      this.$emit('selected-item')
       this.$router.push(`/@${result.slug}`)
     },
 
@@ -125,16 +135,27 @@ export default {
         return
       }
 
-      const openSea = prompt('What is the URL to the OpenSea collection?')
+      if (!this.openseaURL) {
+        alert('You need to provide an OpenSea URL')
+        return
+      }
+
+      this.formLoading = true
 
       this.$axios
         .post('api/request-project', {
           email: this.user.email,
           userId: this.user.id,
-          query: openSea
+          url: this.openseaURL,
+          searchQuery: this.value
         })
         .then((res) => {
-          this.requestReceived = true
+          this.$toast.success(
+            'Thanks! We will notify you once we add thi sproject',
+            {
+              position: 'top'
+            }
+          )
         })
         .catch((err) => {
           this.$toast.error(err)
@@ -142,6 +163,7 @@ export default {
         .finally(() => {
           this.results = []
           this.value = ''
+          this.formLoading = false
         })
     }
   }

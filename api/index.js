@@ -187,9 +187,9 @@ app.get('/opensea', async (req, res) => {
 })
 
 app.post('/request-project', async (req, res) => {
-    const { email, userId, query } = req.body;
+    const { email, userId, url, searchQuery } = req.body;
 
-    await addProjectRequest(query, email, userId).then((response) => {
+    await addProjectRequest(url, email, userId, searchQuery).then((response) => {
         res
             .status(200)
             .json({ response })

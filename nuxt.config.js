@@ -45,7 +45,10 @@ export default {
       'punks',
       'art',
       'domains',
-      'gaming'
+      'gaming',
+      'photography',
+      'sports',
+      'music',
     ],
     homepageTagNames: [
       15, // 'soulection-radio'
