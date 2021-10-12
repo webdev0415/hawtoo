@@ -20,6 +20,11 @@
 // import getMeta from '~/utils/get-meta'
 // import { mapGetters } from 'vuex'
 import { mapGetters } from 'vuex'
+import {
+  getWatchListItems,
+  getWatchlistById
+} from '@/utils/supabase/watchlists'
+import { getProfileInfo } from '@/utils/supabase/users'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import WatchlistTable from '@/components/Watchlists/WatchlistTable'
@@ -34,11 +39,7 @@ export default {
     let canEdit = false
     const user = $supabase.auth.user()
     const watchlistId = params.watchlists
-    const watchlistResponse = await $supabase
-      .from('watchlists')
-      .select('*')
-      .eq('id', watchlistId)
-      .single()
+    const watchlistResponse = await getWatchlistById(watchlistId)
 
     if (watchlistResponse.error) {
       const watchlistError = watchlistResponse.error
@@ -57,36 +58,22 @@ export default {
       canEdit = authorId === user.id
     }
 
-    // authorid is null so it won't equal to logged in user
-    const isPrivateWatchlist = !watchlistResponse.data.public && !canEdit
-    const collectedArray = watchlistResponse.data.collected ?? []
-
     // Return 404 if the watchlist is not set to `public`
     // Unless the logged in user is the author of the watchlist.
+    const isPrivateWatchlist = !watchlistResponse.data.public && !canEdit
     if (isPrivateWatchlist) {
       error({ statusCode: 404 })
     }
 
     // Get author details.
-    const userResponse = await $supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', authorId)
-      .single()
-
+    const userResponse = await getProfileInfo(authorId)
     watchlistResponse.data.authorMeta = { ...userResponse.data }
 
-    // Get each project that has been collected by the user.
-    if (collectedArray && collectedArray.length !== 0) {
-      const collectedArray = watchlistResponse.data.collected
-      const collectedResponse = await $supabase
-        .from('projects')
-        .select('*')
-        .in('id', collectedArray)
+    // Get collected items.
+    const collectedResponse = await getWatchListItems(watchlistId, authorId)
+    watchlistResponse.data.projects = collectedResponse.data
 
-      watchlistResponse.data.projects = { ...collectedResponse.data }
-    }
-
+    // Hydrate store.
     store.commit('watchlists/SET_SINGLE_WATCHLIST', watchlistResponse.data)
 
     return {

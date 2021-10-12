@@ -1,9 +1,9 @@
 <template>
   <section class="flex flex-row items-center justify-center w-full pt-4 font-sans text-black cursor-pointer">
     <ProjectSaveButton :data="data" />
-    <ProjectShareButton :data="data" />
     <ProjectBuyButton :data="data" />
     <ProjectChartsButton v-if="data.type === 'coin'" :data="data" />
+    <ProjectShareButton :data="data" />
   </section>
 </template>
 
