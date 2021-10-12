@@ -88,7 +88,8 @@ export default {
     { src: '@/plugins/font-awesome.js' },
     { src: '@/plugins/vue-formulate.js' },
     { src: '@/plugins/vue-placeholders.js' },
-    { src: "@/plugins/v-click-outside", ssr: false }
+    { src: "@/plugins/v-click-outside", ssr: false },
+    { src: "@/plugins/vue-number-animation", mode: 'client' }
   ],
 
 

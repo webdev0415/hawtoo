@@ -9,13 +9,9 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueNumber from 'vue-number-animation'
 import Loader from '@/components/Site/Loader/SkeletonLoader'
 import { abbreviateNumber, round } from '@/utils/numbers'
 import { getWatchlistCountByProjectId } from '@/utils/supabase/watchlists'
-
-Vue.use(VueNumber)
 
 export default {
   components: {
