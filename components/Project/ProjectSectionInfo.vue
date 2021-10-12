@@ -4,9 +4,11 @@
       <ProjectAvatar :verified="data.verified" verified-tooltip :size="128" :size-badge="36" :name="data.name" :avatar-color="data.avatar_color" :avatar-name="data.avatar_name" :slug="data.slug" />
     </div>
 
-    <h1 class="mb-4 text-3xl font-semibold leading-tight text-center md:text-4xl">
+    <h1 class="mb-2 text-3xl font-semibold leading-tight text-center md:text-4xl">
       {{ data.name }}
     </h1>
+
+    <ProjectTotalCount :id="data.id" class="mb-4" />
 
     <ProjectBadge class="mb-3" :link="blockExplorer" :icon="['fal', 'file']" icon-class="text-binance-yellow" :copy-button="true" :copy-text="data.contractAddress" copy-success-message="Successfully copied contract address">
       <div class="box-border inline-flex items-center justify-center h-5 px-2 mr-1 text-sm leading-5 text-center uppercase transition duration-200 ease-in-out bg-gray-200 border border-transparent border-solid rounded-full cursor-pointer badge badge-info badge-chain-initials">
@@ -39,11 +41,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import ProjectAvatar from '@/components/ProjectAvatar.vue'
+import ProjectTotalCount from '@/components/Project/ProjectTotalCount'
 import helper from '@/utils/projectsHelpers.js'
 
 export default {
   components: {
-    ProjectAvatar
+    ProjectAvatar,
+    ProjectTotalCount
   },
   props: {
     data: {

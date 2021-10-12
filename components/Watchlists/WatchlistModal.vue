@@ -42,7 +42,8 @@ import debounce from 'lodash.debounce'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import {
   addProjectToWatchlist,
-  createNewWatchlist
+  createNewWatchlist,
+  getWatchListItems
 } from '@/utils/supabase/watchlists'
 import global from '@/mixins/global'
 
@@ -131,11 +132,16 @@ export default {
       })
 
       if (!watchlist) {
-        this.$toast.error('Something went wrong adding')
+        this.$toast.error('This watchlist does not exist.')
         return
       }
 
-      const collectedArray = watchlist.collected ?? []
+      // const collectedArray = watchlist.collected ?? []
+
+      const collectedResponse = await getWatchListItems(watchlistId, userId)
+      const collectedArray = collectedResponse.data.map(
+        (item) => item.project_id
+      )
 
       if (!collectedArray.includes(projectId)) {
         collectedArray.push(projectId)
@@ -144,7 +150,7 @@ export default {
       const { error, data } = await addProjectToWatchlist(
         userId,
         watchlistId,
-        collectedArray
+        projectId
       )
 
       if (error) {
@@ -154,7 +160,7 @@ export default {
 
       if (data) {
         this.$toast.open({
-          message: `Saved to "${data[0].name}" <span class="ml-1 underline">View ></span>`,
+          message: `Saved! <span class="ml-1 underline">View 👉</span>`,
           type: 'success',
           onClick: () => {
             this.$router.push({ path: `/watchlists/${watchlistId}` })

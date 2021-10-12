@@ -137,7 +137,8 @@ export default {
       // this.fetchMoviesData()
     },
     async fetchMoviesData() {
-      const collectedArray = this.data.collected
+      const projects = this.data.projects
+      const collectedArray = projects.map((item) => item.project_id)
       const perPage = this.perPage
       let currentPage = this.currentPage
 
@@ -148,8 +149,8 @@ export default {
 
       this.totalCount = totalCount
 
-      console.log(this.totalCount)
-      console.log(`Current page: ${currentPage}`)
+      // console.log(this.totalCount)
+      // console.log(`Current page: ${currentPage}`)
 
       currentPage = currentPage - 1 || 0
       if (currentPage <= 0) {
@@ -159,10 +160,10 @@ export default {
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
 
-      console.log(`Current page modified: ${currentPage}`)
-      console.log(`Range start: ${rangeStart}`)
-      console.log(`Range end: ${rangeEnd}`)
-      console.log(`Current range: ${rangeStart} & ${rangeEnd - 1}`)
+      // console.log(`Current page modified: ${currentPage}`)
+      // console.log(`Range start: ${rangeStart}`)
+      // console.log(`Range end: ${rangeEnd}`)
+      // console.log(`Current range: ${rangeStart} & ${rangeEnd - 1}`)
 
       return await this.$supabase
         .from('projects')

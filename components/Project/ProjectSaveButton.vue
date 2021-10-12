@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-tooltip="'Save to watchlist'" class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200" style="border-radius: 24px;" @click="openModal">
-      <img src="~/assets/images/icons/save.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
-    </div>
+    <button v-clipboard="`Save to watchlist`" class="flex items-center justify-center w-auto h-12 px-4 mx-1 my-auto text-black align-middle bg-gray-200 rounded-full" @click="openModal">
+      <span> Save to watchlist</span>
+    </button>
   </div>
 </template>
 

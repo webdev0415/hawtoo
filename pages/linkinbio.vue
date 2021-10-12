@@ -73,12 +73,9 @@ export default {
 
   async mounted() {
     const slug = this.$route.params.id
-    const data = await axios.post('/api/increment_page_view', {
+    await axios.post('/api/increment_page_view', {
       slug
     })
-    if (data.status === 200 && data.statusText === 'OK') {
-      console.log('data', data)
-    }
   }
 }
 </script>
