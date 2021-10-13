@@ -2,7 +2,6 @@
   <main>
     <div class="container py-8">
       <WatchlistSectionInfo :data="getWatchlist" />
-
       <div v-if="getWatchlist.projects">
         <!-- <div v-for="project in getWatchlist.projects" :key="project.id">
           {{ project.name }}
@@ -19,10 +18,11 @@
 <script>
 // import getMeta from '~/utils/get-meta'
 // import { mapGetters } from 'vuex'
+import axios from 'axios'
 import { mapGetters } from 'vuex'
 import {
   getWatchListItems,
-  getWatchlistById
+  getWatchlistById,
 } from '@/utils/supabase/watchlists'
 import { getProfileInfo } from '@/utils/supabase/users'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
@@ -33,7 +33,7 @@ export default {
   components: {
     WatchlistSectionInfo,
     WatchlistEmpty,
-    WatchlistTable
+    WatchlistTable,
   },
   async asyncData({ $supabase, $config, params, error, $auth, store }) {
     let canEdit = false
@@ -77,19 +77,19 @@ export default {
     store.commit('watchlists/SET_SINGLE_WATCHLIST', watchlistResponse.data)
 
     return {
-      data: watchlistResponse.data
+      data: watchlistResponse.data,
     }
   },
   data: () => ({
-    subscriber: null
+    subscriber: null,
   }),
   head() {
     return {
       bodyAttrs: {
-        class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen'
+        class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen',
       },
       title: `${this.data.name}`,
-      description: this.data.description
+      description: this.data.description,
       // meta: getMeta({
       //   title: `Watchlist: ${this.data.name}`,
       //   authorName: this.data.author_id,
@@ -100,8 +100,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getWatchlist: 'watchlists/watchlist'
-    })
+      getWatchlist: 'watchlists/watchlist',
+    }),
   },
   created() {
     // Listening for real-times updates to this watchlist.
@@ -147,11 +147,31 @@ export default {
         .single()
 
       payload.authorMeta = {
-        ...userResponse.data
+        ...userResponse.data,
       }
 
       this.$store.commit('watchlists/SET_SINGLE_WATCHLIST', payload)
-    }
-  }
+    },
+  },
+  async mounted() {
+    const { watchlists } = this.$route.params
+    await axios.post('/api/increment_watchlist_view', {
+      watchlists,
+    })
+    // const res = await axios.post('/api/increment_watchlist_view', {
+    //   watchlists,
+    // })
+    // if (res.status === 200) {
+    //   this.$toast.open({
+    //     message: res.data.message,
+    //     type: 'success',
+    //   })
+    // } else {
+    //   this.$toast.open({
+    //     message: `Unknow Error`,
+    //     type: 'error',
+    //   })
+    // }
+  },
 }
 </script>

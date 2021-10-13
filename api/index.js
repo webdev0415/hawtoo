@@ -90,6 +90,18 @@ app.post('/increment_page_view', async (req, res) => {
     }
 })
 
+app.post('/increment_watchlist_view', async (req, res) => {
+    const { watchlists } = req.body
+    const { data, error } = await supabase.rpc('increment_watchlist_view', {
+        watchlist_id: watchlists
+    })
+    if (!error) {
+        res.status(200).send({
+            message: "Success"
+        })
+    }
+    
+})
 /**
  * Auto-generates an opengraph image.
  */
