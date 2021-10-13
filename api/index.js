@@ -58,7 +58,7 @@ app.post('/subscribe', async (req, res) => {
         console.log("baseApiUrl", baseApiUrl)
         console.log("api_key", params.api_key)
         await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
-
+            console.log("result", result)
             consola.success(`${emailAddress} got subscribed`)
 
             res.status(result.status).send({
@@ -71,6 +71,7 @@ app.post('/subscribe', async (req, res) => {
 
         }).catch((err) => {
             // consola.error(err);
+            console.log("err", err)
             res.status(err.status).send({
                 message: {
                     type: 'error',
