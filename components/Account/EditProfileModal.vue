@@ -38,6 +38,12 @@ export default {
     userAvatarURL: '',
     avatarFieldLabel: 'Upload avatar'
   }),
+  fetch() {
+    this.formValues = {
+      email: this.$store.getters['auth/user'].email,
+      display_name: this.$store.getters['auth/user'].public_profile.display_name
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'auth/user',
@@ -60,12 +66,6 @@ export default {
     //     return this.$store.getters['auth/user'].email
     //   }
     // }
-  },
-  mounted() {
-    this.formValues = {
-      email: this.$store.getters['auth/user'].email,
-      display_name: this.$store.getters['auth/user'].public_profile.display_name
-    }
   },
   methods: {
     ...mapMutations({
