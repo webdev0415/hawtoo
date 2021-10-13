@@ -1,157 +1,58 @@
 <template>
   <main class="">
     <client-only>
-      <div class="cntainer">
 
-        <div class="px-4 pt-16 pb-20 bg-white sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
-          <div class="relative max-w-lg mx-auto divide-y-2 divide-gray-200 lg:max-w-7xl">
-            <div>
+      <div class="pt-16 pb-20 bg-white lg:pt-24 lg:pb-28">
+        <div class="relative ">
+
+          <div class="max-w-lg mx-auto py-14 lg:max-w-7xl">
+            <div class="text-center">
               <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                You have <span data-ambassador-referrals>0</span> referrals
+                You're only <span data-ambassador-next-reward></span> referral(s) away from your next reward
               </h2>
-              <p class="mt-3 text-xl text-gray-500 sm:mt-4">
-                Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst amet. Sapien tortor lacus arcu.
+              <p class="max-w-md mx-auto mt-3 mb-4 text-2xl text-gray-500 sm:mt-4">
+                You have <span data-ambassador-referrals></span> referral(s). Share the url with your friends to unlock perks 💎
               </p>
-
-              <div data-ambassador-sharing></div>
-
+              <div class="w-full max-w-2xl mx-auto">
+                <div class="flex items-center justify-center">
+                  <div id="ambassador-sharing" class="w-full" data-ambassador-sharing></div>
+                </div>
+              </div>
             </div>
-            <div class="grid gap-16 pt-12 mt-12 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
-              <div>
-                <div>
-                  <a href="#" class="inline-block">
-                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
-                      Article
-                    </span>
-                  </a>
-                </div>
-                <a href="#" class="block mt-4">
-                  <p class="text-xl font-semibold text-gray-900">
-                    Boost your conversion rate
-                  </p>
-                  <p class="mt-3 text-base text-gray-500">
-                    Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst amet. Sapien tortor lacus arcu.
-                  </p>
-                </a>
-                <div class="flex items-center mt-6">
-                  <div class="flex-shrink-0">
-                    <a href="#">
-                      <span class="sr-only">Paul York</span>
-                      <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                    </a>
-                  </div>
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900">
-                      <a href="#">
-                        Paul York
-                      </a>
-                    </p>
-                    <div class="flex space-x-1 text-sm text-gray-500">
-                      <time datetime="2020-03-16">
-                        Mar 16, 2020
-                      </time>
-                      <span aria-hidden="true">
-                        &middot;
-                      </span>
-                      <span>
-                        6 min read
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          </div>
 
-              <div>
-                <div>
-                  <a href="#" class="inline-block">
-                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800">
-                      Video
-                    </span>
-                  </a>
-                </div>
-                <a href="#" class="block mt-4">
-                  <p class="text-xl font-semibold text-gray-900">
-                    How to use search engine optimization to drive sales
-                  </p>
-                  <p class="mt-3 text-base text-gray-500">
-                    Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst amet. Sapien tortor lacus arcu.
-                  </p>
-                </a>
-                <div class="flex items-center mt-6">
-                  <div class="flex-shrink-0">
-                    <a href="#">
-                      <span class="sr-only">Dessie Ryan</span>
-                      <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                    </a>
-                  </div>
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900">
-                      <a href="#">
-                        Dessie Ryan
-                      </a>
-                    </p>
-                    <div class="flex space-x-1 text-sm text-gray-500">
-                      <time datetime="2020-03-10">
-                        Mar 10, 2020
-                      </time>
-                      <span aria-hidden="true">
-                        &middot;
-                      </span>
-                      <span>
-                        4 min read
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="container px-8 bg-black rounded-lg py-14">
+            <h3 class="text-2xl font-extrabold tracking-tight text-center text-white">
+              Here are the rewards you can unlock
+            </h3>
+            <div class="grid gap-16 pt-12 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
+              <div v-for="(level, id) in levels" :key="id">
 
-              <div>
-                <div>
-                  <a href="#" class="inline-block">
-                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                      Case Study
-                    </span>
-                  </a>
-                </div>
-                <a href="#" class="block mt-4">
-                  <p class="text-xl font-semibold text-gray-900">
-                    Improve your customer experience
+                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  {{ level.name }}
+                </span>
+
+                <div class="block mt-4">
+                  <p class="mb-3 text-xl font-semibold text-white">
+                    {{ level.title }}
                   </p>
-                  <p class="mt-3 text-base text-gray-500">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab iure iusto fugiat commodi sequi.
-                  </p>
-                </a>
-                <div class="flex items-center mt-6">
-                  <div class="flex-shrink-0">
-                    <a href="#">
-                      <span class="sr-only">Easer Collins</span>
-                      <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                    </a>
-                  </div>
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900">
-                      <a href="#">
-                        Easer Collins
-                      </a>
-                    </p>
-                    <div class="flex space-x-1 text-sm text-gray-500">
-                      <time datetime="2020-02-12">
-                        Feb 12, 2020
-                      </time>
-                      <span aria-hidden="true">
-                        &middot;
-                      </span>
-                      <span>
-                        11 min read
-                      </span>
-                    </div>
-                  </div>
+                  <ul role="list">
+                    <li v-for="reward in level.rewards" :key="reward" class="text-gray-300 divide-y divide-gray-200">
+                      <div class="flex py-2 space-x-3">
+                        <div v-tooltip="`Reward ${level.name}`" class="flex items-center justify-center w-8 h-8 mx-1 my-auto text-green-400 bg-gray-700 rounded-full fill-current">
+                          <img src="~/assets/images/icons/check.svg" height="24" width="24" class="block h-4 m-auto text-green-300 cursor-pointer fill-current" />
+                        </div>
+                        <div class="flex items-center justify-center space-y-1">
+                          <h3 class="text-base font-medium">{{ reward }}</h3>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
     </client-only>
@@ -165,7 +66,36 @@ export default {
     const email = user.email
 
     return {
-      email
+      email,
+      levels: {
+        level_1: {
+          name: 'Level 1',
+          title: 'Refer 3 people to unlock the following rewards',
+          rewards: [
+            'Add Unlimited projects to your Watchlist(s)',
+            'Create up to 3 different Watchlists',
+            'Get the "Ambassador Ape" Role on Discord 🐵'
+          ]
+        },
+        level_2: {
+          name: 'Level 2',
+          title: 'Refer 10 people to unlock the following rewards',
+          rewards: [
+            'Everything from level 1 and:',
+            'Create up to 10 different Watchlists ',
+            'Get the "Alpha Ape" Role on Discord 🦍'
+          ]
+        },
+        level_3: {
+          name: 'Level 3',
+          title: 'Refer 25 people to unlock the following rewards',
+          rewards: [
+            'Everything from level 2 + 3 and:',
+            'Get the "Elite Ape Role" on Discord 🐺',
+            '+ first access to new upcoming features and perks'
+          ]
+        }
+      }
     }
   },
   created() {
@@ -183,5 +113,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+#ambassador-sharing #sl-social-links-container .sl-sharing-social {
+  width: 35px;
+  height: 35px;
+}
 </style>
