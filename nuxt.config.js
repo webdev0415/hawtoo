@@ -105,6 +105,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/ngrok',
     // Doc: https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // Doc: https://go.nuxtjs.dev/tailwindcss
@@ -149,6 +150,11 @@ export default {
       prefix: '',
       expires: 5
     },
+  },
+
+  ngrok: {
+    // module options
+    authtoken: process.env.NGROK_AUTHTOKEN
   },
 
   router: {

@@ -1,11 +1,16 @@
-import consola from "consola";
-import hash from 'object-hash'
-import { v2 as cloudinary } from 'cloudinary';
-import { createClient } from '@supabase/supabase-js'
-import { post, get } from 'axios';
 import express from 'express';
-import { getOpenSeaBasicInfo } from './_lib/opensea'
-import { addProjectRequest } from './_lib/notion'
+import consola from "consola";
+import { post, get } from 'axios';
+import hash from 'object-hash'
+
+import { createClient } from '@supabase/supabase-js'
+import { Webhook } from 'discord-webhook-node'
+import { v2 as cloudinary } from 'cloudinary';
+
+import { emailMask } from './lib/helpers'
+import { getOpenSeaBasicInfo } from './lib/opensea'
+import { addProjectRequest } from './lib/notion'
+import { updateTotalReferrals, updateReferralRewards } from './lib/supabase'
 
 // Express
 const app = express()
@@ -199,6 +204,68 @@ app.post('/request-project', async (req, res) => {
         throw new Error(error)
     })
 
+})
+
+/**
+ * Receives the Sparkloop webhooks.
+ *
+ * Send back a blank response with a status code of 200
+ * for Sparkloop to see this webhook as successful.
+ *
+ * new_referral -> type, campaign_id, subscriber, referrer,
+ * reward_unlocked -> type, campaign_id, subscriber, reward
+ *
+ * @see https://support.sparkloop.app/product/features/webhooks
+ */
+app.post('/sparkloop', async (req, res) => {
+    const { type, subscriber, referrer, reward } = req.body;
+    const discord = new Webhook('https://discord.com/api/webhooks/897902446817460296/zcQDl0TIUPwUMgKvg0DQx9N_tLt0sxAHe8tTzYgAsjJuQrlCJ-KillYz-LjEfN_QERMY');
+    let referralCount, supabaseEmail;
+    let found = false;
+    if (type === 'new_referral') {
+        // referrer.email = 'chris@chrisjayden.com';
+        consola.info(`New referral from ${referrer.email}`)
+
+        await updateTotalReferrals(referrer.email, referrer.tot_referrals).then((res) => {
+            if (res?.data && res.data[0]) {
+                found = true;
+                referralCount = res.data[0].referrals
+                supabaseEmail = res.data[0].email
+                consola.info(`Updated referral count to ${referralCount} for ${supabaseEmail}`)
+            } else {
+                consola.info(`No matching database entry to update referral count for ${subscriber.email}`)
+            }
+        }).catch((err) => consola.error(err))
+
+        if (found) {
+            await discord.info('🚀 New referral', `${emailMask(referrer.email)} referred ${emailMask(subscriber.email)}`, `Updated referral count to ${referralCount}`).then(() => consola.success(`Sent "new referral" Discord webhook successfully!`)).catch((err) => consola.error(err));
+        }
+
+        consola.log('----------------')
+    } else if (type === 'reward_unlocked') {
+        // subscriber.email = 'chris@chrisjayden.com';
+        consola.info(`${subscriber.email} unlocked a reward`)
+
+        await updateReferralRewards(subscriber.email, reward).then((res) => {
+            if (res?.data && res.data[0]) {
+                found = true;
+                supabaseEmail = res.data[0].email
+                consola.info(`Updated rewards for ${supabaseEmail}`)
+            } else {
+                consola.info(`No matching database entry to update reward for ${subscriber.email}`)
+            }
+        }).catch((err) => consola.error(err))
+
+        if (found) {
+            await discord.success('🔥 Reward unlocked', `Unlocked: ${reward.name}`, `By: ${emailMask(subscriber.email)}`).then(() => consola.success(`Sent "reward unlock" Discord webhook successfully!`)).catch((err) => consola.error(err));
+        }
+
+        consola.log('----------------')
+    }
+
+
+
+    res.status(200).end()
 })
 
 module.exports = app;

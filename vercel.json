@@ -38,6 +38,10 @@
             "dest": "/api/index.js"
         },
         {
+            "src": "/api/sparkloop",
+            "dest": "/api/index.js"
+        },
+        {
             "src": "/sw.js",
             "continue": true,
             "headers": {
