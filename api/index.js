@@ -55,10 +55,7 @@ app.post('/subscribe', async (req, res) => {
 
     if (!disposableEmail) {
         consola.info(`${emailAddress} looks legit. Subscribing to ConvertKit.`)
-        console.log("baseApiUrl", baseApiUrl)
-        console.log("api_key", params.api_key)
         await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
-            console.log("result", result)
             consola.success(`${emailAddress} got subscribed`)
 
             res.status(result.status).send({
@@ -71,7 +68,6 @@ app.post('/subscribe', async (req, res) => {
 
         }).catch((err) => {
             // consola.error(err);
-            console.log("err", err)
             res.status(500).send({
                 message: {
                     type: 'error',
