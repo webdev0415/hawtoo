@@ -55,7 +55,7 @@ app.post('/subscribe', async (req, res) => {
 
     if (!disposableEmail) {
         consola.info(`${emailAddress} looks legit. Subscribing to ConvertKit.`)
-
+        console.log("baseApiUrl", baseApiUrl)
         await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
 
             consola.success(`${emailAddress} got subscribed`)
