@@ -72,7 +72,7 @@ app.post('/subscribe', async (req, res) => {
         }).catch((err) => {
             // consola.error(err);
             console.log("err", err)
-            res.status(err.status).send({
+            res.status(500).send({
                 message: {
                     type: 'error',
                     message: 'Oops. Something went wrong!'
