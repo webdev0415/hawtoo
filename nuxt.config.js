@@ -24,7 +24,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      {
+        src: 'https://dash.sparkloop.app/widget/MFe09c669db9/embed.js',
+        async: true,
+        'data-sparkloop': true
+      },
+    ],
   },
 
   publicRuntimeConfig: {
