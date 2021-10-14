@@ -31,19 +31,14 @@ export default {
 
       try {
         const { user, error } = await this.$supabase.auth.signIn(
-          {
-            email
-          },
-          {
-            redirectTo: redirectURL
-          }
+          { email },
+          { redirectTo: redirectURL }
         )
         if (user) {
           this.$emit('submitted-email-form', true)
         }
         if (error) throw error
       } catch (err) {
-        console.log(err)
         if (err.status === 429) {
           this.error = 'You already requested a sign-in link.'
         } else if (err.status === 422) {
