@@ -46,7 +46,7 @@
             "dest": "/api/index.js"
         },
         {
-            "src": "/api/spot/:id",
+            "src": "/api/spot/",
             "dest": "/api/index.js"
         },
         {
