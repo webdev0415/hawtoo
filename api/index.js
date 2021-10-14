@@ -60,10 +60,7 @@ app.post('/subscribe', async (req, res) => {
 
     if (!disposableEmail) {
         consola.info(`${emailAddress} looks legit. Subscribing to ConvertKit.`)
-        console.log("baseApiUrl", baseApiUrl)
-        console.log("api_key", params.api_key)
         await post(`${baseApiUrl}/forms/${formId}/subscribe`, params).then((result) => {
-
             consola.success(`${emailAddress} got subscribed`)
 
             res.status(result.status).send({
@@ -76,7 +73,7 @@ app.post('/subscribe', async (req, res) => {
 
         }).catch((err) => {
             // consola.error(err);
-            res.status(err.status).send({
+            res.status(500).send({
                 message: {
                     type: 'error',
                     message: 'Oops. Something went wrong!'
@@ -98,6 +95,18 @@ app.post('/increment_page_view', async (req, res) => {
     }
 })
 
+app.post('/increment_watchlist_view', async (req, res) => {
+    const { watchlists } = req.body
+    const { data, error } = await supabase.rpc('increment_watchlist_view', {
+        watchlist_id: watchlists
+    })
+    if (!error) {
+        res.status(200).send({
+            message: "Success"
+        })
+    }
+    
+})
 /**
  * Auto-generates an opengraph image.
  */
