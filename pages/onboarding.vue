@@ -37,6 +37,15 @@ export default {
       await axios.post('/api/subscribe', {
         email: authState.user.email
       })
+
+      /**
+       * Sparkloop tracking.
+       * TODO: CHECK AGAINST PROVIDER IF ITS EMAIL IT WAS LIKELY AUTOTRACKED BY SPARKLOOP
+       * @see https://support.sparkloop.app/product/features/manual-tracking-subscribers
+       */
+      if (window.SL) {
+        window.SL.trackSubscriber(authState.user.email)
+      }
       this.setNewUser(false)
     }
   },

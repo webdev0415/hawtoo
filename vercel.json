@@ -26,6 +26,10 @@
             "dest": "/api/index.js"
         },
         {
+            "src": "/api/increment_watchlist_view",
+            "dest": "/api/index.js"
+        },
+        {
             "src": "/api/og",
             "dest": "/api/index.js"
         },
@@ -35,6 +39,10 @@
         },
         {
             "src": "/api/request-project",
+            "dest": "/api/index.js"
+        },
+        {
+            "src": "/api/sparkloop",
             "dest": "/api/index.js"
         },
         {

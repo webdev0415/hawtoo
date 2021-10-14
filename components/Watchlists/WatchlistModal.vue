@@ -131,20 +131,28 @@ export default {
         return watchlistId === item.id
       })
 
+      // Check if the watchlist exists on Supabase.
       if (!watchlist) {
         this.$toast.error('This watchlist does not exist.')
         return
       }
 
-      // const collectedArray = watchlist.collected ?? []
-
+      // Get each collected project on this `watchlistId`.
       const collectedResponse = await getWatchListItems(watchlistId, userId)
       const collectedArray = collectedResponse.data.map(
         (item) => item.project_id
       )
 
-      if (!collectedArray.includes(projectId)) {
-        collectedArray.push(projectId)
+      // Project is already on this watchlist. We can return and do nothing.
+      if (collectedArray.includes(projectId)) {
+        this.$toast.open({
+          message: `Saved <span class="ml-1 underline">View 👉</span>`,
+          type: 'success',
+          onClick: () => {
+            this.$router.push({ path: `/watchlists/${watchlistId}` })
+          }
+        })
+        return
       }
 
       const { error, data } = await addProjectToWatchlist(
@@ -165,7 +173,6 @@ export default {
           onClick: () => {
             this.$router.push({ path: `/watchlists/${watchlistId}` })
           }
-          // all of other options may go here
         })
       }
     },
