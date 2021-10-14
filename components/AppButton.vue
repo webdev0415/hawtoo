@@ -41,6 +41,10 @@ export default {
       type: Boolean,
       default: false
     },
+    button: {
+      type: Boolean,
+      default: false
+    },
     type: {
       type: String,
       default: ''
@@ -188,10 +192,13 @@ export default {
 </script>
 
 <template>
-  <a v-if="href" :href="to" :disabled="disableButton" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
+  <a v-if="href" :href="to" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
     <slot></slot>
   </a>
-  <nuxt-link v-else :to="to" :disabled="disableButton" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
+  <button v-else-if="button" :to="to ? to : ''" :disabled="disableButton" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
+    <slot></slot>
+  </button>
+  <nuxt-link v-else :to="to" :class="[btnClass, colorVariants]" :variant="variant" :variant-type="variantType" :size="size" v-on="$listeners">
     <slot></slot>
   </nuxt-link>
 </template>

@@ -1,6 +1,18 @@
 
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
+    <div class="bg-white">
+      <div class="container py-16 mx-auto ">
+        <div class="grid grid-cols-1 gap-10 auto-cols-fr lg:grid-cols-2">
+
+          <HomeFeaturedSponsor />
+
+          <HomeTrendingProjects />
+
+        </div>
+      </div>
+    </div>
+
     <HomeHero v-if="!isAuthenticated" />
     <HomeSearch />
     <HomeFeatured v-if="featuredProjects" :has-loaded="true" :data="featuredProjects" :cols="2" />
@@ -25,8 +37,11 @@ import HomeHero from '@/components/Home/HomeHero.vue'
 import HomeSearch from '@/components/Home/HomeSearch.vue'
 import HomeFeatured from '@/components/Home/HomeFeatured.vue'
 import HomeNewProjects from '@/components/Home/HomeNewProjects.vue'
-import ProjectCardGrid from '@/components/ProjectCardGrid.vue'
+
 import HomeEmailForm from '@/components/Home/HomeEmailForm.vue'
+
+import HomeFeaturedSponsor from '@/components/Home2/HomeFeaturedSponsor.vue'
+import HomeTrendingProjects from '@/components/Home2/HomeTrendingProjects.vue'
 
 export default {
   components: {
@@ -35,7 +50,8 @@ export default {
     HomeEmailForm,
     HomeNewProjects,
     HomeFeatured,
-    ProjectCardGrid
+    HomeFeaturedSponsor,
+    HomeTrendingProjects
   },
   mixins: [global],
   // middleware({ redirect, $auth, store }) {

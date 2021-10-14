@@ -73,8 +73,6 @@ export default {
       user: 'auth/user'
     }),
     noResults() {
-      console.log(this.results)
-
       return this.value.length >= 3 && this.results.length === 0
     },
     helperMessage() {

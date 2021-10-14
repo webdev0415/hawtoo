@@ -1,10 +1,18 @@
 <template>
-  <Loader v-if="$fetchState.pending" :width="200" :height="34" rounded :radius="100" animation="fade" />
-  <div v-else class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-red-800 bg-red-50 ">
-    <span v-if="emoji" class="inline-block mr-1">{{emoji}}</span> Added to
-    <span class="inline-block mx-1">
-      <number ref="number1" :from="0" :to="countTo" :format="theFormat" :duration="5" :delay="1" easing="Power1.easeOut" />
-    </span> watchlists
+  <Loader v-if="$fetchState.pending" :width="160" :height="loaderHeight" rounded :radius="100" animation="fade" />
+  <div v-else :class="badgeClasses">
+    <client-only>
+      <span v-if="emoji" class="inline-block mr-1">{{emoji}}</span>
+
+      <span v-if="animated" class="inline-block mx-1">
+        On
+        <number ref="number1" :from="0" :to="countTo" :format="theFormat" :duration="5" :delay="1" easing="Power1.easeOut" /> watchlists
+      </span>
+
+      <span v-else class="inline-block">
+        On {{ totalCount }} watchlists
+      </span>
+    </client-only>
   </div>
 </template>
 
@@ -22,14 +30,24 @@ export default {
       type: Number,
       default: 0,
       required: true
+    },
+    animated: {
+      type: Boolean,
+      default: true
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       countTo: 0,
-      emoji: ''
+      emoji: '',
+      compClasses: ''
     }
   },
+  fetchDelay: 100,
   async fetch() {
     try {
       await getWatchlistCountByProjectId(this.id).then(({ count, error }) => {
@@ -42,6 +60,26 @@ export default {
       })
     } catch (e) {
       throw new Error(e.message)
+    }
+  },
+  computed: {
+    totalCount() {
+      return abbreviateNumber(round(this.countTo))
+    },
+    badgeClasses() {
+      if (this.type === 'empty') {
+        return 'text-gray-500'
+      }
+      return 'inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-red-800 bg-red-50'
+    },
+    loaderHeight() {
+      switch (this.type) {
+        case 'empty':
+          return '14'
+
+        default:
+          return '36'
+      }
     }
   },
   watch: {

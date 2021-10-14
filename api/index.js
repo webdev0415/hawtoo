@@ -9,7 +9,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import { emailMask } from './lib/helpers'
 import { getOpenSeaBasicInfo } from './lib/opensea'
-import { addProjectRequest } from './lib/notion'
+import { addProjectRequest, getAdSpot } from './lib/notion'
 import { updateTotalReferrals, updateReferralRewards } from './lib/supabase'
 
 // Express
@@ -105,7 +105,7 @@ app.post('/increment_watchlist_view', async (req, res) => {
             message: "Success"
         })
     }
-    
+
 })
 /**
  * Auto-generates an opengraph image.
@@ -205,6 +205,20 @@ app.post('/request-project', async (req, res) => {
     const { email, userId, url, searchQuery } = req.body;
 
     await addProjectRequest(url, email, userId, searchQuery).then((response) => {
+        res
+            .status(200)
+            .json({ response })
+            .end()
+    }).catch((error) => {
+        throw new Error(error)
+    })
+
+})
+
+app.get('/spot/:id', async (req, res) => {
+    const { id: adSpotId } = req.params
+
+    await getAdSpot(adSpotId).then((response) => {
         res
             .status(200)
             .json({ response })

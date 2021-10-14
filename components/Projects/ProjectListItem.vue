@@ -6,9 +6,13 @@
           <div>
             <div class="flex items-center">
               <ProjectAvatar :verified="project.verified" :size="64" :name="project.name" :avatar-color="project.avatar_color" :avatar-name="project.avatar_name" :slug="project.slug" />
-              <h4 class="ml-3 text-[17px] font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                {{ project.name }}
-              </h4>
+              <div class="ml-3">
+
+                <h4 class=" text-[17px] font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                  {{ project.name }}
+                </h4>
+                {{ project.description | strLimit(40) }}
+              </div>
             </div>
           </div>
         </div>
