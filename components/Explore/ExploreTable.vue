@@ -1,9 +1,25 @@
 <template>
   <section class="bg-white">
-    <div class="overflow-x-auto">
-      <AppTable remote :columns="columns" :rows="rows" :sorted="true" current-sort="floor_price" current-sort-dir="desc" paginated :per-page="perPage" :total-count="totalCount" @sort="onSort" @page-changed="currentPage = $event">
+    <div class="overflow-x-auto" ref="tableRef">
+      <AppTable
+        remote
+        :columns="columns"
+        :rows="rows"
+        :sorted="true"
+        current-sort="floor_price"
+        current-sort-dir="desc"
+        paginated
+        :per-page="perPage"
+        :total-count="totalCount"
+        @sort="onSort"
+        @page-changed="currentPage = $event"
+      >
         <template #row="props">
-          <AppTableRow v-for="(row, index) in props.data" :key="index" :index="index">
+          <AppTableRow
+            v-for="(row, index) in props.data"
+            :key="index"
+            :index="index"
+          >
             <!-- Cell: Count -->
             <AppTableCell>
               <span>{{ index + 1 }}</span>
@@ -13,7 +29,12 @@
             <AppTableCell>
               <NuxtLink :to="'/@' + row.slug">
                 <div class="flex items-center">
-                  <ProjectAvatar :verified="row.verified" :name="row.name" :avatar-color="row.avatar_color" :avatar-name="row.avatar_name" />
+                  <ProjectAvatar
+                    :verified="row.verified"
+                    :name="row.name"
+                    :avatar-color="row.avatar_color"
+                    :avatar-name="row.avatar_name"
+                  />
                   <span class="ml-3">{{ row.name }}</span>
                 </div>
               </NuxtLink>
@@ -22,10 +43,12 @@
             <!-- Cell: Sales data -->
             <AppTableCell v-for="(fld, i) in footerFields" :key="i">
               <div class="flex items-center justify-between md:block lg:flex">
-                <div class="flex items-center text-xl font-semibold text-gray-900">
-                  {{ fld.prefix }} {{ toFixed( row.sales_stats[0][fld.field] ) }}
+                <div
+                  class="flex items-center text-xl font-semibold text-gray-900"
+                >
+                  {{ fld.prefix }} {{ toFixed(row.sales_stats[0][fld.field]) }}
                   <span class="ml-2 text-sm font-medium text-gray-500">
-                    {{fld.suffix}}
+                    {{ fld.suffix }}
                   </span>
                 </div>
               </div>
@@ -46,35 +69,35 @@ export default {
   components: {
     AppTableRow,
     AppTableCell,
-    AppTable
+    AppTable,
   },
   data() {
     return {
       columns: [
         {
           label: '#',
-          field: 'count'
+          field: 'count',
         },
         {
           label: 'Name',
-          field: 'name'
+          field: 'name',
         },
         {
           label: 'Floor price',
-          field: 'floor_price'
+          field: 'floor_price',
         },
         {
           label: '24 hour volume',
-          field: 'one_day_volume'
+          field: 'one_day_volume',
         },
         {
           label: '7-day avg. Price',
-          field: 'one_day_volume'
+          field: 'one_day_volume',
         },
         {
           label: '30-day avg. Price',
-          field: 'one_day_volume'
-        }
+          field: 'one_day_volume',
+        },
       ],
       rows: [],
       currentPage: 1,
@@ -88,41 +111,46 @@ export default {
           field: 'floor_price',
           suffix: 'ETH',
           prefix: 'Ξ',
-          color: 'text-violet-400'
+          color: 'text-violet-400',
         },
         {
           title: '24 hour volume',
           field: 'one_day_volume',
           suffix: 'ETH',
           prefix: 'Ξ',
-          color: 'text-blue-400'
+          color: 'text-blue-400',
         },
         {
           title: '7-day avg. Price',
           field: 'seven_day_average_price',
           suffix: 'ETH',
           prefix: 'Ξ',
-          color: 'text-gray-900'
+          color: 'text-gray-900',
         },
         {
           title: '30-day avg. Price',
           field: 'thirty_day_average_price',
           suffix: 'ETH',
           prefix: 'Ξ',
-          color: 'text-gray-900'
-        }
-      ]
+          color: 'text-gray-900',
+        },
+      ],
     }
   },
   watch: {
     currentPage() {
       this.fetchMoviesData()
-    }
+    },
   },
   created() {
     this.fetchMoviesData()
   },
   methods: {
+    goTo(refName) {
+      const element = this.$refs[refName]
+      const top = element?.offsetTop
+      window.scrollTo({ top, behavior: 'smooth' })
+    },
     onSort(field, order) {
       console.log('SORTING NOW')
       this.sortField = field
@@ -136,7 +164,7 @@ export default {
       const { count: totalCount } = await this.$supabase
         .from('projects')
         .select('*', { head: true, count: 'exact' })
-
+      this.goTo('tableRef')
       this.totalCount = totalCount
 
       // console.log(this.totalCount)
@@ -178,7 +206,7 @@ export default {
       } else {
         return Number(val).toFixed(2)
       }
-    }
-  }
+    },
+  },
 }
 </script>
