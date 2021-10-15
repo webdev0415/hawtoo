@@ -12,9 +12,7 @@
           <h2 class="box-border relative z-10 mb-2 text-3xl font-black text-white lg:text-4xl">
             {{ data.name }}
           </h2>
-
           <ProjectTotalCount :id="data.id" />
-
         </div>
       </div>
       <!-- button -->

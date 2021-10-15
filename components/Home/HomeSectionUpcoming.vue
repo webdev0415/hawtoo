@@ -1,6 +1,6 @@
 <template>
   <section v-if="!$fetchState.pending" class="bg-white">
-    <div class="container py-16 mx-auto ">
+    <div class="container">
       <h2 class="mb-4">On the come up</h2>
       <div class="grid grid-cols-1 gap-10 auto-cols-fr lg:grid-cols-2">
         <MintCard v-for="project in projects" :key="project.id" :data="project" :event-time="2 * 24 * 60 * 60 * 1000" event-name="Mint" />
