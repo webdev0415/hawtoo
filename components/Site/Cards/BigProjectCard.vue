@@ -30,14 +30,12 @@
 import Loader from '@/components/Site/Loader/SkeletonLoader'
 import ProjectAvatar from '@/components/ProjectAvatar'
 import ProjectTotalCount from '@/components/Project/ProjectTotalCount'
-import AppButton from '@/components/AppButton'
 
 export default {
   components: {
     Loader,
     ProjectAvatar,
-    ProjectTotalCount,
-    AppButton
+    ProjectTotalCount
   },
   props: {
     loading: {
@@ -59,7 +57,7 @@ export default {
   data() {
     return {
       cardClass:
-        'box-border relative justify-between flex flex-col items-stretch self-stretch flex-auto flex-grow flex-shrink-0 max-w-full p-4 md:px-8 md:pt-8 md:pb-12 m-0 overflow-hidden leading-6 text-black bg-gray-300  border-black border-solid rounded-xl outline-none cursor-pointer project-image min-h-[280px] lg:min-h-[500px]'
+        'box-border relative justify-between flex flex-col items-stretch self-stretch flex-auto flex-grow flex-shrink-0 max-w-full p-4 md:px-8 md:pt-8 md:pb-12 m-0 overflow-hidden leading-6 text-black bg-gray-300  border-black border-solid rounded-xl outline-none cursor-pointer project-image min-h-[280px] lg:min-h-[555px]'
     }
   }
 }

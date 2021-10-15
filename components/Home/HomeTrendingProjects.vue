@@ -1,35 +1,54 @@
 <template>
-  <div v-if="$fetchState.error">Error while fetching project</div>
-  <BigProjectCard v-else :loading="$fetchState.pending" :data="project" />
+  <div>
+    <h2 class="my-1">Trending projects</h2>
+    <!-- Sponsored -->
+    <ul v-if="!$fetchState.pending" role="list" class="divide-y divide-gray-200">
+      <!-- sponsored -->
+      <li v-if="topProject" class="px-4 py-4 bg-white rounded-lg sm:px-0 hover:bg-gray-50 sm:hover:bg-transparent">
+        <ProjectListItem :data="topProject" :sponsored="true" />
+      </li>
+
+      <!--- top 5 projects -->
+      <li v-for="(project, key) in projects" :key="key" class="px-4 py-4 bg-white rounded-lg sm:px-0 hover:bg-gray-50 sm:hover:bg-transparent">
+        <ProjectListItem :data="project" index-prefix="#" :index="key + 1" :sponsored="false" />
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import BigProjectCard from '@/components/Site/Cards/BigProjectCard'
+import ProjectListItem from '@/components/Home/ProjectListItem.vue'
 
 export default {
   components: {
-    BigProjectCard
+    ProjectListItem
   },
   data() {
     return {
-      project: {}
+      topProject: () => {},
+      projects: () => {}
     }
   },
-  fetchDelay: 250,
+  fetchDelay: 100,
   async fetch() {
-    // Long title = 145
-    const spotId = await this.$axios.get('/api/spot/1')
-    const projectId = spotId.data.response
+    // const topId = await this.$axios.get('/api/spot', { params: { id: 2 } })
+    const topId = 170
 
-    if (!projectId) {
-      throw new Error('No project ID was returned')
+    const { data: spotData } = await this.$supabase
+      .from('projects')
+      .select('*')
+      .eq('id', topId)
+      .single()
+
+    if (spotData) {
+      this.topProject = spotData
     }
 
     const { data, error } = await this.$supabase
       .from('projects')
       .select('*')
-      .eq('id', projectId)
-      .single()
+      .order('view_count', { ascending: false })
+      .limit(5)
 
     if (error) {
       throw new Error('No project found')
@@ -55,7 +74,7 @@ export default {
         data.bannerURL = bannerDefault
       }
 
-      this.project = data
+      this.projects = data
     }
   }
 }

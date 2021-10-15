@@ -10,7 +10,7 @@
 
     <ProjectTotalCount :id="data.id" class="mb-4" />
 
-    <ProjectBadge class="mb-3" :link="blockExplorer" :icon="['fal', 'file']" icon-class="text-binance-yellow" :copy-button="true" :copy-text="data.contractAddress" copy-success-message="Successfully copied contract address">
+    <ProjectContractBadge class="mb-3" :link="blockExplorer" :icon="['fal', 'file']" icon-class="text-binance-yellow" :copy-button="true" :copy-text="data.contractAddress" copy-success-message="Successfully copied contract address">
       <div class="box-border inline-flex items-center justify-center h-5 px-2 mr-1 text-sm leading-5 text-center uppercase transition duration-200 ease-in-out bg-gray-200 border border-transparent border-solid rounded-full cursor-pointer badge badge-info badge-chain-initials">
         {{ chainAbbrevation }}
       </div>
@@ -22,7 +22,7 @@
           {{ data.contract_address | strLimit(16) }}
         </span>
       </div>
-    </ProjectBadge>
+    </ProjectContractBadge>
 
     <div class="max-w-[680px] pb-1 mx-auto mb-3 text-sm leading-relaxed text-center md:text-lg ">
       <p v-if="!readMore">{{data.description | strLimit(160) }} </p>
@@ -42,12 +42,14 @@
 import { mapGetters } from 'vuex'
 import ProjectAvatar from '@/components/ProjectAvatar.vue'
 import ProjectTotalCount from '@/components/Project/ProjectTotalCount'
+import ProjectContractBadge from '@/components/Project/ProjectContractBadge'
 import helper from '@/utils/projectsHelpers.js'
 
 export default {
   components: {
     ProjectAvatar,
-    ProjectTotalCount
+    ProjectTotalCount,
+    ProjectContractBadge
   },
   props: {
     data: {

@@ -1,110 +1,46 @@
 
 <template>
   <main class="flex flex-col flex-grow min-h-screen overflow-hidden">
-    <div class="bg-white">
-      <div class="container py-16 mx-auto ">
+
+    <section class="bg-white">
+      <div class="container py-12 mx-auto ">
         <div class="grid grid-cols-1 gap-10 auto-cols-fr lg:grid-cols-2">
-
           <HomeFeaturedSponsor />
-
           <HomeTrendingProjects />
-
         </div>
-      </div>
-    </div>
-
-    <HomeHero v-if="!isAuthenticated" />
-    <HomeSearch />
-    <HomeFeatured v-if="featuredProjects" :has-loaded="true" :data="featuredProjects" :cols="2" />
-    <HomeNewProjects />
-    <section class="pt-6 pb-8">
-      <div class="container">
-        <div class="mb-4">
-          <h2 class="mb-6">NFT's</h2>
-        </div>
-        <ProjectCardGrid title="Gaming" :has-loaded="true" :data="gamingProjects" />
-
       </div>
     </section>
-    <HomeEmailForm :css="emailForm" />
+
+    <HomeUpcomingProjects />
+
+    <!-- <div class="bg-white">
+      <div class="container py-16 mx-auto ">
+        <div id="main" class="grid grid-cols-3 gap-1 justify-evenly">
+          <div class="h-12 bg-green-300 rounded-lg">1</div>
+          <div class="h-12 bg-green-300 rounded-lg">2</div>
+          <div class="h-12 bg-green-300 rounded-lg">3</div>
+          <div class="h-12 col-span-2 bg-green-500 rounded-lg">4</div>
+          <div class="h-12 bg-green-300 rounded-lg">5</div>
+          <div class="h-12 col-span-3 bg-green-500 rounded-lg">6</div>
+        </div>
+      </div>
+    </div> -->
+
   </main>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import global from '@/mixins/global'
-import HomeHero from '@/components/Home/HomeHero.vue'
-import HomeSearch from '@/components/Home/HomeSearch.vue'
-import HomeFeatured from '@/components/Home/HomeFeatured.vue'
-import HomeNewProjects from '@/components/Home/HomeNewProjects.vue'
 
-import HomeEmailForm from '@/components/Home/HomeEmailForm.vue'
-
-import HomeFeaturedSponsor from '@/components/Home2/HomeFeaturedSponsor.vue'
-import HomeTrendingProjects from '@/components/Home2/HomeTrendingProjects.vue'
+import HomeFeaturedSponsor from '@/components/Home/HomeFeaturedSponsor.vue'
+import HomeTrendingProjects from '@/components/Home/HomeTrendingProjects.vue'
 
 export default {
   components: {
-    HomeHero,
-    HomeSearch,
-    HomeEmailForm,
-    HomeNewProjects,
-    HomeFeatured,
     HomeFeaturedSponsor,
     HomeTrendingProjects
   },
   mixins: [global],
-  // middleware({ redirect, $auth, store }) {
-  //   if (
-  //     $auth.loggedIn &&
-  //     $auth.user !== null &&
-  //     $auth.user.last_sign_in_at.split('.')[0] ===
-  //       $auth.user.email_confirmed_at.split('.')[0] &&
-  //     store.getters['auth/newUser'] === true
-  //   ) {
-  //     redirect('/onboarding')
-  //   }
-  // },
-  async asyncData({ $supabase, $config, error, $content, $auth }) {
-    const featuredgProjectsResp = await $supabase
-      .from('projects')
-      .select('*')
-      .eq('verified', true)
-      .eq('featured', true)
-      .limit(2)
-
-    const nftGamingProjectsResp = await $supabase
-      .from('projects')
-      .select('*')
-      .eq('verified', true)
-      .limit(4)
-
-    return {
-      featuredProjects: featuredgProjectsResp.data,
-      gamingProjects: nftGamingProjectsResp.data
-    }
-  },
-  data() {
-    return {
-      allProjects: [],
-      hasLoaded: false,
-      emailForm: {
-        wrapper: 'bg-violet-50',
-        heading: '',
-        subheading: '',
-        button: {
-          btnBackground: 'bg-gray-700',
-          btnText: 'text-white'
-        }
-      }
-    }
-  },
-  computed: {
-    ...mapGetters({
-      isAuthenticated: 'auth/loggedIn',
-      isNewUser: 'auth/newUser'
-    })
-  },
   mounted() {
     // eslint-disable-next-line no-console
     console.log(`✨ Thanks for visiting ${process.env.TITLE}`)

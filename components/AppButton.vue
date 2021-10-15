@@ -19,7 +19,7 @@
 */
 
 export default {
-  name: 'AppButton',
+  name: 'Button',
   props: {
     disabled: {
       type: Boolean,

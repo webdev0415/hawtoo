@@ -68,7 +68,7 @@ export default {
     },
     badgeClasses() {
       if (this.type === 'empty') {
-        return 'text-gray-500'
+        return ''
       }
       return 'inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-red-800 bg-red-50'
     },

@@ -1,78 +1,36 @@
 <template>
-  <div>
-    <h2>Trending projects</h2>
-    <!-- Sponsored -->
-    <ul role="list" class="divide-y divide-gray-200">
-      <li v-for="(project, key) in projects" :key="key" class="px-4 py-4 bg-white rounded-lg sm:px-0 hover:bg-gray-50 sm:hover:bg-transparent">
-
-        <NuxtLink :to="`/@${project.slug}`" class="flex items-center ">
-
-          <div class="flex-1 min-w-0 sm:flex sm:items-center sm:justify-between">
-
-            <div class="flex items-center">
-              <span v-tooltip="`Sponsored`" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mr-2">
-                AD
-              </span>
-
-              <ProjectAvatar :verified="project.verified" :size="46" :name="project.name" :avatar-color="project.avatar_color" :avatar-name="project.avatar_name" :slug="project.slug" />
-              <div class="ml-3">
-
-                <h4 class=" text-[17px] font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                  {{ project.name }}
-                </h4>
-
-                <ProjectTotalCount :id="project.id" :animated="false" type="empty" />
-              </div>
-            </div>
-
-          </div>
-
-          <div class="flex-shrink-0 ml-5">
-            <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </div>
-
-        </NuxtLink>
-
-      </li>
-    </ul>
-  </div>
+  <div v-if="$fetchState.error">Error while fetching project</div>
+  <BigProjectCard v-else :loading="$fetchState.pending" :data="project" />
 </template>
 
 <script>
-import ProjectAvatar from '@/components/ProjectAvatar.vue'
+import BigProjectCard from '@/components/Site/Cards/BigProjectCard'
 
 export default {
   components: {
-    ProjectAvatar
+    BigProjectCard
   },
   data() {
     return {
-      projects: () => {}
+      project: {}
     }
   },
+  fetchDelay: 250,
   async fetch() {
     // Long title = 145
+    // const spotId = await this.$axios.get('/api/spot', { params: { id: 1 } })
+    // const projectId = spotId.data.response
 
-    // tasks run immediate in parallel and wait for both results
-    const [r1, r2] = await Promise.all([
-      this.$axios.get('/api/spot/2'),
-      this.$axios.get('/api/spot/3')
-    ])
-
-    // eslint-disable-next-line no-unused-vars
-    const topIds = [r1.data.response, r2.data.response]
-
-    // const { data, error } = await this.$supabase
-    //   .from('projects')
-    //   .select('*')
-    //   .in('id', topIds)
+    const projectId = 83
+    if (!projectId) {
+      throw new Error('No project ID was returned')
+    }
 
     const { data, error } = await this.$supabase
       .from('projects')
       .select('*')
-      .limit(6)
+      .eq('id', projectId)
+      .single()
 
     if (error) {
       throw new Error('No project found')
@@ -98,7 +56,7 @@ export default {
         data.bannerURL = bannerDefault
       }
 
-      this.projects = data
+      this.project = data
     }
   }
 }

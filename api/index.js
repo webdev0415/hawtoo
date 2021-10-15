@@ -215,18 +215,15 @@ app.post('/request-project', async (req, res) => {
 
 })
 
-app.get('/spot/:id', async (req, res) => {
-    const { id: adSpotId } = req.params
-
+app.get('/spot', async (req, res) => {
+    const { id: adSpotId } = req.query
     await getAdSpot(adSpotId).then((response) => {
-        res
-            .status(200)
-            .json({ response })
-            .end()
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Cache-Control', 's-max-age=3600, stale-while-revalidate');
+        res.status(200).json({ response }).end()
     }).catch((error) => {
         throw new Error(error)
     })
-
 })
 
 /**
