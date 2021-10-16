@@ -39,7 +39,7 @@ export default {
         .from('avatars')
         .getPublicUrl(projectResp.data.avatar_name)
     }
-
+    
     return {
       data: projectResp.data,
       avatarUrl: avatarResp.data.publicURL

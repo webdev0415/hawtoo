@@ -1,6 +1,91 @@
 <template>
   <section class="bg-white">
     <div class="overflow-x-auto" ref="tableRef">
+      <header class="mb-5 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="relative flex w-full flex-wrap items-stretch md:col-span-2">
+          <span
+            class="
+              z-10
+              h-full
+              leading-snug
+              font-normal
+              text-center text-gray-500
+              absolute
+              bg-transparent
+              rounded
+              text-base
+              flex
+              items-center
+              justify-center
+              w-8
+              pl-3
+              py-3
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </span>
+          <input
+            v-model="searchInput"
+            type="text"
+            placeholder="Search"
+            class="
+              px-3
+              py-3
+              placeholder-gray-400
+              relative
+              bg-white
+              rounded
+              text-sm
+              border border-gray-300
+              outline-none
+              focus:outline-none
+              w-full
+              pl-10
+              leading-none
+            "
+          />
+        </div>
+
+        <div class="relative inline-block w-full text-gray-700">
+          <select
+            v-model="sortByValue"
+            class="
+              w-full
+              pl-3
+              pr-6
+              py-3
+              text-sm
+              placeholder-gray-400
+              border border-gray-300
+              rounded
+              appearance-none
+              focus:shadow-outline
+            "
+          >
+            <option
+              v-for="option in sortByOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+      </header>
+
       <AppTable
         remote
         :columns="columns"
@@ -71,6 +156,13 @@ export default {
     AppTableCell,
     AppTable,
   },
+  props: {
+    tagData: {
+      type: Object,
+      default: () => {},
+      required: true
+    },
+  },
   data() {
     return {
       columns: [
@@ -133,6 +225,38 @@ export default {
           suffix: 'ETH',
           prefix: 'Ξ',
           color: 'text-gray-900',
+        },
+      ],
+      searchInput: '',
+      sortByValue: 1,
+      sortByOptions: [
+        {
+          label: 'Recently Added (date)',
+          value: 1,
+        },
+        {
+          label: 'Most Viewed (number)',
+          value: 2,
+        },
+        {
+          label: 'Most Watchlisted (number)',
+          value: 3,
+        },
+        {
+          label: 'Oldest (date)',
+          value: 4,
+        },
+        {
+          label: 'Floor Low To High (number)',
+          value: 5,
+        },
+        {
+          label: 'Floor High To Low (number)',
+          value: 6,
+        },
+        {
+          label: 'Verified (boolean)',
+          value: 7,
         },
       ],
     }
