@@ -1,7 +1,9 @@
 <template>
   <main class="relative flex flex-col justify-center">
-    <ProjectLinkInBio :data="data" :has-loaded="hasLoaded" />
-    <ProjectReturnButton />
+    <SingleProjectWrapper :data="data" :has-loaded="hasLoaded" />
+    <NuxtLink to="/projects" class="absolute flex items-center justify-center w-10 h-10 font-sans text-indigo-700 bg-gray-200 rounded-full cursor-pointer" style="top: 24px; left: 24px; border-radius: 20px;">
+      <img src="~/assets/images/icons/back.svg" height="24" width="24" class="block h-4 m-auto" />
+    </NuxtLink>
   </main>
 </template>
 
@@ -9,16 +11,19 @@
 import axios from 'axios'
 import getMeta from '~/utils/get-meta'
 import global from '@/mixins/global'
+import SingleProjectWrapper from '~/components/SingleProjectWrapper.vue'
+
 // import visitorService from '@/utils/visitorService'
 
 export default {
   name: 'Project',
+  components: {
+    SingleProjectWrapper
+  },
   mixins: [global],
   colorMode: 'light',
   async asyncData({ $supabase, params, error }) {
     const pageSlug = params.id
-    let avatarResp = ''
-
     const projectResp = await $supabase
       .from('projects')
       .select('*')
@@ -34,15 +39,8 @@ export default {
       }
     }
 
-    if (projectResp.data.avatar_name) {
-      avatarResp = await $supabase.storage
-        .from('avatars')
-        .getPublicUrl(projectResp.data.avatar_name)
-    }
-
     return {
-      data: projectResp.data,
-      avatarUrl: avatarResp.data.publicURL
+      data: projectResp.data
     }
   },
 
@@ -73,6 +71,7 @@ export default {
 
   async mounted() {
     const slug = this.$route.params.id
+
     await axios.post('/api/increment_page_view', {
       slug
     })

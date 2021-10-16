@@ -162,7 +162,7 @@ export default {
       )
 
       if (error) {
-        this.$toast.error('Something went wrong. Try again later')
+        this.$toast.error(error.message)
         return
       }
 
