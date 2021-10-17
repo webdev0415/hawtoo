@@ -9,7 +9,7 @@ import { v2 as cloudinary } from 'cloudinary'
 
 import { emailMask } from './lib/helpers'
 import { getOpenSeaBasicInfo } from './lib/opensea'
-import { addProjectRequest } from './lib/notion'
+import { addProjectRequest, getAdSpot } from './lib/notion'
 import { updateTotalReferrals, updateReferralRewards } from './lib/supabase'
 
 // Express
@@ -235,6 +235,17 @@ app.post('/request-project', async (req, res) => {
     })
     .catch((error) => {
       throw new Error(error)
+    })
+})
+
+app.get('/spot', async (req, res) => {
+    const { id: adSpotId } = req.query
+    await getAdSpot(adSpotId).then((response) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Cache-Control', 's-max-age=3600, stale-while-revalidate');
+        res.status(200).json({ response }).end()
+    }).catch((error) => {
+        throw new Error(error)
     })
 })
 

@@ -1,5 +1,6 @@
 <template>
   <main class="py-16 overflow-hidden bg-white ">
+    <AboutHero />
     <div class="container relative">
       <div class="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">
         <div class="relative h-full mx-auto text-lg max-w-prose" aria-hidden="true">
@@ -63,8 +64,14 @@
     </div>
   </main>
 </template>
+
 <script>
+import AboutHero from '@/components/About/AboutHero'
+
 export default {
+  components: {
+    AboutHero
+  },
   middleware: 'user-auth'
 }
 </script>

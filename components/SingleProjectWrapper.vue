@@ -7,11 +7,14 @@
 
         <ProjectActions :data="data" />
 
-        <!-- <Alert v-if="!data.verified" class="max-w-xl mx-auto mt-6 mb-4 text-center text-red-500 bg-red-100">
-      This project is not verified yet! Please be aware that anyone
-      can submit a project on HawToo. Please take extra caution and
-      do your research. Always double check the contract address.
-    </Alert> -->
+        <div class="relative flex max-w-xl px-6 py-4 mx-auto mt-6 mb-4 text-center text-red-500 bg-red-100 border-0 rounded">
+          <span class="inline-block mr-8 align-middle">
+            This project is not verified yet! Please be aware that anyone
+            can submit a project on HawToo. Please take extra caution and
+            do your research. Always double check the contract address.
+          </span>
+        </div>
+
         <!-- Project: Bottom--->
         <div class="px-8 pt-8 pb-12 mt-6">
           <div class="max-w-lg mx-auto">

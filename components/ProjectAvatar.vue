@@ -11,7 +11,6 @@ import Avatar from '@/components/Avatar'
 import Loader from '@/components/Site/Loader/SkeletonLoader'
 
 export default {
-  nmae: 'ProjectCardMini',
   components: {
     Avatar,
     Loader
