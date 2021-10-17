@@ -41,6 +41,7 @@
             v-model="searchInput"
             type="text"
             placeholder="Search"
+            @change="handleSearch"
             class="
               px-3
               py-3
@@ -74,6 +75,7 @@
               appearance-none
               focus:shadow-outline
             "
+            @change="handleSort"
           >
             <option
               v-for="option in sortByOptions"
@@ -155,13 +157,6 @@ export default {
     AppTableRow,
     AppTableCell,
     AppTable,
-  },
-  props: {
-    tagData: {
-      type: Object,
-      default: () => {},
-      required: true
-    },
   },
   data() {
     return {
@@ -279,9 +274,186 @@ export default {
       console.log('SORTING NOW')
       this.sortField = field
       this.sortOrder = order
+      console.log('field', field, 'order', order)
       // this.fetchMoviesData()
     },
+    async handleSort(e) {
+      this.sortByValue = e.target.value
+
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+      console.log('val', e.target.value)
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+      
+      switch (e.target.value) {
+        case '1':
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('updated_at', { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+        case '2':
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('view_count', { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+        case 3:
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('view_counter', { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              console.log('response', response)
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+        case '4':
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('published_at', { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              console.log('response', response)
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+        case '5':
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('current_price', { ascending: true })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+        case'6':
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('current_price', { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+        case '7':
+          await this.$supabase
+            .from('projects')
+            .select('*')
+            .order('verified', { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+          break
+      }
+    },
+    async handleSearch(e) {
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+      this.searchInput = e.target.value
+      console.log("e.target.value", e.target.value)
+      return await this.$supabase
+        .from('projects')
+        .select('*')
+        .ilike('name', `%${e.target.value}%`)
+        .range(rangeStart, rangeEnd - 1)
+        .then((response) => {
+          console.log('response', response)
+          if (response.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (response.data) {
+            this.rows = response.data
+          }
+        })
+        .catch((e) => console.log(e))
+    },
     async fetchMoviesData() {
+      console.log("serach input", this.searchInput, "sortby", this.sortByValue)
       const perPage = this.perPage
       let currentPage = this.currentPage
 
@@ -291,6 +463,25 @@ export default {
       this.goTo('tableRef')
       this.totalCount = totalCount
 
+      const sort = () => {
+        switch (this.sortByValue) {
+          case '1':
+            return "updated_at"
+          case '2':
+            return "view_count"
+          case 3:
+            return "updated_at"
+          case '4':
+            return "published_at"
+          case '5':
+            return "current_price"
+          case '6':
+            return "current_price"
+          case '7':
+            return "verified"
+        }
+      }
+      let sortVal = sort();
       // console.log(this.totalCount)
       // console.log(`Current page: ${currentPage}`)
 
@@ -301,15 +492,17 @@ export default {
 
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
-
       // console.log(`Current page modified: ${currentPage}`)
       // console.log(`Range start: ${rangeStart}`)
       // console.log(`Range end: ${rangeEnd}`)
       // console.log(`Current range: ${rangeStart} & ${rangeEnd - 1}`)
-
-      return await this.$supabase
+      if (this.searchInput) {
+        console.log("search input exist")
+        return await this.$supabase
         .from('projects')
         .select('*')
+        .ilike('name', `%${this.searchInput}%`)
+        .order(sortVal, { ascending: false })
         .range(rangeStart, rangeEnd - 1)
         .then((response) => {
           console.log(response)
@@ -321,6 +514,28 @@ export default {
           }
         })
         .catch((e) => console.log(e))
+      } else {
+        console.log("sortby exits")
+        console.log("sortVal", sortVal)
+        if (sortVal === undefined) {
+          sortVal = "updated_at"
+        } 
+        return await this.$supabase
+        .from('projects')
+        .select('*')
+        .order(sortVal, { ascending: false })
+        .range(rangeStart, rangeEnd - 1)
+        .then((response) => {
+          console.log(response)
+          if (response.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (response.data) {
+            this.rows = response.data
+          }
+        })
+        .catch((e) => console.log(e))
+      }
     },
     toFixed(val) {
       if (isNaN(val)) {

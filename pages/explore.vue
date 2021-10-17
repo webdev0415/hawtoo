@@ -1,9 +1,9 @@
 <template>
   <main>
-  <div @click="filteredProjectsByTag(3)">Test Click</div>
+    <div @click="filteredProjectsByTag(3)">Test Click</div>
     <div class="container py-8">
-    <ExploreCards />
-      <ExploreTable :tagData="data" />
+      <ExploreCards :data="data" />
+      <ExploreTable />
     </div>
   </main>
 </template>
@@ -14,9 +14,7 @@ import ExploreCards from '@/components/Explore/ExploreCards'
 
 export default {
   async asyncData({ $supabase, error }) {
-    const tagsResp = await $supabase
-    .from('tags')
-    .select('id, name')
+    const tagsResp = await $supabase.from('tags').select('id, name')
 
     if (tagsResp.error) {
       const tagsError = tagsResp.error
@@ -27,7 +25,7 @@ export default {
       }
     }
     return {
-      data: tagsResp.data
+      data: tagsResp.data,
     }
   },
   components: {
@@ -35,7 +33,7 @@ export default {
     ExploreCards,
   },
   data: () => ({
-    subscriber: null
+    subscriber: null,
   }),
   methods: {
     async filteredProjectsByTag(tagID) {
@@ -44,8 +42,8 @@ export default {
         .select('*', { head: true, count: 'exact' })
         // .eq('id', 11)
         .contains('socials', ['meka'])
-        console.log("projectErr", projectErr, "projects", projects)
+      console.log('projectErr', projectErr, 'projects', projects)
     },
-  }
+  },
 }
 </script>

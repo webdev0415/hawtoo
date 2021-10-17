@@ -11,7 +11,7 @@
     "
   >
     <button
-      v-for="card in cards"
+      v-for="card in data"
       :key="card.id"
       class="
         rounded-lg
@@ -38,21 +38,12 @@
 <script>
 export default {
   name: 'ExploreCards',
-  data: () => ({
-    cards: [
-      { id: 8, name: 'metaverses' },
-      { id: 9, name: 'defi' },
-      { id: 10, name: 'utility' },
-      { id: 12, name: 'collectibles' },
-      { id: 11, name: 'nsfw' },
-      { id: 13, name: 'punks' },
-      { id: 14, name: 'art' },
-      { id: 15, name: 'domains' },
-      { id: 16, name: 'gaming' },
-      { id: 17, name: 'photography' },
-      { id: 18, name: 'sports' },
-      { id: 19, name: 'music' },
-    ],
-  }),
+  props: {
+    data: {
+      type: Object,
+      default: () => {},
+      required: true,
+    },
+  },
 }
 </script>
