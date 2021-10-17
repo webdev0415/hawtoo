@@ -1,7 +1,43 @@
 <template>
   <section class="bg-white">
+  <div
+    class="
+      mb-10
+      grid grid-cols-2
+      sm:grid-cols-3
+      lg:grid-cols-4
+      xl:grid-cols-5
+      gap-7
+      justify-items-center
+    "
+  >
+    <button
+      v-for="card in data"
+      :key="card.id"
+      class="
+        rounded-lg
+        overflow-hidden
+        bg-gray-500
+        text-white
+        h-20
+        w-full
+        flex
+        items-center
+        justify-center
+        capitalize
+        bg-explore-categories
+        cursor-pointer
+        relative
+      "
+      @click="handleTagClick(card.id)"
+    >
+      <div class="w-full h-full bg-black opacity-40 absolute z-0" />
+      <span class="z-10">{{ card.name }}</span>
+    </button>
+  </div>
     <div class="overflow-x-auto" ref="tableRef">
       <header class="mb-5 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+      
         <div class="relative flex w-full flex-wrap items-stretch md:col-span-2">
           <span
             class="
@@ -158,6 +194,13 @@ export default {
     AppTableCell,
     AppTable,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => {},
+      required: true,
+    },
+  },
   data() {
     return {
       columns: [
@@ -276,6 +319,37 @@ export default {
       this.sortOrder = order
       console.log('field', field, 'order', order)
       // this.fetchMoviesData()
+    },
+    async handleTagClick(id) {
+      console.log("id", id)
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+      console.log("rangeEnd", rangeEnd)
+      await this.$supabase
+            .from('projects')
+            .select('*')
+            .contains('tags', [id])
+            // .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              console.log("response", response)
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
     },
     async handleSort(e) {
       this.sortByValue = e.target.value

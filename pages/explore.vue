@@ -1,16 +1,13 @@
 <template>
   <main>
-    <div @click="filteredProjectsByTag(3)">Test Click</div>
     <div class="container py-8">
-      <ExploreCards :data="data" />
-      <ExploreTable />
+      <ExploreTable :data="data" />
     </div>
   </main>
 </template>
 
 <script>
 import ExploreTable from '@/components/Explore/ExploreTable'
-import ExploreCards from '@/components/Explore/ExploreCards'
 
 export default {
   async asyncData({ $supabase, error }) {
@@ -30,7 +27,6 @@ export default {
   },
   components: {
     ExploreTable,
-    ExploreCards,
   },
   data: () => ({
     subscriber: null,
