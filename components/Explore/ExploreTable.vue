@@ -31,7 +31,13 @@
         "
         @click="handleTagClick(card.id)"
       >
-        <div class="w-full h-full bg-black opacity-40 absolute z-0" />
+        <div
+          :class="
+            selectedTag === card.id
+              ? 'w-full h-full opacity-40 absolute z-0 bg-blue-700'
+              : 'w-full h-full opacity-40 absolute z-0 bg-black'
+          "
+        />
         <span class="z-10">{{ card.name }}</span>
       </button>
     </div>
@@ -297,6 +303,7 @@ export default {
           value: 7,
         },
       ],
+      tagClassName: 'w-full h-full opacity-40 absolute z-0',
     }
   },
   watch: {
@@ -365,135 +372,13 @@ export default {
 
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
-
-      switch (e.target.value) {
-        case '1':
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('updated_at', { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-        case '2':
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('view_count', { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-        case 3:
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('view_counter', { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-        case '4':
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('published_at', { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-        case '5':
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('current_price', { ascending: true })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-        case '6':
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('current_price', { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-        case '7':
-          await this.$supabase
-            .from('projects')
-            .select('*')
-            .order('verified', { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
-          break
-      }
+      await this.validateSearch(
+        this.searchInput,
+        this.selectedTag,
+        e.target.value,
+        rangeStart,
+        rangeEnd
+      )
     },
     async handleSearch(e) {
       const perPage = this.perPage
@@ -550,18 +435,9 @@ export default {
         })
         .catch((e) => console.log(e))
     },
-    async fetchMoviesData() {
-      const perPage = this.perPage
-      let currentPage = this.currentPage
-
-      const { count: totalCount } = await this.$supabase
-        .from('projects')
-        .select('*', { head: true, count: 'exact' })
-      this.goTo('tableRef')
-      this.totalCount = totalCount
-
+    async validateSearch(searchInput, selectedTag, val, rangeStart, rangeEnd) {
       const sort = () => {
-        switch (this.sortByValue) {
+        switch (val) {
           case '1':
             return 'updated_at'
           case '2':
@@ -579,35 +455,21 @@ export default {
         }
       }
       let sortVal = sort()
-      // console.log(this.totalCount)
-      // console.log(`Current page: ${currentPage}`)
       if (sortVal === undefined) {
         sortVal = 'updated_at'
       }
-      currentPage = currentPage - 1 || 0
-      if (currentPage <= 0) {
-        currentPage = 0
-      }
-
-      const rangeStart = perPage * currentPage
-      const rangeEnd = rangeStart + perPage
-      // console.log(`Current page modified: ${currentPage}`)
-      // console.log(`Range start: ${rangeStart}`)
-      // console.log(`Range end: ${rangeEnd}`)
-      // console.log(`Current range: ${rangeStart} & ${rangeEnd - 1}`)
-
-      if (this.searchInput && this.selectedTag !== null) {
-        const { count: totalCount } = await await this.$supabase
+      if (searchInput && selectedTag !== null) {
+        const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
-          .contains('tags', [this.selectedTag])
-          .ilike('name', `%${this.searchInput}%`)
+          .contains('tags', [selectedTag])
+          .ilike('name', `%${searchInput}%`)
         this.totalCount = totalCount
         return await this.$supabase
           .from('projects')
           .select('*')
-          .contains('tags', [this.selectedTag])
-          .ilike('name', `%${this.searchInput}%`)
+          .contains('tags', [selectedTag])
+          .ilike('name', `%${searchInput}%`)
           .order(sortVal, { ascending: false })
           .range(rangeStart, rangeEnd - 1)
           .then((response) => {
@@ -619,16 +481,16 @@ export default {
             }
           })
           .catch((e) => console.log(e))
-      } else if (this.searchInput) {
-        const { count: totalCount } = await await this.$supabase
+      } else if (searchInput) {
+        const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
-          .ilike('name', `%${this.searchInput}%`)
+          .ilike('name', `%${searchInput}%`)
         this.totalCount = totalCount
         return await this.$supabase
           .from('projects')
           .select('*')
-          .ilike('name', `%${this.searchInput}%`)
+          .ilike('name', `%${searchInput}%`)
           .order(sortVal, { ascending: false })
           .range(rangeStart, rangeEnd - 1)
           .then((response) => {
@@ -641,16 +503,16 @@ export default {
             }
           })
           .catch((e) => console.log(e))
-      } else if (this.selectedTag !== null) {
-        const { count: totalCount } = await await this.$supabase
+      } else if (selectedTag !== null) {
+        const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
-          .contains('tags', [this.selectedTag])
+          .contains('tags', [selectedTag])
         this.totalCount = totalCount
         return await this.$supabase
           .from('projects')
           .select('*')
-          .contains('tags', [this.selectedTag])
+          .contains('tags', [selectedTag])
           .order(sortVal, { ascending: false })
           .range(rangeStart, rangeEnd - 1)
           .then((response) => {
@@ -663,6 +525,10 @@ export default {
           })
           .catch((e) => console.log(e))
       } else {
+        const { count: totalCount } = await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+        this.totalCount = totalCount
         return await this.$supabase
           .from('projects')
           .select('*')
@@ -675,11 +541,36 @@ export default {
             }
             if (response.data) {
               this.rows = response.data
-              this.totalCount = response.count
             }
           })
           .catch((e) => console.log(e))
       }
+    },
+    async fetchMoviesData() {
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+
+      const { count: totalCount } = await this.$supabase
+        .from('projects')
+        .select('*', { head: true, count: 'exact' })
+      this.goTo('tableRef')
+      this.totalCount = totalCount
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+
+      await this.validateSearch(
+        this.searchInput,
+        this.selectedTag,
+        this.sortByValue,
+        rangeStart,
+        rangeEnd
+      )
     },
     toFixed(val) {
       if (isNaN(val)) {
@@ -690,6 +581,9 @@ export default {
         return Number(val).toFixed(2)
       }
     },
+  },
+  mounted() {
+    this.tagClassName = this.tagClassName.concat(' bg-black')
   },
 }
 </script>
