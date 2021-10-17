@@ -116,10 +116,10 @@ const mutations = {
     },
     DELETE_SINGLE_WATCHLIST: (state, id) => {
         const index = state.watchlists.findIndex(watchlist => watchlist.id === id);
-        state.watchlists.splice(index, 1)
+        state.watchlist.splice(index, 1)
     },
     RESET_SINGLE_WATCHLIST: (state, watchlists) => {
-        state.watchlists = []
+        state.watchlist = []
     },
     // LISTS OF WATCHLISTS
     SET_WATCHLISTS: (state, watchlists) => {

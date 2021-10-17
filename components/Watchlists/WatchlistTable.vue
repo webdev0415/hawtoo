@@ -50,9 +50,9 @@ export default {
   },
   props: {
     data: {
-      type: Object,
+      type: Array,
       required: false,
-      default: () => {}
+      default: () => []
     }
   },
   data() {
@@ -137,8 +137,7 @@ export default {
       // this.fetchMoviesData()
     },
     async fetchMoviesData() {
-      const projects = this.data.projects
-      const collectedArray = projects.map((item) => item.project_id)
+      const collectedArray = this.data.map((item) => item.project_id)
       const perPage = this.perPage
       let currentPage = this.currentPage
 

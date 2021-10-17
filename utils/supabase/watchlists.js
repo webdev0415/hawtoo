@@ -27,6 +27,29 @@ const getWatchListItems = async (watchlistId, authorId) => {
         .eq('author_id', authorId)
 }
 
+const deleteWatchlist = async (watchlistId) => {
+    const watchlistItemsResponse = await supabase
+        .from('watchlist_items')
+        .delete()
+        .match({ watchlist_id: watchlistId })
+
+    if (watchlistItemsResponse.error) {
+        throw new Error(watchlistItemsResponse.error)
+    }
+
+    const watchlistResponse = await supabase
+        .from("watchlists")
+        .delete()
+        .match({ id: watchlistId })
+        .single();
+
+    if (watchlistResponse.error) {
+        throw new Error(watchlistResponse.error)
+    }
+
+    return watchlistResponse.data
+}
+
 const getWatchlistCountByProjectId = async (id) => {
     return await supabase
         .from('watchlist_items')
@@ -47,5 +70,6 @@ export {
     getWatchlistById,
     getWatchListItems,
     addProjectToWatchlist,
-    getWatchlistCountByProjectId
+    getWatchlistCountByProjectId,
+    deleteWatchlist
 }

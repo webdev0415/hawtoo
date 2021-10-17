@@ -174,12 +174,3 @@ export default {
   }
 }
 </script>
-
-<style>
-ul.formulate-files {
-  display: none !important;
-}
-#avatar-upload_label {
-  margin-bottom: 0 !important;
-}
-</style>
