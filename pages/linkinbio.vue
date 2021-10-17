@@ -39,15 +39,12 @@ export default {
       }
     }
 
-<<<<<<< HEAD
     if (projectResp.data.avatar_name) {
       avatarResp = await $supabase.storage
         .from('avatars')
         .getPublicUrl(projectResp.data.avatar_name)
     }
     
-=======
->>>>>>> 9cc34aced56410909dd7eda41d5b7b16ef88f56c
     return {
       data: projectResp.data
     }
