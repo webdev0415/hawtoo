@@ -195,7 +195,7 @@ export default {
   },
   props: {
     data: {
-      type: Object,
+      type: Array,
       default: () => {},
       required: true,
     },
@@ -332,6 +332,11 @@ export default {
 
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
+      const { count: totalCount } = await await this.$supabase
+        .from('projects')
+        .select('*', { head: true, count: 'exact' })
+        .contains('tags', [this.selectedTag])
+      this.totalCount = totalCount
       await this.$supabase
         .from('projects')
         .select('*')
@@ -503,24 +508,33 @@ export default {
       const rangeEnd = rangeStart + perPage
       this.searchInput = e.target.value
       if (this.selectedTag !== null) {
+        const { count: totalCount } = await await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+          .contains('tags', [this.selectedTag])
+          .ilike('name', `%${this.searchInput}%`)
+        this.totalCount = totalCount
         return await this.$supabase
-            .from('projects')
-            .select('*')
-            .contains('tags', [this.selectedTag])
-            .ilike('name', `%${e.target.value}%`)
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
+          .from('projects')
+          .select('*')
+          .contains('tags', [this.selectedTag])
+          .ilike('name', `%${e.target.value}%`)
+          .range(rangeStart, rangeEnd - 1)
+          .then((response) => {
+            if (response.error) {
+              this.$toast.error('Something went wrong getting your watch list.')
+            }
+            if (response.data) {
+              this.rows = response.data
+            }
+          })
+          .catch((e) => console.log(e))
       }
+      const { count: totalCount } = await await this.$supabase
+        .from('projects')
+        .select('*', { head: true, count: 'exact' })
+        .ilike('name', `%${this.searchInput}%`)
+      this.totalCount = totalCount
       return await this.$supabase
         .from('projects')
         .select('*')
@@ -568,8 +582,8 @@ export default {
       // console.log(this.totalCount)
       // console.log(`Current page: ${currentPage}`)
       if (sortVal === undefined) {
-          sortVal = 'updated_at'
-        }
+        sortVal = 'updated_at'
+      }
       currentPage = currentPage - 1 || 0
       if (currentPage <= 0) {
         currentPage = 0
@@ -581,26 +595,36 @@ export default {
       // console.log(`Range start: ${rangeStart}`)
       // console.log(`Range end: ${rangeEnd}`)
       // console.log(`Current range: ${rangeStart} & ${rangeEnd - 1}`)
+
       if (this.searchInput && this.selectedTag !== null) {
+        const { count: totalCount } = await await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+          .contains('tags', [this.selectedTag])
+          .ilike('name', `%${this.searchInput}%`)
+        this.totalCount = totalCount
         return await this.$supabase
-            .from('projects')
-            .select('*')
-            .contains('tags', [this.selectedTag])
-            .ilike('name', `%${this.searchInput}%`)
-            .order(sortVal, { ascending: false })
-            .range(rangeStart, rangeEnd - 1)
-            .then((response) => {
-              if (response.error) {
-                this.$toast.error(
-                  'Something went wrong getting your watch list.'
-                )
-              }
-              if (response.data) {
-                this.rows = response.data
-              }
-            })
-            .catch((e) => console.log(e))
+          .from('projects')
+          .select('*')
+          .contains('tags', [this.selectedTag])
+          .ilike('name', `%${this.searchInput}%`)
+          .order(sortVal, { ascending: false })
+          .range(rangeStart, rangeEnd - 1)
+          .then((response) => {
+            if (response.error) {
+              this.$toast.error('Something went wrong getting your watch list.')
+            }
+            if (response.data) {
+              this.rows = response.data
+            }
+          })
+          .catch((e) => console.log(e))
       } else if (this.searchInput) {
+        const { count: totalCount } = await await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+          .ilike('name', `%${this.searchInput}%`)
+        this.totalCount = totalCount
         return await this.$supabase
           .from('projects')
           .select('*')
@@ -609,6 +633,27 @@ export default {
           .range(rangeStart, rangeEnd - 1)
           .then((response) => {
             console.log(response)
+            if (response.error) {
+              this.$toast.error('Something went wrong getting your watch list.')
+            }
+            if (response.data) {
+              this.rows = response.data
+            }
+          })
+          .catch((e) => console.log(e))
+      } else if (this.selectedTag !== null) {
+        const { count: totalCount } = await await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+          .contains('tags', [this.selectedTag])
+        this.totalCount = totalCount
+        return await this.$supabase
+          .from('projects')
+          .select('*')
+          .contains('tags', [this.selectedTag])
+          .order(sortVal, { ascending: false })
+          .range(rangeStart, rangeEnd - 1)
+          .then((response) => {
             if (response.error) {
               this.$toast.error('Something went wrong getting your watch list.')
             }
@@ -630,6 +675,7 @@ export default {
             }
             if (response.data) {
               this.rows = response.data
+              this.totalCount = response.count
             }
           })
           .catch((e) => console.log(e))
