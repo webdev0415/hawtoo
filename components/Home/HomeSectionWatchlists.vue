@@ -20,7 +20,7 @@
         </div>
 
         <div class="grid grid-cols-1 gap-10 auto-cols-fr lg:grid-cols-5">
-          <div v-for="watchlist in watchlists" :key="watchlist">
+          <div v-for="watchlist in data" :key="watchlist.id">
             <HomeFeaturedWatchlist :data="watchlist" />
           </div>
 
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { getProfileInfo } from '@/utils/supabase/users'
 import HomeFeaturedWatchlist from '@/components/Home/HomeFeaturedWatchlist'
 
 export default {
@@ -40,6 +41,7 @@ export default {
   },
   data() {
     return {
+      data: [],
       watchlists: [
         {
           title: 'Alex Becker',
@@ -82,6 +84,25 @@ export default {
           backgroundImage: require('@/assets/images/alex-1.png')
         }
       ]
+    }
+  },
+  async fetch() {
+    const profileId = 'f60296c2-1cc8-48e2-80a7-9a385e66a9c3'
+    const { data } = await this.$supabase
+      .from('watchlists')
+      .select('*')
+      .eq('author_id', profileId)
+      .limit(5)
+
+    if (data) {
+      await Promise.all(
+        data.map(async (watchlist) => {
+          const userResponse = await getProfileInfo(profileId)
+          watchlist.authorMeta = { ...userResponse.data }
+          watchlist.banner_url = require('@/assets/images/alex-1.png')
+          this.data.push(watchlist)
+        })
+      )
     }
   }
 }

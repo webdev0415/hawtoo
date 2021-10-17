@@ -12,6 +12,9 @@
       <h3 class="mx-0 mt-4 mb-2 font-sans text-sm font-medium leading-5 text-gray-600">
         Update watchlist details or delete the watchlist.
       </h3>
+
+      <FormulateInput type="file" name="file" label="Select your documents to upload" help="Select one or more PDFs to upload" validation="mime:application/pdf" multiple />
+
       <FormulateForm v-slot="{ isLoading }" v-model="formValues" @submit="handleEditWatchlist">
         <FormulateInput type="text" name="name" label="Watchlist name" />
         <FormulateInput type="textarea" name="description" label="Watchlist description" error-behavior="submit" />
