@@ -38,12 +38,6 @@ export default {
         error({ statusCode: 500, projectError })
       }
     }
-
-    if (projectResp.data.avatar_name) {
-      avatarResp = await $supabase.storage
-        .from('avatars')
-        .getPublicUrl(projectResp.data.avatar_name)
-    }
     
     return {
       data: projectResp.data
