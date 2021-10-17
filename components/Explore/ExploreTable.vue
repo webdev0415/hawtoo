@@ -282,7 +282,6 @@ export default {
 
       const perPage = this.perPage
       let currentPage = this.currentPage
-      console.log('val', e.target.value)
 
       currentPage = currentPage - 1 || 0
       if (currentPage <= 0) {
@@ -336,7 +335,6 @@ export default {
             .order('view_counter', { ascending: false })
             .range(rangeStart, rangeEnd - 1)
             .then((response) => {
-              console.log('response', response)
               if (response.error) {
                 this.$toast.error(
                   'Something went wrong getting your watch list.'
@@ -355,7 +353,6 @@ export default {
             .order('published_at', { ascending: false })
             .range(rangeStart, rangeEnd - 1)
             .then((response) => {
-              console.log('response', response)
               if (response.error) {
                 this.$toast.error(
                   'Something went wrong getting your watch list.'
@@ -435,14 +432,12 @@ export default {
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
       this.searchInput = e.target.value
-      console.log("e.target.value", e.target.value)
       return await this.$supabase
         .from('projects')
         .select('*')
         .ilike('name', `%${e.target.value}%`)
         .range(rangeStart, rangeEnd - 1)
         .then((response) => {
-          console.log('response', response)
           if (response.error) {
             this.$toast.error('Something went wrong getting your watch list.')
           }
@@ -453,7 +448,6 @@ export default {
         .catch((e) => console.log(e))
     },
     async fetchMoviesData() {
-      console.log("serach input", this.searchInput, "sortby", this.sortByValue)
       const perPage = this.perPage
       let currentPage = this.currentPage
 
@@ -497,7 +491,6 @@ export default {
       // console.log(`Range end: ${rangeEnd}`)
       // console.log(`Current range: ${rangeStart} & ${rangeEnd - 1}`)
       if (this.searchInput) {
-        console.log("search input exist")
         return await this.$supabase
         .from('projects')
         .select('*')
@@ -515,8 +508,6 @@ export default {
         })
         .catch((e) => console.log(e))
       } else {
-        console.log("sortby exits")
-        console.log("sortVal", sortVal)
         if (sortVal === undefined) {
           sortVal = "updated_at"
         } 
