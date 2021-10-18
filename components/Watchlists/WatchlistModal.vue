@@ -185,7 +185,8 @@ export default {
       const { error, data } = await createNewWatchlist(userId, newName)
 
       if (error) {
-        this.$toast.error('Something went wrong. Try again later')
+        console.log(error)
+        this.$toast.error(error.message)
         return
       }
 
