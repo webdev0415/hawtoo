@@ -3,19 +3,20 @@
     <ProjectBanner :data="data" />
     <div class="pb-16 -mt-16">
       <div class="container">
+
         <ProjectSectionInfo :data="data" />
         <ProjectActions :data="data" />
-
         <!-- Project: Bottom--->
-        <div class="px-8 pt-8 pb-12 mt-6">
+        <div class="px-8 pt-8 pb-12">
           <div class="max-w-lg mx-auto">
+
+            <ProjectStats2 :id="data.id" />
 
             <!--- Project: Main links -->
             <h4 class="mb-2 text-left h4">Quick links</h4>
             <ProjectMainLinks :data="data" />
 
-            <h4 class="mt-6 mb-2 text-left h4">Stats</h4>
-            <ProjectStats v-if="salesData" :stats="salesData" />
+            <!-- <ProjectStats v-if="salesData" :stats="salesData" /> -->
           </div>
         </div>
       </div>
@@ -26,7 +27,8 @@
 <script>
 import ProjectSectionInfo from '~/components/Project/ProjectSectionInfo'
 import ProjectActions from '~/components/Project/ProjectActions'
-import ProjectStats from '~/components/Project/ProjectStats'
+import ProjectStats2 from '~/components/Project/ProjectStats2'
+// import ProjectStats from '~/components/Project/ProjectStats'
 import ProjectBanner from '~/components/Project/ProjectBanner'
 // import visitorService from '@/utils/visitorService'
 
@@ -35,8 +37,8 @@ export default {
   components: {
     ProjectActions,
     ProjectSectionInfo,
-    ProjectStats,
-    ProjectBanner
+    ProjectBanner,
+    ProjectStats2
   },
   mixins: [global],
   props: {
@@ -54,21 +56,6 @@ export default {
       type: Boolean,
       default: false,
       required: false
-    }
-  },
-  computed: {
-    salesData() {
-      const statsObject = this.data.sales_stats[0]
-
-      if (!statsObject) {
-        return null
-      }
-      // if (this.data.current_price) {
-      //   statsObject.floor_price = this.data.current_price
-      // }
-      // console.log(statsObject)
-
-      return statsObject
     }
   }
 }

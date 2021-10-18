@@ -26,7 +26,7 @@ export default {
     const pageSlug = params.id
     const projectResp = await $supabase
       .from('projects')
-      .select('*')
+      .select('*, nft_stats ( * )')
       .eq('slug', pageSlug)
       .single()
 
