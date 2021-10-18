@@ -142,7 +142,6 @@
         @page-changed="currentPage = $event"
       >
         <template #row="props">
-        
           <AppTableRow
             v-for="(row, index) in props.data"
             :key="index"
@@ -189,7 +188,6 @@
 </template>
 
 <script>
-import { staticFields } from './static'
 import AppTable from '~/components/Table/AppTable'
 import AppTableCell from '~/components/Table/AppTableCell'
 import AppTableRow from '~/components/Table/AppTableRow'
@@ -208,7 +206,6 @@ export default {
     },
   },
   data() {
-    console.log('staticFields', staticFields)
     return {
       columns: [
         {
@@ -305,7 +302,7 @@ export default {
           value: 7,
         },
       ],
-      statics: []
+      statics: [],
     }
   },
   watch: {
@@ -330,7 +327,6 @@ export default {
       // this.fetchMoviesData()
     },
     async handleTagClick(id) {
-      this.selectedTag = id
       const perPage = this.perPage
       let currentPage = this.currentPage
 
@@ -341,7 +337,31 @@ export default {
 
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
-      const { count: totalCount } = await await this.$supabase
+
+      if (this.selectedTag === id) {
+        this.selectedTag = null;
+        const { count: totalCount } = await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+        this.totalCount = totalCount
+
+        return await this.$supabase
+          .from('projects')
+          .select('*')
+          .range(rangeStart, rangeEnd - 1)
+          .then((response) => {
+            if (response.error) {
+              this.$toast.error('Something went wrong getting your watch list.')
+            }
+            if (response.data) {
+              this.rows = response.data
+            }
+          })
+          .catch((e) => console.log(e))
+      }
+      this.selectedTag = id
+
+      const { count: totalCount } = await this.$supabase
         .from('projects')
         .select('*', { head: true, count: 'exact' })
         .contains('tags', [this.selectedTag])
@@ -583,9 +603,6 @@ export default {
         return Number(val).toFixed(2)
       }
     },
-  }
-  // mounted() {
-  //   this.rows = staticFields
-  // }
+  },
 }
 </script>
