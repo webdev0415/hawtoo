@@ -1,7 +1,8 @@
 <template>
-  <div class="container">
-    <button class="flex items-center justify-center w-10 h-10 mx-1 my-auto text-black bg-gray-200 rounded-full" @click="openModal">
-      <img src="~/assets/images/icons/edit.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer">
+  <div>
+
+    <button class="flex items-center justify-center w-12 h-12 mx-1 my-auto text-black bg-gray-200 rounded-full" @click="openModal">
+      <img src="~/assets/images/icons/edit.svg" height="24" width="24" class="block h-4 m-auto cursor-pointer" />
     </button>
 
     <!-- Modal -->
@@ -70,7 +71,7 @@ export default {
     },
     banner() {
       if (this.getWatchlist.banner_url) {
-        return [{ url: this.getWatchlist.banner_url, name: 'Test' }]
+        return [{ url: this.getWatchlist.banner_url }]
       } else {
         return null
       }

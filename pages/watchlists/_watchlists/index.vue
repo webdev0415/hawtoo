@@ -1,12 +1,14 @@
 <template>
   <main>
-    <div class="container py-8">
-      <WatchlistSectionInfo :data="getWatchlist" />
-      <div v-if="projects">
-        <WatchlistTable :data="projects" />
-      </div>
-      <div v-else class="">
-        <WatchlistEmpty />
+    <WatchlistBanner v-if="getWatchlist.banner_url" :banner-url="getWatchlist.banner_url" />
+    <div class="pb-16 -mt-16">
+      <div class="container">
+        <WatchlistSectionInfo :data="getWatchlist" />
+        <WatchlistActions :data="getWatchlist" />
+
+        <WatchlistTable v-if="projects" :data="projects" />
+        <WatchlistEmpty v-else />
+
       </div>
     </div>
   </main>
@@ -25,12 +27,16 @@ import { getProfileInfo } from '@/utils/supabase/users'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import WatchlistTable from '@/components/Watchlists/WatchlistTable'
+import WatchlistBanner from '@/components/Watchlists/WatchlistBanner'
+import WatchlistActions from '@/components/Watchlists/WatchlistActions'
 
 export default {
   components: {
     WatchlistSectionInfo,
     WatchlistEmpty,
-    WatchlistTable
+    WatchlistTable,
+    WatchlistBanner,
+    WatchlistActions
   },
   async asyncData({ $supabase, $config, params, error, $auth, store }) {
     let canEdit = false
