@@ -128,7 +128,6 @@
           </select>
         </div>
       </header>
-
       <AppTable
         remote
         :columns="columns"
@@ -143,6 +142,7 @@
         @page-changed="currentPage = $event"
       >
         <template #row="props">
+        
           <AppTableRow
             v-for="(row, index) in props.data"
             :key="index"
@@ -189,6 +189,7 @@
 </template>
 
 <script>
+import { staticFields } from './static'
 import AppTable from '~/components/Table/AppTable'
 import AppTableCell from '~/components/Table/AppTableCell'
 import AppTableRow from '~/components/Table/AppTableRow'
@@ -207,6 +208,7 @@ export default {
     },
   },
   data() {
+    console.log('staticFields', staticFields)
     return {
       columns: [
         {
@@ -303,7 +305,7 @@ export default {
           value: 7,
         },
       ],
-      tagClassName: 'w-full h-full opacity-40 absolute z-0',
+      statics: []
     }
   },
   watch: {
@@ -581,9 +583,9 @@ export default {
         return Number(val).toFixed(2)
       }
     },
-  },
-  mounted() {
-    this.tagClassName = this.tagClassName.concat(' bg-black')
-  },
+  }
+  // mounted() {
+  //   this.rows = staticFields
+  // }
 }
 </script>
