@@ -6,16 +6,6 @@
 
 <script>
 export default {
-  props: {
-    data: {
-      type: Object,
-      required: true,
-      default: () => {}
-    }
-  },
-  data() {
-    return {}
-  },
   computed: {
     copyText() {
       return process.env.BASE_URL + this.$route.fullPath

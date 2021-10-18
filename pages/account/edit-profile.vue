@@ -145,8 +145,3 @@ export default {
   }
 }
 </script>
-<style>
-ul.formulate-files {
-  display: none !important;
-}
-</style>

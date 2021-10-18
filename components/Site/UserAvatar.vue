@@ -1,5 +1,5 @@
 <template>
-  <Avatar :verified="verified" :size="size" :size-badge="sizeBadge" :fullname="displayName" :image="avatarUrl" />
+  <Avatar :verified="verified" :show-verified-tooltip="verifiedTooltip" :size="size" :size-badge="sizeBadge" :fullname="displayName" :image="avatarUrl" />
 </template>
 
 <script>
@@ -15,7 +15,8 @@ export default {
     userId: { type: String, default: null, required: false },
     verified: { type: Boolean, default: false, required: false },
     size: { type: Number, default: 48 },
-    sizeBadge: { type: Number, default: 24 }
+    sizeBadge: { type: Number, default: 24 },
+    verifiedTooltip: { type: Boolean, default: false }
   },
   data: () => ({
     avatarUrl: require('@/assets/images/default-avatar-empty.png'),

@@ -1,15 +1,14 @@
 <template>
   <main>
-    <div class="container py-8">
-      <WatchlistSectionInfo :data="getWatchlist" />
-      <div v-if="getWatchlist.projects">
-        <!-- <div v-for="project in getWatchlist.projects" :key="project.id">
-          {{ project.name }}
-        </div> -->
-        <WatchlistTable :data="getWatchlist" />
-      </div>
-      <div v-else class="">
-        <WatchlistEmpty />
+    <WatchlistBanner v-if="getWatchlist.banner_url" :banner-url="getWatchlist.banner_url" />
+    <div class="pb-16 -mt-16">
+      <div class="container">
+        <WatchlistSectionInfo :data="getWatchlist" />
+        <WatchlistActions :data="getWatchlist" />
+
+        <WatchlistTable v-if="projects" :data="projects" />
+        <WatchlistEmpty v-else />
+
       </div>
     </div>
   </main>
@@ -22,27 +21,32 @@ import axios from 'axios'
 import { mapGetters } from 'vuex'
 import {
   getWatchListItems,
-  getWatchlistById,
+  getWatchlistById
 } from '@/utils/supabase/watchlists'
 import { getProfileInfo } from '@/utils/supabase/users'
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import WatchlistTable from '@/components/Watchlists/WatchlistTable'
+import WatchlistBanner from '@/components/Watchlists/WatchlistBanner'
+import WatchlistActions from '@/components/Watchlists/WatchlistActions'
 
 export default {
   components: {
     WatchlistSectionInfo,
     WatchlistEmpty,
     WatchlistTable,
+    WatchlistBanner,
+    WatchlistActions
   },
   async asyncData({ $supabase, $config, params, error, $auth, store }) {
     let canEdit = false
-    const user = $supabase.auth.user()
+    const user = store.state.auth.user
     const watchlistId = params.watchlists
-    const watchlistResponse = await getWatchlistById(watchlistId)
 
-    if (watchlistResponse.error) {
-      const watchlistError = watchlistResponse.error
+    const { data: watchlistData, error: watchlistError } =
+      await getWatchlistById(watchlistId)
+
+    if (watchlistError) {
       if (watchlistError.details.startsWith('Results contain 0 rows')) {
         error({ statusCode: 404 })
         return
@@ -52,7 +56,7 @@ export default {
       }
     }
 
-    const authorId = watchlistResponse.data?.author_id ?? null
+    const authorId = watchlistData.author_id
 
     if (user) {
       canEdit = authorId === user.id
@@ -60,36 +64,36 @@ export default {
 
     // Return 404 if the watchlist is not set to `public`
     // Unless the logged in user is the author of the watchlist.
-    const isPrivateWatchlist = !watchlistResponse.data.public && !canEdit
+    const isPrivateWatchlist = !watchlistData.public && !canEdit
     if (isPrivateWatchlist) {
       error({ statusCode: 404 })
     }
 
     // Get author details.
     const userResponse = await getProfileInfo(authorId)
-    watchlistResponse.data.authorMeta = { ...userResponse.data }
+    watchlistData.authorMeta = { ...userResponse.data }
 
     // Get collected items.
     const collectedResponse = await getWatchListItems(watchlistId, authorId)
-    watchlistResponse.data.projects = collectedResponse.data
 
     // Hydrate store.
-    store.commit('watchlists/SET_SINGLE_WATCHLIST', watchlistResponse.data)
+    store.commit('watchlists/SET_SINGLE_WATCHLIST', watchlistData)
 
     return {
-      data: watchlistResponse.data,
+      data: watchlistData,
+      projects: collectedResponse.data
     }
   },
   data: () => ({
-    subscriber: null,
+    subscriber: null
   }),
   head() {
     return {
       bodyAttrs: {
-        class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen',
+        class: 'antialiased bg-white text-body font-body min-w-xs min-h-screen'
       },
       title: `${this.data.name}`,
-      description: this.data.description,
+      description: this.data.description
       // meta: getMeta({
       //   title: `Watchlist: ${this.data.name}`,
       //   authorName: this.data.author_id,
@@ -100,44 +104,49 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getWatchlist: 'watchlists/watchlist',
-    }),
+      getWatchlist: 'watchlists/watchlist'
+    })
   },
   created() {
     // Listening for real-times updates to this watchlist.
-    const id = this.$route.params.watchlists
-    this.subscriber = this.$supabase
-      .from(`watchlists:id=eq.${id}`)
-      .on('*', (payload) => {
-        switch (payload.eventType) {
-          case 'INSERT':
-            this.updateStore(payload.new)
-            break
-          case 'UPDATE':
-            this.updateStore(payload.new)
-            return
-          case 'DELETE':
-            this.$nuxt.error({ statusCode: 404, message: 'Page not found' })
-            break
-        }
-      })
-      .subscribe()
+    // const id = this.$route.params.watchlists
+    // this.subscriber = this.$supabase
+    //   .from(`watchlists:id=eq.${id}`)
+    //   .on('*', (payload) => {
+    //     switch (payload.eventType) {
+    //       case 'INSERT':
+    //         this.updateStore(payload.new)
+    //         break
+    //       case 'UPDATE':
+    //         this.updateStore(payload.new)
+    //         return
+    //       case 'DELETE':
+    //         this.$nuxt.error({ statusCode: 404, message: 'Page not found' })
+    //         break
+    //     }
+    //   })
+    //   .subscribe()
   },
   beforeDestroy() {
     this.$supabase.removeSubscription(this.subscriber)
   },
+  async mounted() {
+    this.$supabase.removeSubscription(this.subscriber)
+    const { watchlists } = this.$route.params
+    await axios.post('/api/increment_watchlist_view', {
+      watchlists
+    })
+  },
   methods: {
     async updateStore(payload) {
       // Get each project that has been collected by the user.
-      if (payload.collected) {
-        const collectedArray = payload.collected
-        const collectedResponse = await this.$supabase
-          .from('projects')
-          .select('*')
-          .in('id', collectedArray)
 
-        payload.projects = { ...collectedResponse.data }
-      }
+      const collectedResponse = await getWatchListItems(
+        payload.id,
+        payload.author_id
+      )
+
+      payload.projects = collectedResponse.data
 
       // Get author details.
       const userResponse = await this.$supabase
@@ -147,31 +156,11 @@ export default {
         .single()
 
       payload.authorMeta = {
-        ...userResponse.data,
+        ...userResponse.data
       }
 
       this.$store.commit('watchlists/SET_SINGLE_WATCHLIST', payload)
-    },
-  },
-  async mounted() {
-    const { watchlists } = this.$route.params
-    await axios.post('/api/increment_watchlist_view', {
-      watchlists,
-    })
-    // const res = await axios.post('/api/increment_watchlist_view', {
-    //   watchlists,
-    // })
-    // if (res.status === 200) {
-    //   this.$toast.open({
-    //     message: res.data.message,
-    //     type: 'success',
-    //   })
-    // } else {
-    //   this.$toast.open({
-    //     message: `Unknow Error`,
-    //     type: 'error',
-    //   })
-    // }
-  },
+    }
+  }
 }
 </script>

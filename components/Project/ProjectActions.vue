@@ -3,7 +3,7 @@
     <ProjectSaveButton :data="data" />
     <ProjectBuyButton :data="data" />
     <ProjectChartsButton v-if="data.type === 'coin'" :data="data" />
-    <ProjectShareButton :data="data" />
+    <ProjectShareButton />
   </section>
 </template>
 
