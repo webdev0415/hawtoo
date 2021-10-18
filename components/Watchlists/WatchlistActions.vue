@@ -1,6 +1,6 @@
 <template>
   <section class="flex flex-row items-center justify-center w-full mb-8 font-sans text-black cursor-pointer">
-    <WatchlistEditButton v-if="isAuthenticated" class="ml-4" />
+    <WatchlistEditButton v-if="isAuthenticated" :data="data" class="ml-4" />
     <ProjectShareButton />
   </section>
 </template>

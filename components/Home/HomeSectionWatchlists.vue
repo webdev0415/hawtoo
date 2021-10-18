@@ -41,49 +41,7 @@ export default {
   },
   data() {
     return {
-      data: [],
-      watchlists: [
-        {
-          title: 'Alex Becker',
-          desc: 'Known for riddles, and YouTube rants.',
-          views: '30.2K',
-          userName: 'HawToo Official',
-          userAvatar: require('@/assets/images/hawtoo-icon.svg'),
-          backgroundImage: require('@/assets/images/alex-1.png')
-        },
-        {
-          title: 'Alex Becker',
-          desc: 'Known for riddles, and YouTube rants.',
-          views: '30.2K',
-          userName: 'HawToo Official',
-          userAvatar: require('@/assets/images/hawtoo-icon.svg'),
-          backgroundImage: require('@/assets/images/alex-1.png')
-        },
-        {
-          title: 'Alex Becker',
-          desc: 'Known for riddles, and YouTube rants.',
-          views: '30.2K',
-          userName: 'HawToo Official',
-          userAvatar: require('@/assets/images/hawtoo-icon.svg'),
-          backgroundImage: require('@/assets/images/alex-1.png')
-        },
-        {
-          title: 'Alex Becker',
-          desc: 'Known for riddles, and YouTube rants.',
-          views: '30.2K',
-          userName: 'HawToo Official',
-          userAvatar: require('@/assets/images/hawtoo-icon.svg'),
-          backgroundImage: require('@/assets/images/alex-1.png')
-        },
-        {
-          title: 'Alex Becker',
-          desc: 'Known for riddles, and YouTube rants.',
-          views: '30.2K',
-          userName: 'HawToo Official',
-          userAvatar: require('@/assets/images/hawtoo-icon.svg'),
-          backgroundImage: require('@/assets/images/alex-1.png')
-        }
-      ]
+      data: []
     }
   },
   async fetch() {
@@ -94,12 +52,13 @@ export default {
       .eq('author_id', profileId)
       .limit(5)
 
+    console.log(data)
     if (data) {
       await Promise.all(
         data.map(async (watchlist) => {
           const userResponse = await getProfileInfo(profileId)
           watchlist.authorMeta = { ...userResponse.data }
-          watchlist.banner_url = require('@/assets/images/alex-1.png')
+          // watchlist.banner_url = require('@/assets/images/alex-1.png')
           this.data.push(watchlist)
         })
       )

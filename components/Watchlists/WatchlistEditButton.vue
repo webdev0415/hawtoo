@@ -46,32 +46,35 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
 import { deleteWatchlist } from '@/utils/supabase/watchlists'
 
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: true,
+      default: () => {}
+    }
+  },
   data: () => ({
     show: false,
     bannerURL: ''
   }),
   computed: {
-    ...mapGetters({
-      getWatchlist: 'watchlists/watchlist'
-    }),
     formValues: {
       get() {
         return {
-          name: this.getWatchlist.name,
-          description: this.getWatchlist.description,
-          public: this.getWatchlist.public
+          name: this.data.name,
+          description: this.data.description,
+          public: this.data.public
         }
       },
       set(obj) {}
     },
     banner() {
-      if (this.getWatchlist.banner_url) {
-        return [{ url: this.getWatchlist.banner_url }]
+      if (this.data.banner_url) {
+        return [{ url: this.data.banner_url }]
       } else {
         return null
       }
@@ -91,11 +94,16 @@ export default {
           .match({ id: watchlistId })
 
         const payload = {
-          ...this.getWatchlist,
+          ...this.data,
           name: data.name,
           description: data.description,
-          public: data.public,
-          banner_url: this.bannerURL
+          public: data.public
+        }
+
+        if (this.bannerURL) {
+          payload.banner_url = this.bannerURL
+        } else {
+          payload.banner_url = this.banner[0].url
         }
 
         this.$store.commit('watchlists/SET_SINGLE_WATCHLIST', payload)
