@@ -21,10 +21,10 @@
             <ProjectTotalCount :id="data.id" :animated="false" type="empty" class="text-white" />
           </div>
         </div>
-        <div v-if="eventTime && eventName" class="text-right">
+        <div v-if="data.event_time && data.event_type" class="text-right">
           <client-only>
-            <div class="mb-1 text-xs text-right text-gray-100">{{ eventName }} in</div>
-            <Countdown :time="eventTime" class="flex flex-row text-white">
+            <div class="mb-1 text-xs text-right text-gray-100">{{ data.event_type }} in</div>
+            <Countdown :time="timeRemaining" class="flex flex-row text-white">
               <template slot-scope="props">
                 <div class="box-border w-6 h-6 p-0 m-0 leading-6 text-center text-gray-900 bg-white rounded cursor-pointer">
                   {{ props.days }}
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 import Countdown from '@/components/Site/Countdown'
 import ProjectAvatar from '@/components/ProjectAvatar'
 import ProjectTotalCount from '@/components/Project/ProjectTotalCount'
@@ -70,16 +71,6 @@ export default {
     loaderSize: {
       type: Number,
       default: 300,
-      required: false
-    },
-    eventTime: {
-      type: Number,
-      default: 0,
-      required: false
-    },
-    eventName: {
-      type: String,
-      default: '',
       required: false
     }
   },
@@ -110,6 +101,15 @@ export default {
     }
 
     this.image = bannerUrl
+  },
+  computed: {
+    timeRemaining() {
+      const date2 = dayjs()
+      const date1 = dayjs(this.data.event_time)
+      const diff = date1.diff(date2) // 20214000000 default milliseconds
+
+      return diff
+    }
   }
 }
 </script>

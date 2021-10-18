@@ -3,7 +3,7 @@
     <div class="container">
       <h2 class="mb-4">On the come up</h2>
       <div class="grid grid-cols-1 gap-10 auto-cols-fr lg:grid-cols-2">
-        <MintCard v-for="project in projects" :key="project.id" :data="project" :event-time="2 * 24 * 60 * 60 * 1000" event-name="Mint" />
+        <MintCard v-for="project in sortedProjects" :key="project.id" :data="project" />
       </div>
     </div>
   </section>
@@ -29,12 +29,10 @@ export default {
     // ])
 
     // const topIds = [r1.data.response, r2.data.response]
-    const topIds = [180, 194]
+    // const topIds = [180, 194]
 
-    const { data, error } = await this.$supabase
-      .from('projects')
-      .select('*')
-      .in('id', topIds)
+    const { data, error } = await this.$supabase.from('projects').select('*')
+    // .in('id', topIds)
 
     if (error) {
       throw new Error('No project found')
@@ -42,6 +40,16 @@ export default {
 
     if (data) {
       this.projects = data
+    }
+  },
+  computed: {
+    sortedProjects() {
+      return this.projects
+        .slice(0)
+        .filter((e) => {
+          return Date.parse(e.event_time) >= new Date()
+        })
+        .slice(0, 2)
     }
   }
 }

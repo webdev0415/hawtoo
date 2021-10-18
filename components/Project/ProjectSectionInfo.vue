@@ -24,6 +24,8 @@
       </div>
     </ProjectContractBadge>
 
+    <ProjectNotVerifiedAlert v-if="!data.verified" />
+
     <div class="max-w-[680px] pb-1 mx-auto mb-3 text-sm leading-relaxed text-center md:text-lg ">
       <p v-if="!readMore">{{data.description | strLimit(160) }} </p>
       <a v-if="!readMore" class="mt-1 underline" href="javascript:void(0);" @click="readMore = true">
@@ -40,16 +42,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import helper from '@/utils/projectsHelpers.js'
 import ProjectAvatar from '@/components/ProjectAvatar.vue'
 import ProjectTotalCount from '@/components/Project/ProjectTotalCount'
+import ProjectNotVerifiedAlert from '@/components/Project/ProjectNotVerifiedAlert'
 import ProjectContractBadge from '@/components/Project/ProjectContractBadge'
-import helper from '@/utils/projectsHelpers.js'
 
 export default {
   components: {
     ProjectAvatar,
     ProjectTotalCount,
-    ProjectContractBadge
+    ProjectContractBadge,
+    ProjectNotVerifiedAlert
   },
   props: {
     data: {
