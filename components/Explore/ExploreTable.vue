@@ -326,137 +326,6 @@ export default {
       console.log('field', field, 'order', order)
       // this.fetchMoviesData()
     },
-    async handleTagClick(id) {
-      const perPage = this.perPage
-      let currentPage = this.currentPage
-
-      currentPage = currentPage - 1 || 0
-      if (currentPage <= 0) {
-        currentPage = 0
-      }
-
-      const rangeStart = perPage * currentPage
-      const rangeEnd = rangeStart + perPage
-
-      if (this.selectedTag === id) {
-        this.selectedTag = null;
-        const { count: totalCount } = await this.$supabase
-          .from('projects')
-          .select('*', { head: true, count: 'exact' })
-        this.totalCount = totalCount
-
-        return await this.$supabase
-          .from('projects')
-          .select('*')
-          .range(rangeStart, rangeEnd - 1)
-          .then((response) => {
-            if (response.error) {
-              this.$toast.error('Something went wrong getting your watch list.')
-            }
-            if (response.data) {
-              this.rows = response.data
-            }
-          })
-          .catch((e) => console.log(e))
-      }
-      this.selectedTag = id
-
-      const { count: totalCount } = await this.$supabase
-        .from('projects')
-        .select('*', { head: true, count: 'exact' })
-        .contains('tags', [this.selectedTag])
-      this.totalCount = totalCount
-      await this.$supabase
-        .from('projects')
-        .select('*')
-        .contains('tags', [id])
-        .range(rangeStart, rangeEnd - 1)
-        .then((response) => {
-          if (response.error) {
-            this.$toast.error('Something went wrong getting your watch list.')
-          }
-          if (response.data) {
-            this.rows = response.data
-          }
-        })
-        .catch((e) => console.log(e))
-    },
-    async handleSort(e) {
-      this.sortByValue = e.target.value
-
-      const perPage = this.perPage
-      let currentPage = this.currentPage
-
-      currentPage = currentPage - 1 || 0
-      if (currentPage <= 0) {
-        currentPage = 0
-      }
-
-      const rangeStart = perPage * currentPage
-      const rangeEnd = rangeStart + perPage
-      await this.validateSearch(
-        this.searchInput,
-        this.selectedTag,
-        e.target.value,
-        rangeStart,
-        rangeEnd
-      )
-    },
-    async handleSearch(e) {
-      const perPage = this.perPage
-      let currentPage = this.currentPage
-
-      currentPage = currentPage - 1 || 0
-      if (currentPage <= 0) {
-        currentPage = 0
-      }
-
-      const rangeStart = perPage * currentPage
-      const rangeEnd = rangeStart + perPage
-      this.searchInput = e.target.value
-      if (this.selectedTag !== null) {
-        const { count: totalCount } = await await this.$supabase
-          .from('projects')
-          .select('*', { head: true, count: 'exact' })
-          .contains('tags', [this.selectedTag])
-          .ilike('name', `%${this.searchInput}%`)
-        this.totalCount = totalCount
-        return await this.$supabase
-          .from('projects')
-          .select('*')
-          .contains('tags', [this.selectedTag])
-          .ilike('name', `%${e.target.value}%`)
-          .range(rangeStart, rangeEnd - 1)
-          .then((response) => {
-            if (response.error) {
-              this.$toast.error('Something went wrong getting your watch list.')
-            }
-            if (response.data) {
-              this.rows = response.data
-            }
-          })
-          .catch((e) => console.log(e))
-      }
-      const { count: totalCount } = await await this.$supabase
-        .from('projects')
-        .select('*', { head: true, count: 'exact' })
-        .ilike('name', `%${this.searchInput}%`)
-      this.totalCount = totalCount
-      return await this.$supabase
-        .from('projects')
-        .select('*')
-        .ilike('name', `%${e.target.value}%`)
-        .range(rangeStart, rangeEnd - 1)
-        .then((response) => {
-          if (response.error) {
-            this.$toast.error('Something went wrong getting your watch list.')
-          }
-          if (response.data) {
-            this.rows = response.data
-          }
-        })
-        .catch((e) => console.log(e))
-    },
     async validateSearch(searchInput, selectedTag, val, rangeStart, rangeEnd) {
       const sort = () => {
         switch (val) {
@@ -567,6 +436,72 @@ export default {
           })
           .catch((e) => console.log(e))
       }
+    },
+    async handleTagClick(id) {
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+
+      if (this.selectedTag === id) {
+        this.selectedTag = null;
+        const { count: totalCount } = await this.$supabase
+          .from('projects')
+          .select('*', { head: true, count: 'exact' })
+        this.totalCount = totalCount
+        return await this.validateSearch(this.searchInput, null, this.sortByValue, rangeStart, rangeEnd)
+      }
+      this.selectedTag = id
+
+      const { count: totalCount } = await this.$supabase
+        .from('projects')
+        .select('*', { head: true, count: 'exact' })
+        .contains('tags', [this.selectedTag])
+      this.totalCount = totalCount
+       return await this.validateSearch(this.searchInput, id, this.sortByValue, rangeStart, rangeEnd)
+      
+    },
+    async handleSort(e) {
+      this.sortByValue = e.target.value
+
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+      await this.validateSearch(
+        this.searchInput,
+        this.selectedTag,
+        e.target.value,
+        rangeStart,
+        rangeEnd
+      )
+    },
+    async handleSearch(e) {
+      const perPage = this.perPage
+      let currentPage = this.currentPage
+
+      currentPage = currentPage - 1 || 0
+      if (currentPage <= 0) {
+        currentPage = 0
+      }
+
+      const rangeStart = perPage * currentPage
+      const rangeEnd = rangeStart + perPage
+      this.searchInput = e.target.value
+
+      await this.validateSearch(this.searchInput, this.selectedTag, this.sortByValue, rangeStart, rangeEnd)
     },
     async fetchMoviesData() {
       const perPage = this.perPage
