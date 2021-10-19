@@ -173,7 +173,7 @@
                 <div
                   class="flex items-center text-xl font-semibold text-gray-900"
                 >
-                  {{ fld.prefix }} {{ toFixed(row.sales_stats[0][fld.field]) }}
+                  {{ fld.prefix }} {{ toFixed(row.nft_stats[fld.field]) }}
                   <span class="ml-2 text-sm font-medium text-gray-500">
                     {{ fld.suffix }}
                   </span>
@@ -338,9 +338,9 @@ export default {
           case '4':
             return 'published_at'
           case '5':
-            return 'current_price'
+            return 'current_price_low'
           case '6':
-            return 'current_price'
+            return 'current_price_high'
           case '7':
             return 'verified'
         }
@@ -356,85 +356,212 @@ export default {
           .contains('tags', [selectedTag])
           .ilike('name', `%${searchInput}%`)
         this.totalCount = totalCount
-        return await this.$supabase
-          .from('projects')
-          .select('*')
-          .contains('tags', [selectedTag])
-          .ilike('name', `%${searchInput}%`)
-          .order(sortVal, { ascending: false })
-          .range(rangeStart, rangeEnd - 1)
-          .then((response) => {
-            if (response.error) {
-              this.$toast.error('Something went wrong getting your watch list.')
-            }
-            if (response.data) {
-              this.rows = response.data
-            }
-          })
-          .catch((e) => console.log(e))
+        if (sortVal === 'current_price_high') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .contains('tags', [selectedTag])
+            .ilike('name', `%${searchInput}%`)
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => a.nft_stats.floor_price - b.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else if (sortVal === 'current_price_low') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .contains('tags', [selectedTag])
+            .ilike('name', `%${searchInput}%`)
+
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => b.nft_stats.floor_price - a.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else {
+          return await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .contains('tags', [selectedTag])
+            .ilike('name', `%${searchInput}%`)
+            .order(sortVal, { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+        }
       } else if (searchInput) {
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
           .ilike('name', `%${searchInput}%`)
         this.totalCount = totalCount
-        return await this.$supabase
-          .from('projects')
-          .select('*')
-          .ilike('name', `%${searchInput}%`)
-          .order(sortVal, { ascending: false })
-          .range(rangeStart, rangeEnd - 1)
-          .then((response) => {
-            console.log(response)
-            if (response.error) {
-              this.$toast.error('Something went wrong getting your watch list.')
-            }
-            if (response.data) {
-              this.rows = response.data
-            }
-          })
-          .catch((e) => console.log(e))
+
+        if (sortVal === 'current_price_high') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .ilike('name', `%${searchInput}%`)
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => a.nft_stats.floor_price - b.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else if (sortVal === 'current_price_low') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .ilike('name', `%${searchInput}%`)
+
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => b.nft_stats.floor_price - a.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else {
+          return await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .ilike('name', `%${searchInput}%`)
+            .order(sortVal, { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              console.log(response)
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+        }
       } else if (selectedTag !== null) {
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
           .contains('tags', [selectedTag])
         this.totalCount = totalCount
-        return await this.$supabase
-          .from('projects')
-          .select('*')
-          .contains('tags', [selectedTag])
-          .order(sortVal, { ascending: false })
-          .range(rangeStart, rangeEnd - 1)
-          .then((response) => {
-            if (response.error) {
-              this.$toast.error('Something went wrong getting your watch list.')
-            }
-            if (response.data) {
-              this.rows = response.data
-            }
-          })
-          .catch((e) => console.log(e))
+
+        if (sortVal === 'current_price_high') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .contains('tags', [selectedTag])
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => a.nft_stats.floor_price - b.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else if (sortVal === 'current_price_low') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .contains('tags', [selectedTag])
+
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => b.nft_stats.floor_price - a.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else {
+          return await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .contains('tags', [selectedTag])
+            .order(sortVal, { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+        }
       } else {
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
         this.totalCount = totalCount
-        return await this.$supabase
-          .from('projects')
-          .select('*')
-          .order(sortVal, { ascending: false })
-          .range(rangeStart, rangeEnd - 1)
-          .then((response) => {
-            console.log(response)
-            if (response.error) {
-              this.$toast.error('Something went wrong getting your watch list.')
-            }
-            if (response.data) {
-              this.rows = response.data
-            }
-          })
-          .catch((e) => console.log(e))
+
+        if (sortVal === 'current_price_high') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => a.nft_stats.floor_price - b.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else if (sortVal === 'current_price_low') {
+          const result = await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+
+          if (result.error) {
+            this.$toast.error('Something went wrong getting your watch list.')
+          }
+          if (result.data) {
+            this.rows = result.data
+              .sort((a, b) => b.nft_stats.floor_price - a.nft_stats.floor_price)
+              .slice(rangeStart, rangeEnd - 1)
+          }
+        } else {
+          return await this.$supabase
+            .from('projects')
+            .select('*, nft_stats ( * )')
+            .order(sortVal, { ascending: false })
+            .range(rangeStart, rangeEnd - 1)
+            .then((response) => {
+              console.log(response)
+              if (response.error) {
+                this.$toast.error(
+                  'Something went wrong getting your watch list.'
+                )
+              }
+              if (response.data) {
+                this.rows = response.data
+              }
+            })
+            .catch((e) => console.log(e))
+        }
       }
     },
     async handleTagClick(id) {
@@ -450,12 +577,18 @@ export default {
       const rangeEnd = rangeStart + perPage
 
       if (this.selectedTag === id) {
-        this.selectedTag = null;
+        this.selectedTag = null
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
         this.totalCount = totalCount
-        return await this.validateSearch(this.searchInput, null, this.sortByValue, rangeStart, rangeEnd)
+        return await this.validateSearch(
+          this.searchInput,
+          null,
+          this.sortByValue,
+          rangeStart,
+          rangeEnd
+        )
       }
       this.selectedTag = id
 
@@ -464,8 +597,13 @@ export default {
         .select('*', { head: true, count: 'exact' })
         .contains('tags', [this.selectedTag])
       this.totalCount = totalCount
-       return await this.validateSearch(this.searchInput, id, this.sortByValue, rangeStart, rangeEnd)
-      
+      return await this.validateSearch(
+        this.searchInput,
+        id,
+        this.sortByValue,
+        rangeStart,
+        rangeEnd
+      )
     },
     async handleSort(e) {
       this.sortByValue = e.target.value
@@ -501,7 +639,13 @@ export default {
       const rangeEnd = rangeStart + perPage
       this.searchInput = e.target.value
 
-      await this.validateSearch(this.searchInput, this.selectedTag, this.sortByValue, rangeStart, rangeEnd)
+      await this.validateSearch(
+        this.searchInput,
+        this.selectedTag,
+        this.sortByValue,
+        rangeStart,
+        rangeEnd
+      )
     },
     async fetchMoviesData() {
       const perPage = this.perPage
