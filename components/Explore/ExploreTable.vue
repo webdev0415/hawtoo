@@ -41,7 +41,7 @@
         <span class="z-10">{{ card.name }}</span>
       </button>
     </div>
-    <div class="overflow-x-auto" ref="tableRef">
+    <div ref="tableRef" class="overflow-x-auto">
       <header class="mb-5 p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <div class="relative flex w-full flex-wrap items-stretch md:col-span-2">
           <span
@@ -82,7 +82,6 @@
             v-model="searchInput"
             type="text"
             placeholder="Search"
-            @change="handleSearch"
             class="
               px-3
               py-3
@@ -98,6 +97,8 @@
               pl-10
               leading-none
             "
+            @change="handleSearch"
+            
           />
         </div>
 
