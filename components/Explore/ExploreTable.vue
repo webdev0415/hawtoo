@@ -309,6 +309,7 @@ export default {
   watch: {
     currentPage() {
       this.fetchMoviesData()
+      this.goTo('tableRef')
     },
   },
   created() {
@@ -653,7 +654,6 @@ export default {
       const { count: totalCount } = await this.$supabase
         .from('projects')
         .select('*', { head: true, count: 'exact' })
-      this.goTo('tableRef')
       this.totalCount = totalCount
 
       currentPage = currentPage - 1 || 0

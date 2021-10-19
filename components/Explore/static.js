@@ -1,4 +1,4 @@
-export const staticFields = [
+const StaticFields = [
     {
         "id": 219,
         "author_id": "8fcbc529-bc4e-41d0-92d6-b68a693d9073",
@@ -143,3 +143,5 @@ export const staticFields = [
         "fts": "'alpha':2,13 'card':7 'collect':6 'fi':5 'game':8 'nfts':10 'parallel':1,12 'parallel-alpha':11 'sci':4 'sci-fi':3"
     }
 ]
+
+export default StaticFields;
