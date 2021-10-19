@@ -2,21 +2,21 @@
   <div class="w-full mb-5">
     <Loader v-if="$fetchState.pending" :width="512" :height="98" rounded :radius="8" animation="fade" />
     <div v-else>
-      <div v-if="latestData">
-        <h4 class="mt-6 mb-2 text-left h4">Stats</h4>
-        <dl class="grid grid-cols-1 bg-white border border-gray-200 divide-y divide-gray-200 rounded-lg md:grid-cols-3 md:divide-y-0 md:divide-x">
-          <div v-for="(stat, index) in stats" :key="index" class="px-4 py-2">
+      <div v-if="latestData && previousData">
+
+        <dl class="grid grid-cols-1 text-center bg-white border border-gray-200 divide-y divide-gray-200 rounded-lg md:grid-cols-3 md:divide-y-0 md:divide-x">
+          <div v-for="(stat, index) in stats" :key="index" class="px-4 py-2 text-center">
             <dt class="font-normal text-gray-900 text-md ">
               {{ stat.title }}
             </dt>
-            <dd class="flex flex-col items-baseline justify-between mt-1 md:block lg:flex">
-              <div class="flex items-baseline text-xl font-semibold text-indigo-600">
+            <dd class="flex flex-col items-center justify-between mt-1 text-center md:block lg:flex">
+              <div class="flex items-baseline text-xl font-semibold text-center text-indigo-600">
                 <div v-if="stat.icon" class="flex flex-col items-center justify-center w-5 h-5 mr-1 overflow-hidden">
                   <img :src="stat.icon" height="24" width="24" class="object-contain h-5" />
                 </div>
                 {{ latestData[stat.field]  }}
               </div>
-              <span v-if="stat.field in previousData && stat.field in latestData " v-tooltip="`${calculateDifference(previousData[stat.field], latestData[stat.field] )} compared to ${yesterdaysLatestFetchTime}`" class="text-sm font-medium text-gray-500 ">
+              <span v-if="stat.field in previousData && stat.field in latestData " v-tooltip="`${calculateDifference(previousData[stat.field], latestData[stat.field] )} compared to ${yesterdaysLatestFetchTime}`" class="text-sm font-medium text-center text-gray-500 ">
                 from {{ stat.prefix }}{{ previousData[stat.field] }}
               </span>
             </dd>
