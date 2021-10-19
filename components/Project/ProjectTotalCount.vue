@@ -55,7 +55,7 @@ export default {
           throw new Error(error)
         }
         if (count) {
-          this.countTo = count
+          this.countTo = 831
         }
       })
     } catch (e) {
@@ -70,7 +70,7 @@ export default {
       if (this.type === 'empty') {
         return ''
       }
-      return 'inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-full shadow-sm text-red-800 bg-red-50'
+      return 'inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-900'
     },
     loaderHeight() {
       switch (this.type) {

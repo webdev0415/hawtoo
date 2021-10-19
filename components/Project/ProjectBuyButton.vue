@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-clipboard="`View marketplaces`" class="flex items-center justify-center w-auto h-12 px-4 mx-1 my-auto text-black align-middle bg-gray-200 rounded-full" @click="openModal">
+    <button v-clipboard="`View marketplaces`" class="flex items-center justify-center w-auto h-12 px-5 mx-1 my-auto text-black align-middle bg-gray-200 rounded-full" @click="openModal">
       <span> Buy now </span>
     </button>
     <Modal :showing="show" :css="{ 'modal': 'max-w-md' }" @close="closeModal">

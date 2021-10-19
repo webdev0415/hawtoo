@@ -18,7 +18,7 @@
 
     <div class="flex items-center justify-between mt-2 text-sm leading-normal tracking-wide text-white cursor-pointer" style='font-feature-settings: "salt", "ss01", "ss02", "ss03"; word-break: break-word;'>
       <div class="flex items-center justify-start leading-5 tracking-wide cursor-pointer" style="word-break: break-word;">
-        <img :src="data.authorMeta.avatar_url" loading="lazy" alt="" class="object-contain w-6 max-w-full mr-2 leading-5 border-none" style="border-radius: 16px; word-break: break-word;" />
+        <UserAvatar :verified="data.authorMeta.verified" verified-tooltip :size="24" :size-badge="12" :name="data.authorMeta.display_name" :user-id="data.author_id" class="mr-2" />
         {{ data.authorMeta.display_name }}
       </div>
       <div class="ml-2 leading-5 tracking-wide whitespace-no-wrap cursor-pointer" style="word-break: break-word;">
@@ -34,8 +34,12 @@
 
 <script>
 import { abbreviateNumber, round } from '@/utils/numbers'
+import UserAvatar from '@/components/Site/UserAvatar'
 
 export default {
+  components: {
+    UserAvatar
+  },
   props: {
     data: {
       type: Object,

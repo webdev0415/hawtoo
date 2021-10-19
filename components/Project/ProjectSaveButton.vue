@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-clipboard="`Save to watchlist`" class="flex items-center justify-center w-auto h-12 px-4 mx-1 my-auto text-black align-middle bg-gray-200 rounded-full" @click="openModal">
+    <button v-clipboard="`Save to watchlist`" class="flex items-center justify-center w-auto h-12 px-5 mx-1 my-auto text-white align-middle bg-blue-500 rounded-full hover:bg-blue-600" @click="openModal">
       <span> Save to watchlist</span>
     </button>
   </div>

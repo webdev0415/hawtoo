@@ -63,6 +63,7 @@
     "chance": "^1.1.8",
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.18.2",
+    "dayjs": "^1.10.7",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
