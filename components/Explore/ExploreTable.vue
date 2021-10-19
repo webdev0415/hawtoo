@@ -320,10 +320,8 @@ export default {
       window.scrollTo({ top, behavior: 'smooth' })
     },
     onSort(field, order) {
-      console.log('SORTING NOW')
       this.sortField = field
       this.sortOrder = order
-      console.log('field', field, 'order', order)
       // this.fetchMoviesData()
     },
     async validateSearch(searchInput, selectedTag, val, rangeStart, rangeEnd) {
@@ -406,7 +404,6 @@ export default {
             .catch((e) => console.log(e))
         }
       } else if (searchInput) {
-        console.log("searchInput", searchInput)
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
@@ -448,7 +445,7 @@ export default {
             .order(sortVal, { ascending: false })
             .range(rangeStart, rangeEnd - 1)
             .then((response) => {
-              console.log(response)
+              // console.log(response)
               if (response.error) {
                 this.$toast.error(
                   'Something went wrong getting your watch list.'
@@ -551,7 +548,7 @@ export default {
             .order(sortVal, { ascending: false })
             .range(rangeStart, rangeEnd - 1)
             .then((response) => {
-              console.log(response)
+              // console.log(response)
               if (response.error) {
                 this.$toast.error(
                   'Something went wrong getting your watch list.'
