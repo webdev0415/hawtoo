@@ -338,9 +338,9 @@ export default {
           case '4':
             return 'published_at'
           case '5':
-            return 'current_price_low'
-          case '6':
             return 'current_price_high'
+          case '6':
+            return 'current_price_low'
           case '7':
             return 'verified'
         }
@@ -406,6 +406,7 @@ export default {
             .catch((e) => console.log(e))
         }
       } else if (searchInput) {
+        console.log("searchInput", searchInput)
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
