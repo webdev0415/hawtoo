@@ -97,8 +97,7 @@
               pl-10
               leading-none
             "
-            @change="handleSearch"
-            
+            v-on:input="handleChange"
           />
         </div>
 
@@ -189,6 +188,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import AppTable from '~/components/Table/AppTable'
 import AppTableCell from '~/components/Table/AppTableCell'
 import AppTableRow from '~/components/Table/AppTableRow'
@@ -271,36 +271,36 @@ export default {
         },
       ],
       searchInput: '',
-      sortByValue: 1,
+      sortByValue: 'updated_at',
       selectedTag: null,
       sortByOptions: [
         {
           label: 'Recently Added (date)',
-          value: 1,
+          value: 'updated_at',
         },
         {
           label: 'Most Viewed (number)',
-          value: 2,
+          value: 'view_count',
         },
-        {
-          label: 'Most Watchlisted (number)',
-          value: 3,
-        },
+        // {
+        //   label: 'Most Watchlisted (number)',
+        //   value: 'updated_at_new',
+        // },
         {
           label: 'Oldest (date)',
-          value: 4,
+          value: 'published_at',
         },
         {
           label: 'Floor Low To High (number)',
-          value: 5,
+          value: 'current_price_high',
         },
         {
           label: 'Floor High To Low (number)',
-          value: 6,
+          value: 'current_price_low',
         },
         {
           label: 'Verified (boolean)',
-          value: 7,
+          value: 'verified',
         },
       ],
       statics: [],
@@ -326,26 +326,13 @@ export default {
       this.sortOrder = order
       // this.fetchMoviesData()
     },
-    async validateSearch(searchInput, selectedTag, val, rangeStart, rangeEnd) {
-      const sort = () => {
-        switch (val) {
-          case '1':
-            return 'updated_at'
-          case '2':
-            return 'view_count'
-          case 3:
-            return 'updated_at'
-          case '4':
-            return 'published_at'
-          case '5':
-            return 'current_price_high'
-          case '6':
-            return 'current_price_low'
-          case '7':
-            return 'verified'
-        }
-      }
-      let sortVal = sort()
+    async validateSearch(
+      searchInput,
+      selectedTag,
+      sortVal,
+      rangeStart,
+      rangeEnd
+    ) {
       if (sortVal === undefined) {
         sortVal = 'updated_at'
       }
@@ -578,6 +565,8 @@ export default {
 
       if (this.selectedTag === id) {
         this.selectedTag = null
+        const query = { ...this.$route.query, _tag: null }
+        this.$router.push({ path: 'explore', query })
         const { count: totalCount } = await this.$supabase
           .from('projects')
           .select('*', { head: true, count: 'exact' })
@@ -591,7 +580,8 @@ export default {
         )
       }
       this.selectedTag = id
-
+      const query = { ...this.$route.query, _tag: id }
+      this.$router.push({ path: 'explore', query })
       const { count: totalCount } = await this.$supabase
         .from('projects')
         .select('*', { head: true, count: 'exact' })
@@ -606,6 +596,8 @@ export default {
       )
     },
     async handleSort(e) {
+      const query = { ...this.$route.query, _sortby: e.target.value }
+      this.$router.push({ path: 'explore', query })
       this.sortByValue = e.target.value
 
       const perPage = this.perPage
@@ -627,6 +619,10 @@ export default {
       )
     },
     async handleSearch(e) {
+      const query = { ...this.$route.query, _search: e.target.value }
+
+      this.$router.push({ path: 'explore', query })
+      this.searchInput = e.target.value
       const perPage = this.perPage
       let currentPage = this.currentPage
 
@@ -637,7 +633,7 @@ export default {
 
       const rangeStart = perPage * currentPage
       const rangeEnd = rangeStart + perPage
-      this.searchInput = e.target.value
+      // this.searchInput = e.target.value
 
       await this.validateSearch(
         this.searchInput,
@@ -681,6 +677,24 @@ export default {
         return Number(val).toFixed(2)
       }
     },
+    handleChange: _.debounce(function (e) {
+      this.handleSearch(e)
+    }, 800),
+  },
+  mounted() {
+    this.searchInput =
+      this.$router.history.current.query._search !== undefined
+        ? this.$router.history.current.query._search
+        : ''
+    this.sortByValue =
+      this.$router.history.current.query._sortby !== undefined
+        ? this.$router.history.current.query._sortby
+        : 'updated_at'
+    this.selectedTag =
+      this.$router.history.current.query._tag !== null &&
+      this.$router.history.current.query._tag !== undefined
+        ? Number(this.$router.history.current.query._tag)
+        : null
   },
 }
 </script>

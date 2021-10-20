@@ -40,6 +40,6 @@ export default {
         .contains('socials', ['meka'])
       console.log('projectErr', projectErr, 'projects', projects)
     },
-  },
+  }
 }
 </script>
