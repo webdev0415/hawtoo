@@ -1,9 +1,21 @@
 <template>
-
-  <div v-if="$fetchState.pending" class="flex bg-white rounded-full" :style="`z-index:5; height:${size}px; width: ${size}px`">
+  <div
+    v-if="$fetchState.pending"
+    class="flex bg-white rounded-full"
+    :style="`z-index:5; height:${size}px; width: ${size}px`"
+  >
     <Loader type="circle" :size="size" animation="fade" />
   </div>
-  <Avatar v-else :verified="verified" :show-verified-tooltip="verifiedTooltip" :size="size" :size-badge="sizeBadge" :fullname="name" :color="avatarColor" :image="avatarUrl" />
+  <Avatar
+    v-else
+    :verified="verified"
+    :show-verified-tooltip="verifiedTooltip"
+    :size="size"
+    :size-badge="sizeBadge"
+    :fullname="name"
+    :color="avatarColor"
+    :image="avatarUrl"
+  />
 </template>
 
 <script>
@@ -13,7 +25,7 @@ import Loader from '@/components/Site/Loader/SkeletonLoader'
 export default {
   components: {
     Avatar,
-    Loader
+    Loader,
   },
   props: {
     verified: { type: Boolean, default: false, required: true },
@@ -22,25 +34,32 @@ export default {
     name: { type: String, default: null, required: true },
     avatarColor: { type: String, default: null, required: true },
     avatarName: { type: String, default: null, required: false },
-    verifiedTooltip: { type: Boolean, default: false }
+    verifiedTooltip: { type: Boolean, default: false },
   },
-
+  watch: {
+    avatarName() {
+      this.fetchAvatarURL()
+    },
+  },
   data() {
     return {
-      avatarUrl: ''
+      avatarUrl: '',
     }
   },
-  async fetch() {
-    const BUCKET = 'public'
-    const avatarName = this.avatarName
-
-    if (this.avatarName) {
-      const avatarUrlResp = await this.$supabase.storage
-        .from(BUCKET)
-        .getPublicUrl(avatarName)
-
-      this.avatarUrl = avatarUrlResp.data.publicURL
-    }
-  }
+  methods: {
+    async fetchAvatarURL() {
+      const BUCKET = 'public'
+      const avatarName = this.avatarName
+      if (this.avatarName) {
+        const avatarUrlResp = await this.$supabase.storage
+          .from(BUCKET)
+          .getPublicUrl(avatarName)
+        this.avatarUrl = avatarUrlResp.data.publicURL
+      }
+    },
+  },
+  fetch() {
+    this.fetchAvatarURL()
+  },
 }
 </script>

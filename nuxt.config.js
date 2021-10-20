@@ -96,7 +96,8 @@ export default {
     { src: '@/plugins/vue-formulate.js' },
     { src: '@/plugins/vue-placeholders.js' },
     { src: "@/plugins/v-click-outside", ssr: false },
-    { src: "@/plugins/vue-number-animation", mode: 'client' }
+    { src: "@/plugins/vue-number-animation", mode: 'client' },
+    { src: "@/plugins/lodash" }
   ],
 
 

@@ -38,7 +38,7 @@ export default {
         error({ statusCode: 500, projectError })
       }
     }
-
+    
     return {
       data: projectResp.data
     }
