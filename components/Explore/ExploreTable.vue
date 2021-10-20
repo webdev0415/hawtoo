@@ -97,7 +97,7 @@
               pl-10
               leading-none
             "
-            v-on:input="handleChange"
+            @:input="handleChange"
           />
         </div>
 
@@ -314,6 +314,21 @@ export default {
   },
   created() {
     this.fetchMoviesData()
+  },
+  mounted() {
+    this.searchInput =
+      this.$router.history.current.query._search !== undefined
+        ? this.$router.history.current.query._search
+        : ''
+    this.sortByValue =
+      this.$router.history.current.query._sortby !== undefined
+        ? this.$router.history.current.query._sortby
+        : 'updated_at'
+    this.selectedTag =
+      this.$router.history.current.query._tag !== null &&
+      this.$router.history.current.query._tag !== undefined
+        ? Number(this.$router.history.current.query._tag)
+        : null
   },
   methods: {
     goTo(refName) {
@@ -680,21 +695,6 @@ export default {
     handleChange: _.debounce(function (e) {
       this.handleSearch(e)
     }, 800),
-  },
-  mounted() {
-    this.searchInput =
-      this.$router.history.current.query._search !== undefined
-        ? this.$router.history.current.query._search
-        : ''
-    this.sortByValue =
-      this.$router.history.current.query._sortby !== undefined
-        ? this.$router.history.current.query._sortby
-        : 'updated_at'
-    this.selectedTag =
-      this.$router.history.current.query._tag !== null &&
-      this.$router.history.current.query._tag !== undefined
-        ? Number(this.$router.history.current.query._tag)
-        : null
   },
 }
 </script>
