@@ -1,9 +1,10 @@
 <template>
   <Transition name="fade">
     <div v-if="showing" class="fixed inset-0 z-50 flex items-center justify-center w-full h-screen bg-modal" :class="customCSS.background" @click.self="closeIfShown">
-      <div class="relative flex w-full max-h-screen p-6 m-2 bg-white rounded-lg shadow-lg cursor-auto sm:p-8" :class="customCSS.modal">
-        <button v-if="showClose" aria-label="close" class="absolute top-0 right-0 mx-4 my-2 text-xl text-gray-500" :class="customCSS.close" @click.prevent="close">
-          <img src="~/assets/images/icons/close.svg" alt="Close">
+      <div class="relative flex w-full max-h-screen p-6 m-2 bg-white shadow-lg cursor-auto rounded-3xl sm:p-8" :class="customCSS.modal">
+        <button type="button" class="absolute flex items-center justify-center w-8 h-8 text-gray-400 bg-white rounded-full top-4 right-4 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="open = false">
+          <span class="sr-only">Close</span>
+          <img src="~/assets/images/icons/close.svg" width="18" alt="Close">
         </button>
         <div class="w-full max-h-screen overflow-auto">
           <slot />

@@ -17,6 +17,10 @@ const state = () => ({
         saveMode: false,
         title: 'My Collecions'
     },
+    referralModal: {
+        open: false,
+        intent: '',
+    },
 });
 
 const getters = {
@@ -25,6 +29,9 @@ const getters = {
     },
     watchlistModal: (state) => {
         return state.watchlistModal
+    },
+    referralModal: (state) => {
+        return state.referralModal
     },
     searchModal: (state) => {
         return state.searchModal
@@ -46,6 +53,9 @@ const mutations = {
     },
     TOGGLE_WATCHLIST_MODAL(state, data) {
         state.watchlistModal = data;
+    },
+    TOGGLE_REFERRAL_MODAL(state, data) {
+        state.referralModal = data;
     },
     TOGGLE_SEARCH_MODAL(state, data) {
         state.searchModal = data;
