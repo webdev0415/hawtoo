@@ -97,7 +97,7 @@
               pl-10
               leading-none
             "
-            @:input="handleChange"
+            @input="handleChange"
           />
         </div>
 
