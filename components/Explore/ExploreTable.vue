@@ -144,7 +144,7 @@
         <template #row="props">
           <AppTableRow
             v-for="(top, idx) in topProject"
-            :key="idx"
+            :key="top.id + idx"
             :index="idx"
           >
             <AppTableCell>
@@ -372,6 +372,7 @@ export default {
       this.topProject = spotData
       // this.topProjectExist = spotData.length > 0 ? true : false
     }
+    // await this.fetchMoviesData()
   },
   watch: {
     currentPage() {
