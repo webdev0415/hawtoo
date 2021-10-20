@@ -49,6 +49,18 @@ export default {
           break
       }
     },
+    createBuyLinks(contractAddress) {
+      return {
+        binance: {
+          PancakeSwap: `https://pancakeswap.finance/swap#/swap?inputCurrency=${contractAddress}`,
+          BakerySwap: `https://www.bakeryswap.org/#/swap?inputCurrency=${contractAddress}`
+        },
+        ethereum: {
+          Uniswap: `https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=${contractAddress}`,
+          Sushiswap: `https://app.uniswap.org/#/swap`
+        }
+      }
+    },
     openModal() {
       this.show = true
     },

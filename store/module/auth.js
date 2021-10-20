@@ -1,4 +1,4 @@
-import { getProfileInfo } from '@/utils/supabase/users'
+import { useGetProfile } from '@/utils/useGetProfile'
 
 /* --------------------------------
 * This store is hydrated on load in: ./plugins/supabase.js
@@ -33,7 +33,7 @@ const actions = {
             commit('SET_LOGGED_IN', user != null)
             commit('SET_AUTH', user)
             try {
-                const { data, error, status } = await getProfileInfo(user.id)
+                const { data, error, status } = await useGetProfile(user.id)
                 // console.log('------- Changed received profiles table -------');
                 // console.log(data);
                 if (error && status !== 406) throw error

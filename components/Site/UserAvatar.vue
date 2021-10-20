@@ -5,7 +5,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import Avatar from '@/components/Avatar'
-import { getAvatarInfo } from '@/utils/supabase/users'
 
 export default {
   components: {
@@ -35,7 +34,12 @@ export default {
     async getAvatar() {
       if (!this.isAuthenticated) {
         try {
-          const { data, error, status } = await getAvatarInfo(this.userId)
+          const { data, error, status } = await this.$supabase
+            .from('profiles')
+            .select('display_name, avatar_url, verified')
+            .eq('id', this.userId)
+            .single()
+
           if (error && status !== 406) throw error
           if (data) {
             if (data.avatar_url) {

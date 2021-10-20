@@ -33,7 +33,7 @@
 <script>
 import dayjs from 'dayjs'
 import Loader from '@/components/Site/Loader/SkeletonLoader'
-import { getStatsBetweenDatesById } from '@/utils/supabase/stats'
+import { getStatsBetweenDatesById } from '@/utils/useStats'
 import { absoluteDifferenceBetween } from '@/utils/usePercentage'
 
 const relativeTime = require('dayjs/plugin/relativeTime')

@@ -9,11 +9,11 @@
         </NuxtLink>
 
         <nav class="flex flex-wrap items-center justify-center text-base lg:mr-auto lg:border-l lg:pl-8">
-          <div v-for="route in footerNavigation" :key="route.path">
-            <NuxtLink :to="route.path" class="px-4 py-1 mr-1 text-base transition duration-500 ease-in-out transform rounded-md text-blueGray-500 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-black hover:bg-blueGray-900">
-              {{ route.name }}
-            </NuxtLink>
-          </div>
+
+          <NuxtLink to="/explore" class="px-4 py-1 mr-1 text-base transition duration-500 ease-in-out transform rounded-md text-blueGray-500 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-black hover:bg-blueGray-900">
+            Explore
+          </NuxtLink>
+
           <span class="px-4 py-1 mr-1 text-base transition duration-500 ease-in-out transform rounded-md text-blueGray-500 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:text-black hover:bg-blueGray-900" @click="login">
             Login
           </span>
@@ -51,15 +51,11 @@
 </template>
 
 <script>
-import { footerNavigation } from '@/utils/navigation'
-
 export default {
   name: 'Footer',
 
   data() {
-    return {
-      footerNavigation
-    }
+    return {}
   },
   computed: {
     currentYear() {

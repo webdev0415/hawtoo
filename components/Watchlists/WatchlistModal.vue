@@ -40,11 +40,9 @@
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import {
-  addProjectToWatchlist,
-  createNewWatchlist,
-  getWatchListItems
-} from '@/utils/supabase/watchlists'
+import { addProjectToWatchlist } from '@/utils/useUpdateWatchlist'
+import { getWatchListItems } from '@/utils/useGetWatchlist'
+import { useCreateWatchlist } from '@/utils/useCreateWatchlist'
 import global from '@/mixins/global'
 
 export default {
@@ -182,7 +180,7 @@ export default {
       const newName = this.searchQuery
       let watchlistId
 
-      const { error, data } = await createNewWatchlist(userId, newName)
+      const { error, data } = await useCreateWatchlist(userId, newName)
 
       if (error) {
         this.$toast.error('Something went wrong. Try again later')

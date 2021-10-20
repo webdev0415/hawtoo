@@ -9,7 +9,7 @@
 
 <script>
 import axios from 'axios'
-import getMeta from '~/utils/get-meta'
+import useMetaGenerator from '~/utils/useMetaGenerator'
 import global from '@/mixins/global'
 import SingleProjectWrapper from '~/components/SingleProjectWrapper.vue'
 
@@ -51,7 +51,7 @@ export default {
       },
       title: `View ${this.data.name} Links, Stats And How To Buy`,
       description: this.data.description,
-      meta: getMeta({
+      meta: useMetaGenerator({
         slug: `@${this.data.slug}`,
         verified: this.data.verified,
         title: `View ${this.data.name} Links, Stats And How To Buy`,

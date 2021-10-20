@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { abbreviateNumber, round } from '@/utils/numbers'
+import { abbreviateNumber, round } from '@/utils/useNumberFormatter'
 import UserAvatar from '@/components/Site/UserAvatar'
 
 export default {

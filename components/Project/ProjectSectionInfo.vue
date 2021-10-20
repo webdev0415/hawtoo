@@ -45,7 +45,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import helper from '@/utils/projectsHelpers.js'
+import { useBlockExplorerUrl } from '@/utils/useBlockExplorerUrl'
 import ProjectAvatar from '@/components/ProjectAvatar.vue'
 import ProjectTotalCount from '@/components/Project/ProjectTotalCount'
 import ProjectNotVerifiedAlert from '@/components/Project/ProjectNotVerifiedAlert'
@@ -76,15 +76,20 @@ export default {
     }),
     blockExplorer() {
       if (!this.data.chain || !this.data.contractAddress) return null
-      return helper.getBlockExplorerUrl(
-        this.data.chain,
-        this.data.contractAddress
-      )
+      return useBlockExplorerUrl(this.data.chain, this.data.contractAddress)
     },
     chainAbbrevation() {
       if (!this.data.chain) return null
-      const chainAbbr = helper.createChainAbbrevation()
+      const chainAbbr = this.createChainAbbrevation()
       return chainAbbr[this.data.chain]
+    }
+  },
+  methods: {
+    createChainAbbrevation() {
+      return {
+        binance: 'BSC',
+        ethereum: 'ETH'
+      }
     }
   }
 }
