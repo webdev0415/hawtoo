@@ -143,6 +143,58 @@
       >
         <template #row="props">
           <AppTableRow
+            v-for="(top, idx) in topProject"
+            :key="idx"
+            :index="idx"
+          >
+            <AppTableCell>
+              <span
+                v-if="topProject"
+                v-tooltip="`Sponsored`"
+                class="
+                  inline-flex
+                  items-center
+                  px-2.5
+                  py-0.5
+                  rounded-full
+                  text-xs
+                  font-medium
+                  bg-yellow-200
+                  text-yellow-900
+                  mr-2
+                "
+              >
+                AD
+              </span>
+            </AppTableCell>
+            <AppTableCell>
+              <NuxtLink :to="'/@' + top.slug">
+                <div class="flex items-center">
+                  <ProjectAvatar
+                    :verified="top.verified"
+                    :name="top.name"
+                    :avatar-color="top.avatar_color"
+                    :avatar-name="top.avatar_name"
+                  />
+                  <span class="ml-3">{{ top.name }}</span>
+                </div>
+              </NuxtLink>
+            </AppTableCell>
+            <AppTableCell v-for="(fld, i) in footerFields" :key="i">
+              <div class="flex items-center justify-between md:block lg:flex">
+                <div
+                  class="flex items-center text-xl font-semibold text-gray-900"
+                >
+                  {{ fld.prefix }}
+                  {{ toFixed(top.nft_stats[fld.field]) }}
+                  <span class="ml-2 text-sm font-medium text-gray-500">
+                    {{ fld.suffix }}
+                  </span>
+                </div>
+              </div>
+            </AppTableCell>
+          </AppTableRow>
+          <AppTableRow
             v-for="(row, index) in props.data"
             :key="index"
             :index="index"
@@ -304,6 +356,21 @@ export default {
         },
       ],
       statics: [],
+      topProject: [],
+      // topProjectExist: false,
+    }
+  },
+  async fetch() {
+    const topIds = [170, 174]
+
+    const { data: spotData } = await this.$supabase
+      .from('projects')
+      .select('*, nft_stats ( * )')
+      .in('id', topIds)
+
+    if (spotData) {
+      this.topProject = spotData
+      // this.topProjectExist = spotData.length > 0 ? true : false
     }
   },
   watch: {
