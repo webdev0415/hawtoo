@@ -18,8 +18,8 @@
 
 <script>
 import Loader from '@/components/Site/Loader/SkeletonLoader'
-import { abbreviateNumber, round } from '@/utils/numbers'
-import { getWatchlistCountByProjectId } from '@/utils/supabase/watchlists'
+import { abbreviateNumber, round } from '@/utils/useNumberFormatter'
+import { getWatchlistCountByProjectId } from '@/utils/useGetWatchlist'
 
 export default {
   components: {

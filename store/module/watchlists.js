@@ -1,5 +1,5 @@
 import { supabase } from '@/plugins/supabase'
-import { getWatchlistsByUserId, getWatchlistById } from '@/utils/supabase/watchlists'
+import { getWatchlistsByUserId, getWatchlistById } from '@/utils/useGetWatchlist'
 
 const state = () => ({
     watchlists: [],

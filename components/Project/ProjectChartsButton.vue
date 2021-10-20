@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import helper from '@/utils/projectsHelpers.js'
-
 export default {
   props: {
     data: {
@@ -48,11 +46,23 @@ export default {
   computed: {
     chartLinks() {
       if (!this.data.contract_address) return []
-      const chart = helper.createChartLinks(this.data.contract_address)
+      const chart = this.createChartLinks(this.data.contract_address)
       return chart[this.data.chain]
     }
   },
   methods: {
+    createChartLinks(contractAddress) {
+      return {
+        binance: {
+          PooCoin: `https://poocoin.app/tokens/${contractAddress}`,
+          'Bogged Finance': `https://charts.bogged.finance/${contractAddress}`
+        },
+        ethereum: {
+          DexTools: `https://www.dextools.io/app/ether/pair-explorer/${contractAddress}`,
+          Zerion: `https://app.zerion.io/search?q=${contractAddress}`
+        }
+      }
+    },
     openModal() {
       this.show = true
     },

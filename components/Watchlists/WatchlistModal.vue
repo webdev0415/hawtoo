@@ -40,11 +40,10 @@
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import {
-  addProjectToWatchlist,
-  createNewWatchlist,
-  getWatchListItems
-} from '@/utils/supabase/watchlists'
+import { addProjectToWatchlist } from '@/utils/useUpdateWatchlist'
+import { useCanCreateWatchlist } from '@/utils/useCanCreateWatchlist'
+import { getWatchListItems } from '@/utils/useGetWatchlist'
+import { useCreateWatchlist } from '@/utils/useCreateWatchlist'
 import global from '@/mixins/global'
 
 export default {
@@ -106,7 +105,8 @@ export default {
       fetchUserWatchlists: 'watchlists/fetchUserWatchlists'
     }),
     ...mapMutations({
-      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL'
+      toggleWatchlistModal: 'general/TOGGLE_WATCHLIST_MODAL',
+      toggleReferralModal: 'general/TOGGLE_REFERRAL_MODAL'
     }),
 
     async openModal() {
@@ -176,13 +176,25 @@ export default {
         })
       }
     },
+
     async handleNewWatchlist() {
       const userId = this.user?.id
       const saveMode = this.getWatchlistModal.saveMode
       const newName = this.searchQuery
+      const canCreateCollection = await useCanCreateWatchlist(userId)
       let watchlistId
 
-      const { error, data } = await createNewWatchlist(userId, newName)
+      if (!canCreateCollection) {
+        this.closeModal()
+        this.toggleReferralModal({
+          open: true,
+          intent: 'create_watchlist'
+        })
+        return
+      }
+
+      // eslint-disable-next-line no-unreachable
+      const { error, data } = await useCreateWatchlist(userId, newName)
 
       if (error) {
         console.log(error)

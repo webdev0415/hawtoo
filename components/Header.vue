@@ -166,12 +166,6 @@ import vClickOutside from 'v-click-outside'
 import LogoIcon from '@/components/Site/Logo/LogoIcon'
 import UserAvatar from '@/components/Site/UserAvatar'
 
-import {
-  navigation,
-  mobileNavigation,
-  userMenuNavigation
-} from '@/utils/navigation'
-
 export default {
   name: 'Header',
   components: {
@@ -185,9 +179,6 @@ export default {
     return {
       mobileMenuOpen: false,
       userMenuOpen: false,
-      navigation,
-      mobileNavigation,
-      userMenuNavigation,
       sponsor: false,
       isOpen: false,
       view: {

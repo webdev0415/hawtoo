@@ -47,7 +47,7 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid'
-import { deleteWatchlist } from '@/utils/supabase/watchlists'
+import { deleteWatchlist } from '@/utils/useDeleteWatchlist'
 
 export default {
   props: {

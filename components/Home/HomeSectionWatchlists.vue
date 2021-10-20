@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getProfileInfo } from '@/utils/supabase/users'
+import { useGetProfile } from '@/utils/useGetProfile'
 import HomeFeaturedWatchlist from '@/components/Home/HomeFeaturedWatchlist'
 
 export default {
@@ -52,11 +52,10 @@ export default {
       .eq('author_id', profileId)
       .limit(5)
 
-    console.log(data)
     if (data) {
       await Promise.all(
         data.map(async (watchlist) => {
-          const userResponse = await getProfileInfo(profileId)
+          const userResponse = await useGetProfile(profileId)
           watchlist.authorMeta = { ...userResponse.data }
           // watchlist.banner_url = require('@/assets/images/alex-1.png')
           this.data.push(watchlist)

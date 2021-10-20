@@ -16,8 +16,8 @@
 </template>
 
 <script>
+import { getStatsById } from '@/utils/useStats'
 import Loader from '@/components/Site/Loader/SkeletonLoader'
-import { getStatsById } from '@/utils/supabase/stats'
 
 export default {
   components: {

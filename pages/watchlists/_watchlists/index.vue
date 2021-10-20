@@ -15,15 +15,13 @@
 </template>
 
 <script>
-// import getMeta from '~/utils/get-meta'
+// import useMetaGenerator from '~/utils/useMetaGenerator'
 // import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
-import {
-  getWatchListItems,
-  getWatchlistById
-} from '@/utils/supabase/watchlists'
-import { getProfileInfo } from '@/utils/supabase/users'
+import { getWatchListItems, getWatchlistById } from '@/utils/useGetWatchlist'
+import { useGetProfile } from '@/utils/useGetProfile'
+
 import WatchlistSectionInfo from '@/components/Watchlists/WatchlistSectionInfo'
 import WatchlistEmpty from '@/components/Watchlists/WatchlistEmpty'
 import WatchlistTable from '@/components/Watchlists/WatchlistTable'
@@ -70,7 +68,7 @@ export default {
     }
 
     // Get author details.
-    const userResponse = await getProfileInfo(authorId)
+    const userResponse = await useGetProfile(authorId)
     watchlistData.authorMeta = { ...userResponse.data }
 
     // Get collected items.

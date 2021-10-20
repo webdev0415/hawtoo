@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import helper from '@/utils/projectsHelpers.js'
-
 export default {
   nmae: 'ProjectCard',
   props: {
@@ -67,8 +65,16 @@ export default {
   computed: {
     chainAbbrevation() {
       if (!this.data.chain) return null
-      const chainAbbr = helper.createChainAbbrevation()
+      const chainAbbr = this.createChainAbbrevation()
       return chainAbbr[this.data.chain]
+    }
+  },
+  methods: {
+    createChainAbbrevation() {
+      return {
+        binance: 'BSC',
+        ethereum: 'ETH'
+      }
     }
   }
 }
